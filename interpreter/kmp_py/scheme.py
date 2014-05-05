@@ -1,21 +1,29 @@
 
 
-class schemeObject:
+class SchemeObject:
+    def __init__(self):
+        self.type = 'schemeObject'
+        self.value = None
+
     def __eq__(self, other):
         return self.type == other.type and self.value == other.value
+
     def __repr__(self):
         return "<{type}: {value}>".format(type = self.type, value = self.value)
 
-class schemeSingleton(schemeObject):
+
+class SchemeSingleton(SchemeObject):
     _instance = None
-    def __new__(singleton,*args,**kwargs):
-        if not singleton._instance:
-            singleton._instance = super(schemeSingleton, singleton).__new__(singleton, *args, **kwargs)
-        return singleton._instance
+
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(SchemeSingleton, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
 
 
-class schemeFalse(schemeSingleton):
+class SchemeFalse(SchemeSingleton):
     def __init__(self):
+        super().__init__()
         self.type = 'schemeFalse'
         self.value = 'False'
 
@@ -23,8 +31,9 @@ class schemeFalse(schemeSingleton):
         return '#f'
 
 
-class schemeTrue(schemeSingleton):
+class SchemeTrue(SchemeSingleton):
     def __init__(self):
+        super().__init__()
         self.type = 'schemeTrue'
         self.value = 'True'
 
@@ -32,29 +41,33 @@ class schemeTrue(schemeSingleton):
         return '#t'
 
 
-class schemeNil(schemeSingleton):
+class SchemeNil(SchemeSingleton):
     def __init__(self):
+        super().__init__()
         self.type = 'schemeNil'
         self.value = None
 
     def __str__(self):
         return '()'
 
-class schemeCons(schemeObject):
+
+class SchemeCons(SchemeObject):
     def __init__(self, car, cdr):
+        super().__init__()
         self.car = car
         self.cdr = cdr
         self.type = 'schemeCons'
 
-    def __eq__(self,other):
+    def __eq__(self, other):
         return self.type == other.type and self.car == other.car and self.cdr == other.cdr
 
     def __str__(self):
-        return '({car} . {cdr})'.format(car = str(self.car) , cdr = str(self.cdr))
+        return '({car} . {cdr})'.format(car = str(self.car), cdr = str(self.cdr))
 
 
-class schemeNumber(schemeObject):
+class SchemeNumber(SchemeObject):
     def __init__(self, value):
+        super().__init__()
         self.value = value
         self.type = 'schemeNumber'
 
@@ -62,8 +75,9 @@ class schemeNumber(schemeObject):
         return '{0}'.format(self.value)
 
 
-class schemeString(schemeObject):
+class SchemeString(SchemeObject):
     def __init__(self, value):
+        super().__init__()
         self.value = value
         self.type = 'schemeString'
 
@@ -71,8 +85,9 @@ class schemeString(schemeObject):
         return '"{0}"'.format(self.value)
 
 
-class schemeSymbol(schemeObject):
+class SchemeSymbol(SchemeObject):
     def __init__(self, value):
+        super().__init__()
         self.value = value
         self.type = 'schemeSymbol'
 
@@ -80,8 +95,9 @@ class schemeSymbol(schemeObject):
         return '{0}'.format(self.value)
 
 
-class schemeUserDefinedFunction(schemeObject):
+class SchemeUserDefinedFunction(SchemeObject):
     def __init__(self, name, arglist, body, env):
+        super().__init__()
         self.name = name
         self.arglist = arglist
         self.body = body
@@ -89,15 +105,17 @@ class schemeUserDefinedFunction(schemeObject):
         self.type = 'schemeUserDefinedFunction'
 
 
-class schemeBuiltinFunction(schemeObject):
+class SchemeBuiltinFunction(SchemeObject):
     def __init__(self, name, code):
+        super().__init__()
+        self.name = name
         self.code = code
         self.type = 'schemeBuiltinFunction'
 
 
-
-class schemeBuiltinSyntax(schemeObject):
+class SchemeBuiltinSyntax(SchemeObject):
     def __init__(self, code):
+        super().__init__()
         self.code = code
         self.type = 'schemeBuiltinSyntax'
 
