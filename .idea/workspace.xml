@@ -15,7 +15,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/kmp-py$Unittest_TestSchemeTrue_test_schemeTrue.coverage" NAME="Unittests in C:\Users\maria\Studies\KMP\kmp-py\interpreter\unittests Coverage Results" MODIFIED="1399297173671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
+    <SUITE FILE_PATH="coverage/kmp-py$Unittest_TestSchemeTrue_test_schemeTrue.coverage" NAME="Unittests in C:\Users\maria\Studies\KMP\kmp-py\interpreter\unittests Coverage Results" MODIFIED="1399298523073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
     <SUITE FILE_PATH="coverage/kmp-py$Unittests_in_TestSchemeFalse.coverage" NAME="Unittests in TestSchemeFalse Coverage Results" MODIFIED="1399286510293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -30,19 +30,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="scheme.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="scheme.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="8" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.40753424" vertical-offset="1411" max-vertical-offset="2040">
+            <state line="85" column="32" selection-start="1979" selection-end="1979" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2006">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_schemeObjects.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="test_schemeObjects.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="56" column="53" selection-start="2242" selection-end="2242" vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1071">
+            <state line="53" column="8" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.5389049" vertical-offset="527" max-vertical-offset="1394">
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -67,8 +67,8 @@
         <option value="$PROJECT_DIR$/interpreter/kmp-py/scheme.py" />
         <option value="$PROJECT_DIR$/interpreter/unittests/test_schemeTrue.py" />
         <option value="$PROJECT_DIR$/interpreter/unittests/test_schemeFalse.py" />
-        <option value="$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py" />
         <option value="$PROJECT_DIR$/interpreter/kmp_py/scheme.py" />
+        <option value="$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py" />
       </list>
     </option>
   </component>
@@ -448,7 +448,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3391116" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.219935" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -546,19 +546,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="53" selection-start="2242" selection-end="2242" vertical-scroll-proportion="0.0" vertical-offset="79" max-vertical-offset="1071">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state line="85" column="32" selection-start="1979" selection-end="1979" vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="2006">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
+    <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="8" selection-start="2241" selection-end="2241" vertical-scroll-proportion="0.40753424" vertical-offset="1411" max-vertical-offset="2040">
-          <folding />
+        <state line="53" column="8" selection-start="1909" selection-end="1909" vertical-scroll-proportion="0.5389049" vertical-offset="527" max-vertical-offset="1394">
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

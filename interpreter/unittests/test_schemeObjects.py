@@ -20,19 +20,38 @@ class TestSchemeTrue(TestCase):
         t = scheme.schemeTrue()
         self.assertNotEqual(t, f, "schemeTrue and schemeFalse should not be equal!")
 
+class TestSchemeNil(TestCase):
+    def test_schemeNil(self):
+        firstNil = scheme.schemeNil()
+        secondNil = scheme.schemeNil()
+
+        self.assertIs(firstNil,secondNil, 'schemeNil should be singleton')
+
 class TestSchemeString(TestCase):
     def test_schemeString(self):
         string = scheme.schemeString('Hello')
         self.assertEqual(string.value,'Hello','schemeString does not work')
 
+
+class TestSchemeSymbol(TestCase):
+    def test_schemeSymbol(self):
+        firstSymbol = scheme.schemeSymbol('x')
+        secondSymbol = scheme.schemeSymbol('x')
+        thirdSymbol = scheme.schemeSymbol('y')
+        self.assertEqual(firstSymbol.value, 'x', 'schemeSymbol does not work')
+        self.assertIs(firstSymbol, secondSymbol, 'schemeSymbol with same value should be same')
+        self.assertIsNot(firstSymbol, thirdSymbol, 'schemeSymbol with different values should not be same')
+
+
 class TestSchemeInteger(TestCase):
     def test_schemeInteger (self):
         x = scheme.schemeInteger(3)
         y = scheme.schemeInteger(3)
+
         self.assertEqual(x.value, 3, 'schemeInteger does not work')
         self.assertEqual(x, y, 'equal schemeIntegers are not equal')
         self.assertIs(x, y, 'same schemeIntegers are not same')
-
+        
 
 class TestSchemeCons(TestCase):
     def test_schemeCons_equal(self):

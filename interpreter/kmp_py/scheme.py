@@ -86,8 +86,6 @@ class schemeSymbol(schemeObject):
         return '%s' % self.value
 
 
-
-
 class schemeUserDefinedFunction(schemeObject):
     def __init__(self, name, arglist, body, env):
         self.name = name
@@ -95,7 +93,7 @@ class schemeUserDefinedFunction(schemeObject):
         self.body = body
         self.env = env
         self.type = 'schemeUserDefinedFunction'
-        
+
 
 class schemeBuiltinFunction(schemeObject):
     def __init__(self, name, code):
