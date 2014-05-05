@@ -21,6 +21,8 @@ class TestSchemeTrue(TestCase):
         first = scheme.schemeTrue()
         second = scheme.schemeTrue()
         self.assertIs(first, second, 'schemeTrue is no singleton')
+
+    def test_schemeTrue_equals_schemeFalse(self):
         f = scheme.schemeFalse()
         t = scheme.schemeTrue()
         self.assertNotEqual(t, f, "schemeTrue and schemeFalse should not be equal!")
@@ -56,11 +58,14 @@ class TestSchemeString(TestCase):
 class TestSchemeSymbol(TestCase):
     def test_schemeSymbol(self):
         firstSymbol = scheme.schemeSymbol('x')
-        secondSymbol = scheme.schemeSymbol('x')
-        thirdSymbol = scheme.schemeSymbol('y')
+        secondSymbol = scheme.schemeSymbol('y')
         self.assertEqual(firstSymbol.value, 'x', 'schemeSymbol does not work')
+        self.assertIsNot(firstSymbol, secondSymbol, 'schemeSymbol with different values should not be same')
+
+    def test_schemeSymbol_sameInstance(self):
+        firstSymbol = scheme.schemeSymbol('x')
+        secondSymbol = scheme.schemeSymbol('x')
         self.assertIs(firstSymbol, secondSymbol, 'schemeSymbol with same value should be same')
-        self.assertIsNot(firstSymbol, thirdSymbol, 'schemeSymbol with different values should not be same')
 
     def test_schemeSymbol_str(self):
         symbol = scheme.schemeSymbol('x')
@@ -74,6 +79,10 @@ class TestSchemeNumber(TestCase):
 
         self.assertEqual(x.value, 3, 'schemeNumber does not work')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal')
+
+    def test_schemeNumber_sameInstance(self):
+        x = scheme.schemeNumber(3)
+        y = scheme.schemeNumber(3)
         self.assertIs(x, y, 'same schemeNumbers are not same')
 
     def test_schemeNumber_str(self):
