@@ -4,7 +4,7 @@ class schemeObject:
     def __eq__(self, other):
         return self.type == other.type and self.value == other.value
     def __repr__(self):
-        return "<%s: %s>" % (self.type, self.value)
+        return "<{type}: {value}>".format(type = self.type, value = self.value)
 
 class schemeSingleton(schemeObject):
     _instance = None
@@ -49,6 +49,9 @@ class schemeCons(schemeObject):
     def __eq__(self,other):
         return self.type == other.type and self.car == other.car and self.cdr == other.cdr
 
+    def __str__(self):
+        return '({car} . {cdr})'.format(car = str(self.car) , cdr = str(self.cdr))
+
 
 class schemeNumber(schemeObject):
     def __init__(self, value):
@@ -56,7 +59,7 @@ class schemeNumber(schemeObject):
         self.type = 'schemeNumber'
 
     def __str__(self):
-        return '%s' % self.value
+        return '{0}'.format(self.value)
 
 
 class schemeString(schemeObject):
@@ -65,7 +68,7 @@ class schemeString(schemeObject):
         self.type = 'schemeString'
 
     def __str__(self):
-        return '%s' % self.value
+        return '"{0}"'.format(self.value)
 
 
 class schemeSymbol(schemeObject):
@@ -74,7 +77,7 @@ class schemeSymbol(schemeObject):
         self.type = 'schemeSymbol'
 
     def __str__(self):
-        return '%s' % self.value
+        return '{0}'.format(self.value)
 
 
 class schemeUserDefinedFunction(schemeObject):
