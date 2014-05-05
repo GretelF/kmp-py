@@ -43,15 +43,15 @@ class TestSchemeSymbol(TestCase):
         self.assertIsNot(firstSymbol, thirdSymbol, 'schemeSymbol with different values should not be same')
 
 
-class TestSchemeInteger(TestCase):
-    def test_schemeInteger (self):
-        x = scheme.schemeInteger(3)
-        y = scheme.schemeInteger(3)
+class TestSchemeNumber(TestCase):
+    def test_schemeNumber (self):
+        x = scheme.schemeNumber(3)
+        y = scheme.schemeNumber(3)
 
-        self.assertEqual(x.value, 3, 'schemeInteger does not work')
-        self.assertEqual(x, y, 'equal schemeIntegers are not equal')
-        self.assertIs(x, y, 'same schemeIntegers are not same')
-        
+        self.assertEqual(x.value, 3, 'schemeNumber does not work')
+        self.assertEqual(x, y, 'equal schemeNumbers are not equal')
+        self.assertIs(x, y, 'same schemeNumbers are not same')
+
 
 class TestSchemeCons(TestCase):
     def test_schemeCons_equal(self):
@@ -65,8 +65,8 @@ class TestSchemeCons(TestCase):
 
     def test_schemeCons_car_cdr(self):
         innerCar = scheme.schemeString('Hello')
-        innerCdr = scheme.schemeInteger(3)
-        outerCar = scheme.schemeInteger(3)
+        innerCdr = scheme.schemeNumber(3)
+        outerCar = scheme.schemeNumber(3)
 
         outerCdr = scheme.schemeCons(innerCar, innerCdr)
         outerCons = scheme.schemeCons(outerCar, outerCdr)

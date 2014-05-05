@@ -50,19 +50,10 @@ class schemeCons(schemeObject):
         return self.type == other.type and self.car == other.car and self.cdr == other.cdr
 
 
-class schemeInteger(schemeObject):
+class schemeNumber(schemeObject):
     def __init__(self, value):
         self.value = value
-        self.type = 'schemeInteger'
-
-    def __str__(self):
-        return '%s' % self.value
-
-
-class schemeFloat(schemeObject):
-    def __init__(self, value):
-        self.value = value
-        self.type = 'schemeFloat'
+        self.type = 'schemeNumber'
 
     def __str__(self):
         return '%s' % self.value
