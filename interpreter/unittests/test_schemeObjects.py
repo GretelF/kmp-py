@@ -117,4 +117,9 @@ class SchemeCons(TestCase):
         self.assertEqual(outerCons.cdr.car.value, 'Hello', 'nested schemeCons do not work.')
         self.assertEqual(outerCons.cdr.cdr.value, 3, 'nested schemeCons do not work.')
 
+class SchemeStringStream(TestCase):
+	def test(self):
+		inString = scheme.SchemeString('abcde')
+		stream = scheme.SchemeStringStream(inString)
+		stream.
 

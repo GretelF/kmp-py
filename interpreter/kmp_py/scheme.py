@@ -120,5 +120,12 @@ class SchemeBuiltinSyntax(SchemeObject):
         self.type = 'schemeBuiltinSyntax'
 
 
+class SchemeStringStream (SchemeObject):
+    def __init__(self):
+		pass
+
+
+
+
 
 

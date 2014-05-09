@@ -1,0 +1,23 @@
+"abcdef"
+ ^
+
+cur = 0
+
+
+next(relAmount=1):
+	cur += relAmount
+
+peek():
+	return inString[cur]
+
+isAtEndOfStream():
+	if (cur > len(string)-1):
+		return true
+
+skipSeparators():
+	while(stream.peek() in separatorlist ):
+		cur += 1
+		stream.next
+
+seek(absAmount):
+	cur = absAmount
