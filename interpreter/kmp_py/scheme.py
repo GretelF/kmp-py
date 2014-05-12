@@ -1,4 +1,4 @@
-
+from interpreter.kmp_py.schemeExceptions import *
 
 class SchemeObject:
     def __init__(self):
@@ -9,7 +9,7 @@ class SchemeObject:
         return self.type == other.type and self.value == other.value
 
     def __repr__(self):
-        return "<{type}: {value}>".format(type = self.type, value = self.value)
+        return "<{type}: {value}>".format(type=self.type, value=self.value)
 
 
 class SchemeSingleton(SchemeObject):
@@ -62,7 +62,7 @@ class SchemeCons(SchemeObject):
         return self.type == other.type and self.car == other.car and self.cdr == other.cdr
 
     def __str__(self):
-        return '({car} . {cdr})'.format(car = str(self.car), cdr = str(self.cdr))
+        return '({car} . {cdr})'.format(car=str(self.car), cdr=str(self.cdr))
 
 
 class SchemeNumber(SchemeObject):
@@ -120,12 +120,35 @@ class SchemeBuiltinSyntax(SchemeObject):
         self.type = 'schemeBuiltinSyntax'
 
 
-class SchemeStringStream (SchemeObject):
-    def __init__(self):
-		pass
+class SchemeStringStream(SchemeObject):
+    separatorList = {' ', '\n', '\t', '\r'}
 
+    def __init__(self, inString):
+        self.cursorPos = 0
+        self.inString = inString
 
+    def next(self, relAmount=1):
+        if(self.isAtEndOfStream()):
+            raise EOFException('tried to read over end of stream')
+        else:
+            self.cursorPos += 1
 
+    def peek(self):
+        return self.inString[self.cursorPos]
 
+    def isAtEndOfStream(self):
+        return (self.cursorPos > len(self.inString) - 1)
+
+    def skipSeparators(self):
+        while (self.peek() in self.separatorList):
+            self.next()
+
+    def seek(self, absAmount):
+        print(type(absAmount))
+        if(absAmount >= len(self.inString) or absAmount < -len(self.inString)):
+            raise InvalidArgumentException('absolute amount given to seek() is greater than the length of the input string.')
+        amount = absAmount % len(self.inString)
+
+        self.cursorPos = amount
 
 

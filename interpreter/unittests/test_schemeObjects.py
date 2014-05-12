@@ -1,5 +1,6 @@
 from unittest import TestCase
 from interpreter.kmp_py import scheme
+from interpreter.kmp_py.schemeExceptions import *
 
 __author__ = 'maria'
 
@@ -118,8 +119,72 @@ class SchemeCons(TestCase):
         self.assertEqual(outerCons.cdr.cdr.value, 3, 'nested schemeCons do not work.')
 
 class SchemeStringStream(TestCase):
-	def test(self):
-		inString = scheme.SchemeString('abcde')
-		stream = scheme.SchemeStringStream(inString)
-		stream.
+    def test_peek_next(self):
+        inString = ('abcde')
+        stream = scheme.SchemeStringStream(inString)
+        self.assertEqual(stream.peek(), 'a', 'stringStream function peek does not work')
+
+    def test_next(self):
+        inString = 'ab'
+        stream = scheme.SchemeStringStream(inString)
+        stream.next()
+        self.assertEqual(stream.peek(), 'b', 'stringStream function next does not work')
+        stream.next()
+        self.assertTrue(stream.isAtEndOfStream(), 'cursor should be at end of stream.')
+        self.assertRaises(EOFException,stream.next)
+
+    def test_skipSeparators(self):
+        inString1 = '     hello'
+        inString2 = '    hello'
+        inString3 = '  \t\t\t  hello'
+        inString4 = '\n\r\t    hello   world      '
+        stream = scheme.SchemeStringStream(inString1)
+        stream.skipSeparators()
+        self.assertEqual(stream.peek(), 'h', 'schemeString function skipSeparators does not work')
+
+        stream = scheme.SchemeStringStream(inString2)
+        stream.skipSeparators()
+        self.assertEqual(stream.peek(), 'h', 'schemeString function skipSeparators does not work')
+
+        stream = scheme.SchemeStringStream(inString3)
+        stream.skipSeparators()
+        self.assertEqual(stream.peek(), 'h', 'schemeString function skipSeparators does not work')
+
+        stream = scheme.SchemeStringStream(inString4)
+        stream.skipSeparators()
+        self.assertEqual(stream.peek(), 'h', 'schemeString function skipSeparators does not work')
+
+    def test_isAtEndofStream(self):
+        inString = '       \t    a'
+        stream = scheme.SchemeStringStream(inString)
+        stream.skipSeparators()
+        stream.next()
+        self.assertTrue(stream.isAtEndOfStream(), 'schemeString function isAtEndOfStream does not work')
+        self.assertRaises(Exception,stream.next)
+
+    def test_seek(self):
+        inString = 'abc'
+        stream = scheme.SchemeStringStream(inString)
+        stream.seek(2)
+        self.assertEqual(stream.peek(), 'c', 'schemeString function seek does not work')
+        stream.seek(-2)
+        self.assertEqual(stream.peek(), 'b', 'schemeString function seek does not work')
+        stream.next()
+        self.assertEqual(stream.peek(), 'c', 'schemeString function seek does not work')
+        stream.next()
+        self.assertTrue(stream.isAtEndOfStream(), 'cursor should be at end of stream')
+        stream.seek(-3)
+        self.assertEqual(stream.peek(), 'a', 'schemeString function seek does not work')
+
+        self.assertRaises(InvalidArgumentException,stream.seek,5)
+        self.assertRaises(InvalidArgumentException,stream.seek,-5)
+        self.assertRaises(InvalidArgumentException,stream.seek,3)
+
+
+
+
+
+
+
+
 
