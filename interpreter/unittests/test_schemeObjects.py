@@ -2,7 +2,6 @@ from unittest import TestCase
 from interpreter.kmp_py import scheme
 from interpreter.kmp_py.schemeExceptions import *
 
-__author__ = 'maria'
 
 
 class SchemeFalse(TestCase):

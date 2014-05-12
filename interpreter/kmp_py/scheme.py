@@ -128,9 +128,7 @@ class SchemeStringStream(SchemeObject):
         self.inString = inString
 
     def next(self, relAmount=1):
-        if(self.isAtEndOfStream()):
-            return None
-        else:
+        if(not self.isAtEndOfStream()):
             self.cursorPos += 1
 
     def peek(self):

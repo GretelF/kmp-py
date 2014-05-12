@@ -1,1 +1,2 @@
-__author__ = 'maria'
+from interpreter.kmp_py import reader
+
