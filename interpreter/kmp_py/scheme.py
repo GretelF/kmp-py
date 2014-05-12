@@ -129,7 +129,7 @@ class SchemeStringStream(SchemeObject):
 
     def next(self, relAmount=1):
         if(self.isAtEndOfStream()):
-            raise EOFException('tried to read over end of stream')
+            return None
         else:
             self.cursorPos += 1
 

@@ -2,18 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e797ab9-a50e-49dd-b137-8e14f221d408" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/interpreter/kmp_py/schemeExceptions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/encodings.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/encodings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/misc.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/modules.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/reader.py" afterPath="$PROJECT_DIR$/interpreter/kmp_py/reader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/scheme.py" afterPath="$PROJECT_DIR$/interpreter/kmp_py/scheme.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/scopes/scope_settings.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/scopes/scope_settings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py" afterPath="$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/vcs.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/interpreter/kmp_py/.idea/workspace.xml" afterPath="$PROJECT_DIR$/interpreter/kmp_py/.idea/workspace.xml" />
     </list>
     <ignored path="kmp-py.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,7 +19,7 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/kmp-py$Unittest_TestSchemeTrue_test_schemeTrue.coverage" NAME="Unittests in C:\Users\maria\Studies\KMP\kmp-py\interpreter\unittests Coverage Results" MODIFIED="1399299247093" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
     <SUITE FILE_PATH="coverage/kmp-py$Unittests_in_C__Users_maria_Studies_KMP_kmp_py_interpreter_unittests.coverage" NAME="Unittests in C:\Users\maria\Studies\KMP\kmp-py\interpreter\unittests Coverage Results" MODIFIED="1399629818361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
-    <SUITE FILE_PATH="coverage/kmp-py$Unittests_in_test_schemeObjects.coverage" NAME="Unittests in test_schemeObjects Coverage Results" MODIFIED="1399887018548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
+    <SUITE FILE_PATH="coverage/kmp-py$Unittests_in_test_schemeObjects.coverage" NAME="Unittests in test_schemeObjects Coverage Results" MODIFIED="1399895943186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
     <SUITE FILE_PATH="coverage/kmp-py$Unittests_in_TestSchemeFalse.coverage" NAME="Unittests in TestSchemeFalse Coverage Results" MODIFIED="1399286510293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/interpreter/unittests" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -42,10 +34,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="scheme.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="scheme.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="146" column="28" selection-start="3570" selection-end="3570" vertical-scroll-proportion="0.5730706" vertical-offset="2571" max-vertical-offset="3200">
+            <state line="133" column="31" selection-start="3205" selection-end="3205" vertical-scroll-proportion="0.0" vertical-offset="2451" max-vertical-offset="3200">
               <folding />
             </state>
           </provider>
@@ -54,19 +46,17 @@
       <file leaf-file-name="reader.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/reader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="200">
+            <state line="4" column="0" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="200">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="test_schemeObjects.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="test_schemeObjects.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="177" column="0" selection-start="6926" selection-end="6926" vertical-scroll-proportion="0.0" vertical-offset="3077" max-vertical-offset="3920">
-              <folding>
-                <element signature="e#0#29#0" expanded="true" />
-              </folding>
+            <state line="2" column="4" selection-start="68" selection-end="72" vertical-scroll-proportion="-5.0246305" vertical-offset="3100" max-vertical-offset="3920">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -74,7 +64,7 @@
       <file leaf-file-name="schemeExceptions.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/schemeExceptions.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="4" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+            <state line="8" column="4" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="160" max-vertical-offset="340">
               <folding />
             </state>
           </provider>
@@ -164,7 +154,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -235,6 +224,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -242,7 +232,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../DM/experiments/exp_01/DataMining" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="options.lastSelected" value="preferences.sourceCode.Python" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors" />
     <property name="options.splitter.main.proportions" value="0.2275" />
     <property name="options.splitter.details.proportions" value="0.39565217" />
     <property name="options.searchVisible" value="true" />
@@ -425,6 +415,9 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -446,9 +439,6 @@
       <option name="PUREUNITTEST" value="true" />
       <option name="PARAMS" value="" />
       <option name="USE_PARAM" value="false" />
-      <method />
-    </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -552,27 +542,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="32" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13312034" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1341853" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23162939" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35333332" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29444444" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29444444" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20333333" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20333333" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -594,6 +584,41 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="133" column="31" selection-start="3205" selection-end="3205" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3200">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/reader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="60" selection-end="60" vertical-scroll-proportion="0.0" vertical-offset="80" max-vertical-offset="200">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="4" selection-start="68" selection-end="72" vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="3920">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/schemeExceptions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="4" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="160" max-vertical-offset="340">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="140">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="124" column="12" selection-start="2917" selection-end="2917" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2740">
           <folding />
         </state>
@@ -609,9 +634,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="93" column="51" selection-start="3120" selection-end="3120" vertical-scroll-proportion="0.0" vertical-offset="1860" max-vertical-offset="2600">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -632,9 +655,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="46" column="29" selection-start="1383" selection-end="1383" vertical-scroll-proportion="0.0" vertical-offset="920" max-vertical-offset="2520">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -655,9 +676,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="61" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="2520">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -678,9 +697,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="43" column="61" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="2520">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -701,9 +718,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="0" selection-start="463" selection-end="463" vertical-scroll-proportion="0.0" vertical-offset="20" max-vertical-offset="2400">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -717,9 +732,7 @@
     <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="61" column="77" selection-start="2190" selection-end="2190" vertical-scroll-proportion="0.0" vertical-offset="1037" max-vertical-offset="1394">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -789,18 +802,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
+    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="0" selection-start="6926" selection-end="6926" vertical-scroll-proportion="0.0" vertical-offset="3077" max-vertical-offset="3920">
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state line="133" column="31" selection-start="3205" selection-end="3205" vertical-scroll-proportion="0.0" vertical-offset="2451" max-vertical-offset="3200">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interpreter/kmp_py/scheme.py">
+    <entry file="file://$PROJECT_DIR$/interpreter/unittests/test_schemeObjects.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="146" column="28" selection-start="3570" selection-end="3570" vertical-scroll-proportion="0.5730706" vertical-offset="2571" max-vertical-offset="3200">
+        <state line="2" column="4" selection-start="68" selection-end="72" vertical-scroll-proportion="-5.0246305" vertical-offset="3100" max-vertical-offset="3920">
           <folding />
         </state>
       </provider>

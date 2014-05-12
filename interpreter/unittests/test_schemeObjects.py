@@ -131,7 +131,7 @@ class SchemeStringStream(TestCase):
         self.assertEqual(stream.peek(), 'b', 'stringStream function next does not work')
         stream.next()
         self.assertTrue(stream.isAtEndOfStream(), 'cursor should be at end of stream.')
-        self.assertRaises(EOFException,stream.next)
+        self.assertEquals(stream.next(),None)
 
     def test_skipSeparators(self):
         inString1 = '     hello'
@@ -160,7 +160,7 @@ class SchemeStringStream(TestCase):
         stream.skipSeparators()
         stream.next()
         self.assertTrue(stream.isAtEndOfStream(), 'schemeString function isAtEndOfStream does not work')
-        self.assertRaises(Exception,stream.next)
+        self.assertEquals(stream.next(),None)
 
     def test_seek(self):
         inString = 'abc'
