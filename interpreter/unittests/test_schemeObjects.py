@@ -176,9 +176,11 @@ class SchemeStringStream(TestCase):
         stream.seek(-3)
         self.assertEqual(stream.peek(), 'a', 'schemeStringStream function seek does not work')
 
-        self.assertRaises(InvalidArgumentException,stream.seek,5)
-        self.assertRaises(InvalidArgumentException,stream.seek,-5)
-        self.assertRaises(InvalidArgumentException,stream.seek,3)
+        #test if seek parameters are clamped to length of inString
+        stream.seek(7)
+        self.assertEqual(stream.peek(), 'c', 'schemeStringStream function seek does not work')
+        stream.seek(-5)
+        self.assertEqual(stream.peek(), 'a', 'schemeStringStream function seek does not work')
 
     def test_whole(self):
         inString = '  \t hello     world \n\n xxx'

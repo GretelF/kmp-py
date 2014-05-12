@@ -144,9 +144,11 @@ class SchemeStringStream(SchemeObject):
             self.next()
 
     def seek(self, absAmount):
-        print(type(absAmount))
-        if(absAmount >= len(self.inString) or absAmount < -len(self.inString)):
-            raise InvalidArgumentException('absolute amount given to seek() is greater than the length of the input string.')
+        if(absAmount >= len(self.inString) ):
+            absAmount = len(self.inString) - 1
+        elif(absAmount < -len(self.inString)):
+            absAmount = -len(self.inString)
+
         amount = absAmount % len(self.inString)
 
         self.cursorPos = amount
