@@ -204,6 +204,16 @@ class SchemeStringStream(TestCase):
         self.assertEqual(stream.peek(), 'o', 'schemeStringStream function next does not work')
 
 
+class SchemeEnvironment(TestCase):
+    def test(self):
+        env = scheme.SchemeEnvironment()
+        sym1 = scheme.SchemeSymbol('a')
+        sym2 = scheme.SchemeSymbol('b')
+        env.addBinding(sym1, scheme.SchemeNumber(10))
+        env.addBinding(sym2, scheme.SchemeNumber(20))
+        self.assertEqual(env.getBinding(sym1).value, 10, 'schemeEnvironment does not work')
+        x = env.getBinding(sym1).value + env.getBinding(sym2).value
+        self.assertEqual(x, 30, 'schemeEnvironment does not work')
 
 
 

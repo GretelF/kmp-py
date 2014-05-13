@@ -151,4 +151,35 @@ class SchemeStringStream(SchemeObject):
 
         self.cursorPos = amount
 
+class SchemeEnvironment(SchemeObject):
+    def __init__(self):
+        self.bindings = {}
+
+    def addBinding(self, symbol, object):
+        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
+            pass                                    # TODO: what to do here?
+
+        if(symbol.value in self.bindings):
+            pass                                    # TODO: raise exception???
+        else:
+            self.bindings[symbol.value] = object
+
+    def getBinding(self, symbol):
+        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
+            pass                                    # TODO: what to do here?
+
+        if(symbol.value in self.bindings):
+            return self.bindings[symbol.value]
+        else:
+            return None                             # TODO: what should be returned here?
+
+    def setBinding(self, symbol, object):           # TODO: is this needed?
+        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
+            pass                                    # TODO: what to do here?
+
+        if(symbol.value in self.bindings):
+            self.bindings[symbol.value] = object
+        else:
+            pass                                    # TODO: what to do here?
+
 
