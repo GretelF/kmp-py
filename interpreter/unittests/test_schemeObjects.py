@@ -224,6 +224,10 @@ class SchemeEnvironment(TestCase):
         x = env.getBinding(sym1).value + env.getBinding(sym2).value
         self.assertEqual(x, 30, 'schemeEnvironment does not work')
 
+        sym3 = scheme.SchemeSymbol('c')
+        env.addBinding(sym3, scheme.SchemeString('hello'))
+        self.assertEqual(str(env.getBinding(sym3)), '"hello"', 'schemeEnvironment does not work')
+
 
 
 
