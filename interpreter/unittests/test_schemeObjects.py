@@ -79,6 +79,15 @@ class SchemeNumber(TestCase):
         self.assertEqual(x.value, 3, 'schemeNumber does not work.')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal.')
 
+    def test_math(self):
+        a = scheme.SchemeNumber(10)
+        b = scheme.SchemeNumber(20)
+
+        c = a + b
+        self.assertEqual(c.value, 30, 'schemeNumber function __add__ does not work')
+        d = a * b
+        self.assertEqual(d.value, 200, 'schemeNumber function __mul__ does not work')
+
     def test_sameInstance(self):
         x = scheme.SchemeNumber(3)
         y = scheme.SchemeNumber(3)

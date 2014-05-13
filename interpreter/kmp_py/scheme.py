@@ -74,6 +74,12 @@ class SchemeNumber(SchemeObject):
     def __str__(self):
         return '{0}'.format(self.value)
 
+    def __add__(self, other):
+        return SchemeNumber(self.value + other.value)
+
+    def __mul__(self, other):
+        return SchemeNumber(self.value * other.value)
+
 
 class SchemeString(SchemeObject):
     def __init__(self, value):
