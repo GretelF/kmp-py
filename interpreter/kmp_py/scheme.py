@@ -74,12 +74,6 @@ class SchemeNumber(SchemeObject):
     def __str__(self):
         return '{0}'.format(self.value)
 
-    def __add__(self, other):
-        return SchemeNumber(self.value + other.value)
-
-    def __mul__(self, other):
-        return SchemeNumber(self.value * other.value)
-
 
 class SchemeString(SchemeObject):
     def __init__(self, value):
@@ -130,6 +124,7 @@ class SchemeStringStream(SchemeObject):
     separatorList = {' ', '\n', '\t', '\r'}
 
     def __init__(self, inString):
+        super().__init__()
         self.cursorPos = 0
         self.inString = inString
 
@@ -158,34 +153,42 @@ class SchemeStringStream(SchemeObject):
         self.cursorPos = amount
 
 class SchemeEnvironment(SchemeObject):
-    def __init__(self):
+    def __init__(self, parent = None):
+        super().__init__()
         self.bindings = {}
+        self.parent = parent
 
-    def addBinding(self, symbol, object):
-        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
-            pass                                    # TODO: what to do here?
+    def __eq__(self, other):
+        return self is other
+
+
+    def addBinding(self, symbol, object):           # used for LISP function define
+        if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
+            raise InvalidInputException("function addBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
-            pass                                    # TODO: raise exception???
+            return None
         else:
             self.bindings[symbol.value] = object
 
     def getBinding(self, symbol):
-        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
-            pass                                    # TODO: what to do here?
+        if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
+            raise InvalidInputException("function addBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
             return self.bindings[symbol.value]
+        elif(self.parent != None):
+            return self.parent.getBinding(symbol)
         else:
-            return None                             # TODO: what should be returned here?
+            return None                             # TODO: what should be returned in case, no binding is found at all? None? Error?
 
-    def setBinding(self, symbol, object):           # TODO: is this needed?
-        if(symbol.type != 'SchemeSymbol'):          # check if symbol is actually a schemeSymbol
-            pass                                    # TODO: what to do here?
+    def setBinding(self, symbol, object):           # used for LISP function set!
+        if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
+            raise InvalidInputException("function addBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
             self.bindings[symbol.value] = object
         else:
-            pass                                    # TODO: what to do here?
+            return None                             # TODO: what should be returned in case, no binding is found at all? None? Error?
 
 

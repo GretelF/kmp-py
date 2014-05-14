@@ -1,6 +1,5 @@
 from unittest import TestCase
 from interpreter.kmp_py import scheme
-from interpreter.kmp_py.schemeExceptions import *
 
 
 
@@ -78,15 +77,6 @@ class SchemeNumber(TestCase):
 
         self.assertEqual(x.value, 3, 'schemeNumber does not work.')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal.')
-
-    def test_math(self):
-        a = scheme.SchemeNumber(10)
-        b = scheme.SchemeNumber(20)
-
-        c = a + b
-        self.assertEqual(c.value, 30, 'schemeNumber function __add__ does not work')
-        d = a * b
-        self.assertEqual(d.value, 200, 'schemeNumber function __mul__ does not work')
 
     def test_sameInstance(self):
         x = scheme.SchemeNumber(3)
@@ -220,6 +210,7 @@ class SchemeEnvironment(TestCase):
         sym2 = scheme.SchemeSymbol('b')
         env.addBinding(sym1, scheme.SchemeNumber(10))
         env.addBinding(sym2, scheme.SchemeNumber(20))
+
         self.assertEqual(env.getBinding(sym1).value, 10, 'schemeEnvironment does not work')
         x = env.getBinding(sym1).value + env.getBinding(sym2).value
         self.assertEqual(x, 30, 'schemeEnvironment does not work')
@@ -228,6 +219,29 @@ class SchemeEnvironment(TestCase):
         env.addBinding(sym3, scheme.SchemeString('hello'))
         self.assertEqual(str(env.getBinding(sym3)), '"hello"', 'schemeEnvironment does not work')
 
+        sym4 = scheme.SchemeSymbol('d')
+        obj4 = scheme.SchemeCons(scheme.SchemeSymbol('x'), scheme.SchemeSymbol('y'))
+        env.addBinding(sym4,obj4)
+        self.assertEqual(env.getBinding(sym4), obj4, 'schemeEnvironment does not work')
+
+    def test_parent(self):
+        env1 = scheme.SchemeEnvironment()
+        env2 = scheme.SchemeEnvironment(env1)
+
+        sym1 = scheme.SchemeSymbol('a')
+        sym2 = scheme.SchemeSymbol('b')
+
+        obj1 = scheme.SchemeNumber(10)
+        obj2 = scheme.SchemeNumber(20)
+        obj3 = scheme.SchemeNumber(30)
+
+        env1.addBinding(sym1, obj1)
+        env1.addBinding(sym2, obj2)
+        env2.addBinding(sym2, obj3)
+
+        self.assertEqual(env2.getBinding(sym1), obj1, 'nested schemeEnvironments do not work')
+        self.assertEqual(env1.getBinding(sym2), obj2, 'nested schemeEnvironments do not work')
+        self.assertEqual(env2.getBinding(sym2), obj3, 'nested schemeEnvironments do not work')
 
 
 
