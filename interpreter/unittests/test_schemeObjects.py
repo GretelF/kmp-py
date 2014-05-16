@@ -78,6 +78,10 @@ class SchemeNumber(TestCase):
         self.assertEqual(x.value, 3, 'schemeNumber does not work.')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal.')
 
+    def test_negative(self):
+        x = scheme.SchemeNumber(-1)
+        self.assertEqual(x.value, -1, 'schemeNumber does not work for negative numbers')
+
     def test_sameInstance(self):                                            # TODO: do i really want this???
         x = scheme.SchemeNumber(3)
         y = scheme.SchemeNumber(3)
@@ -253,10 +257,11 @@ class SchemeEnvironment(TestCase):
         obj1 = scheme.SchemeNumber(10)
         obj2 = scheme.SchemeNumber(20)
 
-        envParent.addBinding(sym1, obj1)        # therefore those to Objects should be bind to the same symbol
-        envChild.addBinding(sym2, obj2)         # and so envChild can only see obj2
+        envParent.addBinding(sym1, obj1)        # therefore those two Objects should be bind to the same symbol
+        envChild.addBinding(sym2, obj2)         # and so envChild can only see obj2 if asked for the binding to sym1,
+                                                # even though it was bound to sym2
 
-        self.assertEqual(envChild.getBinding(sym1), obj2, 'nested schemeEnvironments with identical symbols does not work')
+        self.assertEqual(envChild.getBinding(sym1), obj2, 'nested schemeEnvironments with identical symbols do not work')
 
 
 

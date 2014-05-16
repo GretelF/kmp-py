@@ -40,7 +40,7 @@ class SchemeReader():
         s = stream.peek()
         while(True):
             if(self._isSeparator(s) or s == '('  or s == ')' or stream.isAtEndOfStream()):
-                if(buffer.isdigit()):
+                if(buffer.isdigit() or (buffer[0]=='-' and buffer[1:].isdigit())):
                     return scheme.SchemeNumber(int(buffer))
                 else:
                     return scheme.SchemeSymbol(buffer)
