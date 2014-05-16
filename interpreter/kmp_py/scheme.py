@@ -198,4 +198,9 @@ class SchemeEnvironment(SchemeObject):
         else:
             return None                             # TODO: what should be returned in case, no binding is found at all? None? Error?
 
-
+    def __str__(self):
+        buffer = "<environment:\n"
+        for binding in self.bindings:
+            buffer = buffer + str(binding) + " = " + str(self.bindings[binding]) + "\n"
+        buffer = buffer + ">"
+        return buffer

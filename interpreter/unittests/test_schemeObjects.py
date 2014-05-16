@@ -78,7 +78,7 @@ class SchemeNumber(TestCase):
         self.assertEqual(x.value, 3, 'schemeNumber does not work.')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal.')
 
-    def test_sameInstance(self):
+    def test_sameInstance(self):                                            # TODO: do i really want this???
         x = scheme.SchemeNumber(3)
         y = scheme.SchemeNumber(3)
         self.assertIs(x, y, 'same schemeNumbers are not same.')
@@ -242,6 +242,22 @@ class SchemeEnvironment(TestCase):
         self.assertEqual(env2.getBinding(sym1), obj1, 'nested schemeEnvironments do not work')
         self.assertEqual(env1.getBinding(sym2), obj2, 'nested schemeEnvironments do not work')
         self.assertEqual(env2.getBinding(sym2), obj3, 'nested schemeEnvironments do not work')
+
+    def test_identical_symbol(self):
+        envParent = scheme.SchemeEnvironment()
+        envChild = scheme.SchemeEnvironment(envParent)
+
+        sym1 = scheme.SchemeSymbol('a')         # both should be same instance.
+        sym2 = scheme.SchemeSymbol('a')
+
+        obj1 = scheme.SchemeNumber(10)
+        obj2 = scheme.SchemeNumber(20)
+
+        envParent.addBinding(sym1, obj1)        # therefore those to Objects should be bind to the same symbol
+        envChild.addBinding(sym2, obj2)         # and so envChild can only see obj2
+
+        self.assertEqual(envChild.getBinding(sym1), obj2, 'nested schemeEnvironments with identical symbols does not work')
+
 
 
 
