@@ -94,6 +94,13 @@ class SchemeSymbol(SchemeObject):
     def __str__(self):
         return '{0}'.format(self.value)
 
+    _schemeSymbolList = dict()
+
+    def __new__(cls, val):
+        if not val in cls._schemeSymbolList.keys():
+            cls._schemeSymbolList[val] = SchemeObject.__new__(cls)
+        return cls._schemeSymbolList[val]
+
 
 class SchemeUserDefinedFunction(SchemeObject):
     def __init__(self, name, arglist, body, env):
