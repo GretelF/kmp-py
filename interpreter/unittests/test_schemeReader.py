@@ -20,12 +20,10 @@ class SchemeReader(TestCase):
         self.assertEqual(obj.value, 1234, 'schemeReader does not work')
         self.assertEqual(str(obj), '1234', 'schemeReader does not work')
 
-    def test_negativenumber(self):
-        r = reader.SchemeReader()
-        obj = r.read('-1')
-        self.assertEqual(obj.type, 'schemeNumber', 'schemeReader does not work for negative numbers')
-        self.assertEqual(obj.value, -1, 'schemeReader does not work')
-        self.assertEqual(str(obj), '-1', 'schemeReader does not work')
+        obj2 = r.read('-1')
+        self.assertEqual(obj2.type, 'schemeNumber', 'schemeReader does not work for negative numbers')
+        self.assertEqual(obj2.value, -1, 'schemeReader does not work')
+        self.assertEqual(str(obj2), '-1', 'schemeReader does not work')
 
     def test_symbol(self):
         r = reader.SchemeReader()
