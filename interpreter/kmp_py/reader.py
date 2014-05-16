@@ -48,5 +48,9 @@ class SchemeReader():
                 buffer += stream.peek()
                 stream.next()
 
+    def readList(self, stream):
+        # TODO: implement readList
+        pass
+
 
 
