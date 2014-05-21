@@ -41,5 +41,5 @@ class SchemeReader(TestCase):
         self.assertEqual(obj.cdr.car.value, 2, 'schemeReader does not work for lists')                        # second list element
         self.assertEqual(obj.cdr.cdr.type, 'schemeCons', 'schemeReader does not work for lists')
         self.assertEqual(obj.cdr.cdr.car.value, 'hello', 'schemeReader does not work for lists')              # third list element
-        self.assertEqual(obj.cdr.cdr.cdr.type, 'schemeNil', 'schemeReader does not work for lists')     # final nil
+        self.assertEqual(obj.cdr.cdr.cdr.type, 'schemeNil', 'schemeReader does not work for lists')           # final nil
 

@@ -102,23 +102,54 @@ class SchemeCons(TestCase):
         self.assertNotEqual(first, second, 'schemeCons function "__eq__" does not work: not equal schemeCons are equal.')
         self.assertEqual(first, third, 'schemeCons function "__eq__" does not work: equal schemeCons are not equal.')
 
-    def test_str(self):
-        car = scheme.SchemeString('hello')
-        cdr = scheme.SchemeNumber(3)
-        cons = scheme.SchemeCons(car, cdr)
-        self.assertEqual(str(cons), '("hello" . 3)', 'schemeString function __str__ does not work.')
-
     def test_car_cdr_nested(self):
         innerCar = scheme.SchemeString('Hello')
         innerCdr = scheme.SchemeNumber(3)
-        outerCar = scheme.SchemeNumber(3)
+        outerCar = scheme.SchemeNumber(5)
 
         outerCdr = scheme.SchemeCons(innerCar, innerCdr)
         outerCons = scheme.SchemeCons(outerCar, outerCdr)
 
-        self.assertEqual(outerCons.car.value, 3, 'schemeCons car does not work.')
+        self.assertEqual(outerCons.car.value, 5, 'schemeCons car does not work.')
         self.assertEqual(outerCons.cdr.car.value, 'Hello', 'nested schemeCons do not work.')
         self.assertEqual(outerCons.cdr.cdr.value, 3, 'nested schemeCons do not work.')
+
+    def test_str(self):
+        car = scheme.SchemeString('hello')
+        cdr = scheme.SchemeNumber(3)
+        cons = scheme.SchemeCons(car, cdr)
+        self.assertEqual(str(cons), '("hello" . 3)', 'schemeCons function __str__ does not work.')
+
+    def test_str_nested(self):
+        innerCar = scheme.SchemeString('hello')
+        innerCdr = scheme.SchemeNumber(10)
+        outerCar = scheme.SchemeString('aaaaa')
+
+        innerCons = scheme.SchemeCons(innerCar, innerCdr)
+        outerCons = scheme.SchemeCons(outerCar, innerCons)
+
+        self.assertEqual(str(outerCons), '("aaaaa" "hello" . 10)', 'schemeCons function __str__ does not work for nested functions.')
+
+    def test_str_nested_with_nil_as_last_cdr(self):
+        innerCar = scheme.SchemeNumber(3)
+        innerCdr = scheme.SchemeNil()
+        outerCar = scheme.SchemeNumber(5)
+
+        innerCons = scheme.SchemeCons(innerCar, innerCdr)
+        outerCons = scheme.SchemeCons(outerCar, innerCons)
+
+        self.assertEqual(str(outerCons), '(5 3)', 'schemeCons function __str__ does not work for nested functions.')
+
+    def test_str_nested_with_nil_as_car(self):
+        innerCar = scheme.SchemeNil()
+        innerCdr = scheme.SchemeNumber(3)
+        outerCar = scheme.SchemeNumber(5)
+
+        innerCons = scheme.SchemeCons(innerCar, innerCdr)
+        outerCons = scheme.SchemeCons(outerCar, innerCons)
+
+        self.assertEqual(str(outerCons), '(5 () . 3)', 'schemeCons function __str__ does not work for nested functions.')
+
 
 class SchemeStringStream(TestCase):
     def test_peek(self):
