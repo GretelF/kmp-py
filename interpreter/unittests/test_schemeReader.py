@@ -35,6 +35,7 @@ class SchemeReader(TestCase):
     def test_list(self):
         r = reader.SchemeReader()
         obj = r.read('(1 2 "hello")')
+        self.assertEqual(str(obj), '(1 2 "hello")', 'schemeReader does not work for lists')
         self.assertEqual(obj.type, 'schemeCons', 'schemeReader does not work for lists')
         self.assertEqual(obj.car.value, 1, 'schemeReader does not work for lists')                            # first list element
         self.assertEqual(obj.cdr.type, 'schemeCons', 'schemeReader does not work for lists')
