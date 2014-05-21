@@ -31,3 +31,15 @@ class SchemeReader(TestCase):
         self.assertEqual(obj.type, 'schemeSymbol', 'schemeReader does not work')
         self.assertEqual(obj.value, 'abc', 'schemeReader does not work')
         self.assertEqual(str(obj), 'abc', 'schemeReader does not work')
+
+    def test_list(self):
+        r = reader.SchemeReader()
+        obj = r.read('(1 2 "hello")')
+        self.assertEqual(obj.type, 'schemeCons', 'schemeReader does not work for lists')
+        self.assertEqual(obj.car.value, 1, 'schemeReader does not work for lists')                            # first list element
+        self.assertEqual(obj.cdr.type, 'schemeCons', 'schemeReader does not work for lists')
+        self.assertEqual(obj.cdr.car.value, 2, 'schemeReader does not work for lists')                        # second list element
+        self.assertEqual(obj.cdr.cdr.type, 'schemeCons', 'schemeReader does not work for lists')
+        self.assertEqual(obj.cdr.cdr.car.value, 'hello', 'schemeReader does not work for lists')              # third list element
+        self.assertEqual(obj.cdr.cdr.cdr.type, 'schemeNil', 'schemeReader does not work for lists')     # final nil
+
