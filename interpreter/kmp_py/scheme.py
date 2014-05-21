@@ -62,7 +62,20 @@ class SchemeCons(SchemeObject):
         return self.type == other.type and self.car == other.car and self.cdr == other.cdr
 
     def __str__(self):
-        return '({car} . {cdr})'.format(car=str(self.car), cdr=str(self.cdr))
+        buffer = '('
+        buffer = buffer + self.__strHelper()
+        buffer = buffer + ')'
+        return buffer
+
+    def __strHelper(self):
+        buffer = ''
+        buffer = buffer + str(self.car)
+        if (self.cdr.type == 'schemeCons'):
+            buffer = buffer + ' ' + self.cdr.__strHelper()
+        elif (self.cdr.type != 'schemeNil'):
+            buffer = buffer + ' . ' + str(self.cdr)
+        return buffer
+
 
 
 class SchemeNumber(SchemeObject):

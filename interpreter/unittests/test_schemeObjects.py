@@ -150,6 +150,16 @@ class SchemeCons(TestCase):
 
         self.assertEqual(str(outerCons), '(5 () . 3)', 'schemeCons function __str__ does not work for nested functions.')
 
+    def test_str_nested_with_cons_as_car(self):
+        innerCar = scheme.SchemeNumber(1)
+        innerCdr = scheme.SchemeNumber(3)
+        outerCdr = scheme.SchemeNumber(5)
+
+        innerCons = scheme.SchemeCons(innerCar, innerCdr)
+        outerCons = scheme.SchemeCons(innerCons, outerCdr)
+
+        self.assertEqual(str(outerCons), '((1 . 3) . 5)', 'schemeCons function __str__ does not work for nested functions.')
+
 
 class SchemeStringStream(TestCase):
     def test_peek(self):
