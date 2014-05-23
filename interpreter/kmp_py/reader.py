@@ -5,10 +5,9 @@ class SchemeReader():
         pass
 
     def _isSeparator(self, ch):
-        return (ch == ' ' or ch == '\t' or ch == '\n' or ch == '\r')
+            return (type(ch) is str and ch in ' \n\t\r\v\f\b')
 
-    def read(self, inString):
-        stream = scheme.SchemeStringStream(inString)
+    def read(self, stream):
         stream.skipSeparators()
         ch = stream.peek()
         if(ch == '"'):
@@ -16,7 +15,7 @@ class SchemeReader():
         if(ch == ')'):
             raise schemeExceptions.InvalidInputException("unexpected ')'")
         if(ch == '('):
-            pass # return self.readList(stream)
+            return self.readList(stream)
         return self.readAtom(stream)
 
     def readString(self, stream):
@@ -31,26 +30,46 @@ class SchemeReader():
                 break
             s += stream.peek()
             stream.next()
-        stream.next()                           # read over closing '"'
 
         return scheme.SchemeString(s)
 
     def readAtom(self, stream):
         buffer = ''
         s = stream.peek()
-        while(True):
-            if(self._isSeparator(s) or s == '('  or s == ')' or stream.isAtEndOfStream()):
-                if(buffer.isdigit() or (buffer[0]=='-' and buffer[1:].isdigit())):
-                    return scheme.SchemeNumber(int(buffer))
-                else:
-                    return scheme.SchemeSymbol(buffer)
-            else:
-                buffer += stream.peek()
-                stream.next()
+        while(not stream.isAtEndOfStream() and not self._isSeparator(s) and s != '('  and s != ')'):
+            buffer += s
+            stream.next()
+            s = stream.peek()
+        if(buffer.isdigit() or (buffer[0]=='-' and buffer[1:].isdigit())):              # reads positive or negative number
+            return scheme.SchemeNumber(int(buffer))
+        else:
+            return scheme.SchemeSymbol(buffer)
 
     def readList(self, stream):
-        # TODO: implement readList
-        pass
+
+        def helper(stream):
+            stream.skipSeparators()
+            s = stream.peek()
+            if(s == ')'):
+                stream.next()
+                return scheme.SchemeNil()
+            car = self.read(stream)
+            cdr = helper(stream)
+            return scheme.SchemeCons(car, cdr)
+
+
+
+        stream.skipSeparators()
+        s = stream.peek()
+
+        if(s != '('):
+            schemeExceptions.InvalidInputException('readList expects "(" as first character of stream')
+
+        stream.next()
+        buffer = helper(stream)
+
+        return buffer
+
 
 
 

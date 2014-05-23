@@ -176,6 +176,14 @@ class SchemeStringStream(TestCase):
         self.assertTrue(stream.isAtEndOfStream(), 'cursor should be at end of stream.')
         self.assertEquals(stream.next(),None)
 
+    def test_peek_at_end_of_stream(self):
+        inString = 'a'
+        stream = scheme.SchemeStringStream(inString)
+        self.assertEqual(stream.peek(), 'a', 'schemeStringStream faild to peek character')
+        stream.next()
+        self.assertTrue(stream.isAtEndOfStream(), 'schemeStringStream should be at end of Stream')
+        self.assertEqual(stream.peek(), None, 'schemeStringStream should peek None when at end of Stream')
+
     def test_skipSeparators(self):
         inString1 = '     hello'
         inString2 = '    hello'

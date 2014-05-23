@@ -141,7 +141,7 @@ class SchemeBuiltinSyntax(SchemeObject):
 
 
 class SchemeStringStream(SchemeObject):
-    separatorList = {' ', '\n', '\t', '\r'}
+    separatorList = {' ', '\n', '\t', '\r', '\f', '\v', '\b'}
 
     def __init__(self, inString):
         super().__init__()
@@ -153,13 +153,15 @@ class SchemeStringStream(SchemeObject):
             self.cursorPos += 1
 
     def peek(self):
+        if(self.isAtEndOfStream()):
+            return None
         return self.inString[self.cursorPos]
 
     def isAtEndOfStream(self):
         return (self.cursorPos > len(self.inString) - 1)
 
     def skipSeparators(self):
-        while (self.peek() in self.separatorList):
+        while (not self.isAtEndOfStream() and self.peek() in self.separatorList):
             self.next()
 
     def seek(self, absAmount):
