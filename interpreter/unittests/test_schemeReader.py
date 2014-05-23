@@ -39,12 +39,12 @@ class SchemeReader(TestCase):
         self.assertEqual(obj.value, 'abc', 'schemeReader does not work')
         self.assertEqual(str(obj), 'abc', 'schemeReader does not work')
 
-    def test_list01(self):
+    def test_list_two_elements(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('(1 2)'))
         self.assertEqual(str(obj),'(1 2)', 'schemeReader does not work for lists.')
 
-    def test_list02(self):
+    def test_list_three_elements(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('(1 2 "hello")'))
         self.assertEqual(str(obj), '(1 2 "hello")', 'schemeReader does not work for lists')
