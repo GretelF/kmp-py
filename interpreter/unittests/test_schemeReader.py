@@ -81,3 +81,11 @@ class SchemeReader(TestCase):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('()'))
         self.assertEqual(obj.type, 'schemeNil', 'empty list is supposed to be passed as nil')
+
+    def test_list_broken(self):
+        r = reader.SchemeReader()
+        string = '(1 2 3)))))))))'
+        obj = r.read(scheme.SchemeStringStream(string))
+        print(obj)
+        self.assertRaises(schemeExceptions.InvalidInputException,r.read,scheme.SchemeStringStream(string))
+
