@@ -303,6 +303,8 @@ class SchemeEnvironment(TestCase):
         sym1 = scheme.SchemeSymbol('a')         # both should be same instance.
         sym2 = scheme.SchemeSymbol('a')
 
+        self.assertIs(sym1, sym2, 'schemeSymbols should be identical, but are not.')
+
         obj1 = scheme.SchemeNumber(10)
         obj2 = scheme.SchemeNumber(20)
 
