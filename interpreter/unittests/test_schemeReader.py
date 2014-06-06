@@ -5,7 +5,7 @@ class SchemeReader(TestCase):
     def test_string_normal(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('"hello"'))
-        self.assertEqual(obj.type, 'schemeString', 'schemeReader does not work')
+        self.assertEqual(obj.type, 'schemeString', 'schemeReader does not work. Expected type schemeString, but got '+ obj.type)
         self.assertEqual(obj.value, 'hello', 'schemeReader does not work')
         self.assertEqual(str(obj), '"hello"', 'schemeReader does not work')
 
@@ -23,30 +23,32 @@ class SchemeReader(TestCase):
     def test_number(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('1234'))
-        self.assertEqual(obj.type, 'schemeNumber', 'schemeReader does not work')
+        self.assertEqual(obj.type, 'schemeNumber', 'schemeReader does not work. Expected type schemeNumber, but got '+ obj.type)
         self.assertEqual(obj.value, 1234, 'schemeReader does not work')
         self.assertEqual(str(obj), '1234', 'schemeReader does not work')
 
         obj2 = r.read(scheme.SchemeStringStream('-1'))
-        self.assertEqual(obj2.type, 'schemeNumber', 'schemeReader does not work for negative numbers')
+        self.assertEqual(obj2.type, 'schemeNumber', 'schemeReader does not work for negative numbers. Expected type schemeNumber, but got '+ obj.type)
         self.assertEqual(obj2.value, -1, 'schemeReader does not work')
         self.assertEqual(str(obj2), '-1', 'schemeReader does not work')
 
     def test_symbol(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('abc'))
-        self.assertEqual(obj.type, 'schemeSymbol', 'schemeReader does not work')
+        self.assertEqual(obj.type, 'schemeSymbol', 'schemeReader does not work. Expected type schemeSymbol, but got '+ obj.type)
         self.assertEqual(obj.value, 'abc', 'schemeReader does not work')
         self.assertEqual(str(obj), 'abc', 'schemeReader does not work')
 
     def test_list_two_elements(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('(1 2)'))
+        self.assertEqual(obj.type, 'schemeCons', 'schemeReader can not read functions. Expected schemeCons, but got '+ obj.type)
         self.assertEqual(str(obj),'(1 2)', 'schemeReader does not work for lists.')
 
     def test_list_three_elements(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('(1 2 "hello")'))
+        self.assertEqual(obj.type, 'schemeCons', 'schemeReader can not read functions. Expected schemeCons, but got '+ obj.type)
         self.assertEqual(str(obj), '(1 2 "hello")', 'schemeReader does not work for lists')
         self.assertEqual(obj.type, 'schemeCons', 'schemeReader does not work for lists')
         self.assertEqual(obj.car.value, 1, 'schemeReader does not work for lists')                            # first list element
@@ -59,6 +61,7 @@ class SchemeReader(TestCase):
     def test_list_nested(self):
         r = reader.SchemeReader()
         obj = r.read(scheme.SchemeStringStream('(define (x a b) (+ a b 1234))'))
+        self.assertEqual(obj.type, 'schemeCons', 'schemeReader can not read functions. Expected schemeCons, but got '+ obj.type)
         self.assertEqual(str(obj), '(define (x a b) (+ a b 1234))')
         self.assertEqual(obj.type, 'schemeCons', 'schemeReader does not work for lists')
         self.assertEqual(obj.car.value, 'define', 'schemeReader does not work for lists')
@@ -85,7 +88,14 @@ class SchemeReader(TestCase):
     def test_list_broken(self):
         r = reader.SchemeReader()
         string = '(1 2 3)))))))))'
+        stream = scheme.SchemeStringStream(string)
+        obj = r.read(stream)
+        self.assertRaises(schemeExceptions.InvalidInputException,r.read,stream)
+
+    def test_read_function(self):
+        r = reader.SchemeReader()
+        string = '(define x (cons 1 (cons 2 nil)))'
         obj = r.read(scheme.SchemeStringStream(string))
-        print(obj)
-        self.assertRaises(schemeExceptions.InvalidInputException,r.read,scheme.SchemeStringStream(string))
+        self.assertEqual(obj.type, 'schemeCons', 'schemeReader can not read functions. Expected schemeCons, but got '+ obj.type)
+        self.assertEqual(str(obj),'(define x (cons 1 (cons 2 nil)))', 'schemeReader can not read functions.' )
 
