@@ -13,7 +13,7 @@ def builtin_sub(evaluatedArgs):
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
             raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
-        retVal = retVal - operand.value
+        retVal -= operand.value
     return scheme.SchemeNumber(retVal)
 
 def builtin_mul(evaluatedArgs):
@@ -29,12 +29,12 @@ def builtin_div(evaluatedArgs):
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
             raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
-        retVal = retVal / operand.value
+        retVal /= operand.value
     return scheme.SchemeNumber(retVal)
 
 def builtin_eq(evaluatedArgs):
     if(len(evaluatedArgs)>2):
-        raise schemeExceptions.InvalidInputException('equal procedure expects exactly 2 arguments.')
+        raise schemeExceptions.InvalidInputException('eq? expects exactly 2 arguments.')
     if(evaluatedArgs[0]==evaluatedArgs[1]):
         return scheme.SchemeTrue()
     else:

@@ -14,11 +14,6 @@ class SchemeEvaluator():
     def __init__(self):
         pass
 
-    def eval_string(self, string, env = globalEnv):
-        r = reader.SchemeReader()
-        obj = r.read(scheme.SchemeStringStream(string))
-        return self.evaluate(obj, env)
-
     def evaluate(self, obj, env = globalEnv):
         if (obj.type == 'schemeSymbol'):
             retVal = env.getBinding(obj)
@@ -28,7 +23,7 @@ class SchemeEvaluator():
                 raise schemeExceptions.NoBindingException("No binding found for symbol {0} in environment {1}".format(str(obj), str(env)))
         elif(obj.type == 'schemeCons'):
             if(not obj.car.type == 'schemeSymbol'):
-                raise schemeExceptions.InvalidInputException("First element of list has to be a procedure.")
+                raise schemeExceptions.InvalidInputException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
             else:
                 proc = self.evaluate(obj.car, env)
                 evaluatedArgs = []
