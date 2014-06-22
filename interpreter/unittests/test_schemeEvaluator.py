@@ -21,7 +21,7 @@ class SchemeEvaluator(TestCase):
         env.addBinding(sym1, scheme.SchemeNumber(10))
         obj = e.eval_string('a', env)
         self.assertEqual(obj.type, 'schemeNumber', 'A symbol should evaluate to its binding.')
-        self.assertEqual(obj.value, 10, 'The Binding of the symbol a does not have the right value. Should be 10, is {0}'.format(obj.value))
+        self.assertEqual(obj.value, 10, "The Binding of the symbol 'a' does not have the right value. Should be 10, is {0}".format(obj.value))
 
     def test_eval_symbol_no_binding(self):
         e = evaluator.SchemeEvaluator()
