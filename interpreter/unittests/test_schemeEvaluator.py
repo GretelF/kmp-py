@@ -16,22 +16,18 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_symbol(self):
         e = evaluator.SchemeEvaluator()
-
         env = scheme.SchemeEnvironment()
         sym1 = scheme.SchemeSymbol('a')
         env.addBinding(sym1, scheme.SchemeNumber(10))
-
         obj = e.eval_string('a', env)
         self.assertEqual(obj.type, 'schemeNumber', 'A symbol should evaluate to its binding.')
         self.assertEqual(obj.value, 10, 'The Binding of the symbol a does not have the right value. Should be 10, is {0}'.format(obj.value))
 
     def test_eval_symbol_no_binding(self):
         e = evaluator.SchemeEvaluator()
-
         env = scheme.SchemeEnvironment()
         sym1 = scheme.SchemeSymbol('a')
         env.addBinding(sym1, scheme.SchemeNumber(10))
-
         self.assertRaises(schemeExceptions.NoBindingException, e.eval_string, 'b', env)
 
     def test_eval_eq(self):
@@ -41,6 +37,10 @@ class SchemeEvaluator(TestCase):
 
         obj = e.eval_string('(eq? 1 2)')
         self.assertEqual(obj.type, 'schemeFalse', '(eq? 1 2) should evaluate to schemeFalse, but does not.')
+
+    def test_eval_eq_to_many_arguments(self):
+        e = evaluator.SchemeEvaluator()
+        self.assertRaises(schemeExceptions.InvalidInputException, e.eval_string, '(eq? 1 2 3)')
 
     def test_eval_plus(self):
         e = evaluator.SchemeEvaluator()
@@ -71,4 +71,10 @@ class SchemeEvaluator(TestCase):
         obj = e.eval_string('(+ (* 3 2) 2)')
         self.assertEqual(obj.type, 'schemeNumber', 'Adding and multiplying two numbers should result in another number.')
         self.assertEqual(obj.value, 8, '(+ (* 3 2) 2) should result in 8')
+
+    def test_eval_no_builtinfunction(self):
+        e = evaluator.SchemeEvaluator()
+        self.assertRaises(schemeExceptions.NoBindingException, e.eval_string, '(% 2 3)')
+
+
 
