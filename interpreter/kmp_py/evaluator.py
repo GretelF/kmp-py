@@ -47,14 +47,21 @@ class SchemeEvaluator():
                 raise schemeExceptions.InvalidInputException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
             else:
                     proc = self.evaluate(obj.car, env)
-                    evaluatedArgs = []
-                    unevaluatedArgs = obj.cdr
-                    while(unevaluatedArgs.type != 'schemeNil'):
-                        latestArg = unevaluatedArgs.car
-                        evaluatedArgs.append(self.evaluate(latestArg))
-                        unevaluatedArgs = unevaluatedArgs.cdr
+                    retVal = scheme.SchemeVoid()
+                    if (proc.type == 'schemeBuiltinFunction'):
+                        evaluatedArgs = []
+                        unevaluatedArgs = obj.cdr
+                        while(unevaluatedArgs.type != 'schemeNil'):
+                            latestArg = unevaluatedArgs.car
+                            evaluatedArgs.append(self.evaluate(latestArg))
+                            unevaluatedArgs = unevaluatedArgs.cdr
 
-                    retVal = proc.func(evaluatedArgs)
+                        retVal = proc.func(evaluatedArgs)
+                    elif (proc.type == 'schemeBuiltinSyntax'):
+                        unevaluatedArgs = obj.cdr
+                        retVal = proc.func(unevaluatedArgs)
+                    else:                                                           # UserDefinedFunction
+                        pass
                     return retVal
         else:                                               #schemeTrue, schemeFalse, schemeNil, schemeNumber, schemeString,
             return obj
