@@ -51,6 +51,16 @@ class SchemeNil(SchemeSingleton):
         return '()'
 
 
+class SchemeVoid(SchemeSingleton):
+    def __init__(self):
+        super().__init__()
+        self.type = 'schemeVoid'
+        self.value = None
+
+    def __str__(self):
+        return ''
+
+
 class SchemeCons(SchemeObject):
     def __init__(self, car, cdr):
         super().__init__()

@@ -9,6 +9,8 @@ class SchemeEvaluator():
     globalEnv.addBinding(scheme.SchemeSymbol('*'), schemeBuiltin.builtin_mul)
     globalEnv.addBinding(scheme.SchemeSymbol('/'), schemeBuiltin.builtin_div)
     globalEnv.addBinding(scheme.SchemeSymbol('eq?'), schemeBuiltin.builtin_eq)
+    globalEnv.addBinding(scheme.SchemeSymbol('print'), schemeBuiltin.builtin_print)
+
 
 
     def __init__(self):

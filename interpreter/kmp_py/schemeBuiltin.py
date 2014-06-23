@@ -64,14 +64,20 @@ def builtin_car():
 def builtin_cdr():
     pass
 
-def builtin_print():
-    pass
+def builtin_print(evaluatedArgs):
+    if(len(evaluatedArgs)>1):
+        raise schemeExceptions.InvalidInputException('print expects exactly 1 arguments.')
+    print(str(evaluatedArgs[0]))
+    return scheme.SchemeVoid()
 
 def builtin_write():
     pass
 
-def builtin_display(self):
+def builtin_display():
     pass
 
-def builtin_quote(self):
+def builtin_quote():
+    pass
+
+def builtin_begin():
     pass

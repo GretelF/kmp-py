@@ -13,6 +13,11 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
         self.assertEqual(obj.value, 1, 'Evaluated number does not have the right value.')
 
+    def test_eval_number_negative(self):
+        obj = eval_string('-3')
+        self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
+        self.assertEqual(obj.value, -3, 'Evaluated number does not have the right value.')
+
     def test_eval_string(self):
         obj = eval_string('"hello"')
         self.assertEqual(obj.type, 'schemeString', 'A string should evaluate to itself.')
@@ -48,10 +53,20 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Adding two numbers should result in another number.')
         self.assertEqual(obj.value, 3, '(+ 1 2) should result in 3')
 
+    def test_eval_plus_with_negative(self):
+        obj = eval_string('(+ -3 5)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Adding two numbers should result in another number.')
+        self.assertEqual(obj.value, 2, '(+ -3 5) should result in 2')
+
     def test_eval_minus(self):
         obj = eval_string('(- 44 2)')
         self.assertEqual(obj.type, 'schemeNumber', 'Subtracting two numbers should result in another number.')
         self.assertEqual(obj.value, 42, '(- 44 2) should result in 42')
+
+    def test_eval_minus_with_negative_result(self):
+        obj = eval_string('(- 10 20)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Subtracting two numbers should result in another number.')
+        self. assertEqual(obj.value, -10, '(- 10 20) should result in -10')
 
     def test_eval_mul(self):
         obj = eval_string('(* 10 20)')
@@ -68,8 +83,17 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Adding and multiplying two numbers should result in another number.')
         self.assertEqual(obj.value, 8, '(+ (* 3 2) 2) should result in 8')
 
+    def test_eval_minus_plus_eq(self):
+        obj = eval_string('(eq? (- 6 3) (+ 1 2))')
+        self.assertEqual(obj.type, 'schemeTrue', 'A schemeTrue was expected. Got a {0} instead'.format(obj.type))
+
     def test_eval_no_builtinfunction(self):
         self.assertRaises(schemeExceptions.NoBindingException, eval_string, '(% 2 3)')
+
+    def test_eval_print_string(self):
+        obj = eval_string('(print 4)')
+
+        self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
 
 
 
