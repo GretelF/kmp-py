@@ -23,6 +23,14 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeString', 'A string should evaluate to itself.')
         self.assertEqual(obj.value, 'hello', 'Evaluated string does not have the right value.')
 
+    def test_eval_true(self):
+        obj = eval_string('#t')
+        self.assertEqual(obj.type, 'schemeTrue', '#t should evaluate to schemeTrue')
+
+    def test_eval_false(self):
+        obj = eval_string('#f')
+        self.assertEqual(obj.type, 'schemeFalse', '#f should evaluate to schemeFalse')
+
     def test_eval_symbol(self):
         env = scheme.SchemeEnvironment()
         sym1 = scheme.SchemeSymbol('a')
@@ -102,8 +110,16 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(cons 4 (cons 2 null))')
         self.assertEqual(str(obj), '(4 2)', 'expected (4 2), got {0}'.format(str(obj)))
 
+    def test_eval_cons_eq(self):
+        obj = eval_string('(eq? (cons 1 2) (cons 1 2))')
+        self.assertEqual(obj.type, 'schemeFalse', 'Two cons should not be same ')
+
     def test_eval_print_string(self):
         obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
+
+    def test_eval_eq_arithmetic(self):
+        obj = eval_string('(= 1 1)')
+        self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
 
 

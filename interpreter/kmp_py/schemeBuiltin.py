@@ -35,10 +35,15 @@ def builtin_div(evaluatedArgs):
 def builtin_eq(evaluatedArgs):
     if(len(evaluatedArgs)>2):
         raise schemeExceptions.InvalidInputException('eq? expects exactly 2 arguments.')
-    if(evaluatedArgs[0]==evaluatedArgs[1]):
-        return scheme.SchemeTrue()
+    return scheme.SchemeTrue() if (evaluatedArgs[0]==evaluatedArgs[1]) else scheme.SchemeFalse()
+
+def builtin_eq_arit(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.InvalidInputException('= expects exactly 2 arguments.')
+    if(evaluatedArgs[0].type != 'schemeNumber' or evaluatedArgs[1].type != 'schemeNumber'):
+        raise schemeExceptions.InvalidInputException('= expects two numbers')
     else:
-        return scheme.SchemeFalse()
+        return scheme.SchemeTrue() if (evaluatedArgs[0].value == evaluatedArgs[1].value) else scheme.SchemeFalse()
 
 def builtin_cons(evaluatedArgs):
     if(len(evaluatedArgs)>2):

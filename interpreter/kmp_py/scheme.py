@@ -136,17 +136,18 @@ class SchemeUserDefinedFunction(SchemeObject):
 
 
 class SchemeBuiltinFunction(SchemeObject):
-    def __init__(self, name, code):
+    def __init__(self, name, func):
         super().__init__()
         self.name = name
-        self.code = code
+        self.func = func
         self.type = 'schemeBuiltinFunction'
 
 
 class SchemeBuiltinSyntax(SchemeObject):
-    def __init__(self, code):
+    def __init__(self, name, func):
         super().__init__()
-        self.code = code
+        self.name = name
+        self.func = func
         self.type = 'schemeBuiltinSyntax'
 
 
