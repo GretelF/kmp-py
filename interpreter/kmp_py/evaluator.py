@@ -2,6 +2,12 @@ from interpreter.kmp_py import schemeBuiltin, reader, scheme, schemeExceptions
 
 class SchemeEvaluator():
 
+    syntaxEnv = scheme.SchemeEnvironment()
+    syntaxEnv.addBinding(scheme.SchemeSymbol('if'), schemeBuiltin.builtin_if)
+    syntaxEnv.addBinding(scheme.SchemeSymbol('lambda'), schemeBuiltin.builtin_lambda)
+    syntaxEnv.addBinding(scheme.SchemeSymbol('define'), schemeBuiltin.builtin_define)
+    syntaxEnv.addBinding(scheme.SchemeSymbol('set'), schemeBuiltin.builtin_set)
+    syntaxEnv.addBinding(scheme.SchemeSymbol('let'), schemeBuiltin.builtin_let)
 
     # create global environment with builtin functions.
     globalEnv = scheme.SchemeEnvironment()
