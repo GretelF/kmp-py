@@ -67,7 +67,7 @@ def builtin_cdr():
 def builtin_print(evaluatedArgs):
     if(len(evaluatedArgs)>1):
         raise schemeExceptions.InvalidInputException('print expects exactly 1 arguments.')
-    print(str(evaluatedArgs[0]))
+    print(str(evaluatedArgs[0]))                                                #TODO print in REPL
     return scheme.SchemeVoid()
 
 def builtin_write():
