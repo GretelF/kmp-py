@@ -90,10 +90,20 @@ class SchemeEvaluator(TestCase):
     def test_eval_no_builtinfunction(self):
         self.assertRaises(schemeExceptions.NoBindingException, eval_string, '(% 2 3)')
 
+    def test_eval_cons(self):
+        obj = eval_string('(cons 2 3)')
+        self.assertEqual(obj.type, 'schemeCons', 'cons procedure should evaluate to cons')
+        self.assertEqual(str(obj), '(2 . 3)', 'expected (2 . 3), got {0}'.format(str(obj)))
+
+    def test_eval_cons_nested(self):
+        obj = eval_string('(cons 3 (cons 4 5))')
+        self.assertEqual(str(obj), '(3 4 . 5)', 'expected (3 4 . 5), got {0}'.format(str(obj)))
+
+        obj = eval_string('(cons 4 (cons 2 null))')
+        self.assertEqual(str(obj), '(4 2)', 'expected (4 2), got {0}'.format(str(obj)))
+
     def test_eval_print_string(self):
-        obj = eval_string('(print 4)')
-
+        obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
-
 
 

@@ -40,29 +40,24 @@ def builtin_eq(evaluatedArgs):
     else:
         return scheme.SchemeFalse()
 
-def builtin_define():
-    pass
+def builtin_cons(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.InvalidInputException('cons expects exactly 2 arguments.')
+    return scheme.SchemeCons(evaluatedArgs[0], evaluatedArgs[1])
 
-def builtin_lambda():
-    pass
+def builtin_car(evaluatedArgs):
+    if(len(evaluatedArgs)>1):
+        raise schemeExceptions.InvalidInputException('car expects exactly 1 arguments.')
+    if(evaluatedArgs[0].type != 'schemeCons'):
+        raise schemeExceptions.InvalidInputException('car expects cons as argument')
+    return evaluatedArgs[0].car
 
-def builtin_if():
-    pass
-
-def builtin_set():
-    pass
-
-def builtin_let():
-    pass
-
-def builtin_cons():
-    pass
-
-def builtin_car():
-    pass
-
-def builtin_cdr():
-    pass
+def builtin_cdr(evaluatedArgs):
+    if(len(evaluatedArgs)>1):
+        raise schemeExceptions.InvalidInputException('cdr expects exactly 1 arguments.')
+    if(evaluatedArgs[0].type != 'schemeCons'):
+        raise schemeExceptions.InvalidInputException('cdr expects cons as argument')
+    return evaluatedArgs[0].cdr
 
 def builtin_print(evaluatedArgs):
     if(len(evaluatedArgs)>1):
@@ -79,5 +74,24 @@ def builtin_display():
 def builtin_quote():
     pass
 
+
+
+# Syntax
+
 def builtin_begin():
+    pass
+
+def builtin_define():
+    pass
+
+def builtin_lambda():
+    pass
+
+def builtin_if():
+    pass
+
+def builtin_set():
+    pass
+
+def builtin_let():
     pass
