@@ -220,32 +220,27 @@ class SchemeEnvironment(SchemeObject):
 
     def addBinding(self, symbol, object):           # used for LISP function define
         if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
-            raise InvalidInputException("function addBinding requests SchemeSymbol")
+            raise ArgumentTypeException("function addBinding requests SchemeSymbol")
 
-        if(symbol.value in self.bindings):
-            return None
-        else:
-            self.bindings[symbol.value] = object
+        self.bindings[symbol.value] = object
 
     def getBinding(self, symbol):
         if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
-            raise InvalidInputException("function addBinding requests SchemeSymbol")
+            raise ArgumentTypeException("function addBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
             return self.bindings[symbol.value]
-        elif(self.parent != None):
+        if(self.parent != None):
             return self.parent.getBinding(symbol)
-        else:
-            return None                             # TODO: what should be returned in case, no binding is found at all? None? Error?
+        return None                                 # TODO: what should be returned in case, no binding is found at all? None? Error?
 
     def setBinding(self, symbol, object):           # used for LISP function set!
         if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
-            raise InvalidInputException("function addBinding requests SchemeSymbol")
+            raise ArgumentTypeException("function addBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
             self.bindings[symbol.value] = object
-        else:
-            return None                             # TODO: what should be returned in case, no binding is found at all? None? Error?
+        return None                                 # TODO: what should be returned in case, no binding is found at all? None? Error?
 
     def __str__(self):
         buffer = "<environment:\n"

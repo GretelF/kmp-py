@@ -96,7 +96,8 @@ def builtin_define(unevaluatedArgs, env):
         raise schemeExceptions.ArgumentCountException('define expects exactly 2 arguments.')
     if unevaluatedArgs[0].type != 'schemeSymbol':
         raise schemeExceptions.ArgumentTypeException('define expects schemeSymbol as first argument.')
-
+    env.addBinding(unevaluatedArgs[0], unevaluatedArgs[1])
+    return scheme.SchemeVoid()
 
 def builtin_lambda(unevaluatedArgs, env):
     pass
