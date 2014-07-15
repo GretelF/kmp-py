@@ -21,3 +21,25 @@ class SchemeEvalSyntax(TestCase):
     def test_eval_if_elsePartIsNotEvaluated(self):
         obj = eval_string('(if #t 1 (aSymbolThatCannotPossiblyHaveABindingAndWillNeverBeEvaluated x y z))')
         self.assertIsNotNone(obj, 'syntax if should not return None')
+
+    def test_eval_if_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(if 1 2 3 4)')
+
+    def test_eval_if_noArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(if)')
+
+    def test_eval_define(self):
+        self.assertRaises(schemeExceptions.NoBindingException, eval_string, 'b')    # with global env.
+        obj = eval_string('(define b 3)')
+        self.assertIsNotNone(obj, 'syntax define should not return None.')
+        self.assertEqual(obj.type, 'schemeVoid','syntax define should return schemeVoid.')
+        self.assertEqual(eval_string('b'), scheme.SchemeNumber(3), 'syntax define does not work. b should be bound to 3 in the global env.')
+
+    def test_eval_define_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(define 1 2 3 4)')
+
+    def test_eval_define_firstArgumentNoSymbol(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string,'(define 1 2)')
+
+    def test_eval_define_noArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(define)')

@@ -55,9 +55,9 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(eq? 1 2)')
         self.assertEqual(obj.type, 'schemeFalse', '(eq? 1 2) should evaluate to schemeFalse, but does not.')
 
-    def test_eval_eq_to_many_arguments(self):
+    def test_eval_eq_too_many_arguments(self):
         e = evaluator.SchemeEvaluator()
-        self.assertRaises(schemeExceptions.InvalidInputException, eval_string, '(eq? 1 2 3)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(eq? 1 2 3)')
 
     def test_eval_plus(self):
         obj = eval_string('(+ 1 2)')

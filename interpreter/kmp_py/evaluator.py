@@ -35,13 +35,17 @@ class SchemeEvaluator(scheme.SchemeSingleton):
             if proc.type == 'schemeBuiltinFunction':
                 evaluatedArgsArray = []
                 unevaluatedArgs = obj.cdr
-                unevaluatedArgsArray = unevaluatedArgs.toArray()
+                unevaluatedArgsArray = []
+                if unevaluatedArgs.type == 'schemeCons':
+                    unevaluatedArgsArray = unevaluatedArgs.toArray()
                 for arg in unevaluatedArgsArray:
                     evaluatedArgsArray.append(self.evaluate(arg, env))
                 retVal = proc.func(evaluatedArgsArray)
             elif (proc.type == 'schemeBuiltinSyntax'):
                 unevaluatedArgs = obj.cdr
-                unevaluatedArgsArray = unevaluatedArgs.toArray()
+                unevaluatedArgsArray = []
+                if unevaluatedArgs.type == 'schemeCons':
+                    unevaluatedArgsArray = unevaluatedArgs.toArray()
                 retVal = proc.func(unevaluatedArgsArray, env)
             else:                                                                   # UserDefinedFunction
                 pass

@@ -4,7 +4,7 @@ def builtin_add(evaluatedArgs):
     retVal = 0
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
         retVal += operand.value
     return scheme.SchemeNumber(retVal)
 
@@ -12,7 +12,7 @@ def builtin_sub(evaluatedArgs):
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
         retVal -= operand.value
     return scheme.SchemeNumber(retVal)
 
@@ -20,7 +20,7 @@ def builtin_mul(evaluatedArgs):
     retVal = 1
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
         retVal *= operand.value
     return scheme.SchemeNumber(retVal)
 
@@ -28,45 +28,45 @@ def builtin_div(evaluatedArgs):
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.InvalidInputException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
         retVal /= operand.value
     return scheme.SchemeNumber(retVal)
 
 def builtin_eq(evaluatedArgs):
     if(len(evaluatedArgs)>2):
-        raise schemeExceptions.InvalidInputException('eq? expects exactly 2 arguments.')
+        raise schemeExceptions.ArgumentCountException('eq? expects exactly 2 arguments.')
     return scheme.SchemeTrue() if (evaluatedArgs[0]==evaluatedArgs[1]) else scheme.SchemeFalse()
 
 def builtin_eq_arit(evaluatedArgs):
     if(len(evaluatedArgs)>2):
-        raise schemeExceptions.InvalidInputException('= expects exactly 2 arguments.')
+        raise schemeExceptions.ArgumentCountException('= expects exactly 2 arguments.')
     if(evaluatedArgs[0].type != 'schemeNumber' or evaluatedArgs[1].type != 'schemeNumber'):
-        raise schemeExceptions.InvalidInputException('= expects two numbers')
+        raise schemeExceptions.ArgumentTypeException('= expects two numbers')
     else:
         return scheme.SchemeTrue() if (evaluatedArgs[0].value == evaluatedArgs[1].value) else scheme.SchemeFalse()
 
 def builtin_cons(evaluatedArgs):
     if(len(evaluatedArgs)>2):
-        raise schemeExceptions.InvalidInputException('cons expects exactly 2 arguments.')
+        raise schemeExceptions.ArgumentCountException('cons expects exactly 2 arguments.')
     return scheme.SchemeCons(evaluatedArgs[0], evaluatedArgs[1])
 
 def builtin_car(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('car expects exactly 1 argument.')
+        raise schemeExceptions.ArgumentCountException('car expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.InvalidInputException('car expects cons as argument')
     return evaluatedArgs[0].car
 
 def builtin_cdr(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('cdr expects exactly 1 argument.')
+        raise schemeExceptions.ArgumentCountException('cdr expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
-        raise schemeExceptions.InvalidInputException('cdr expects cons as argument')
+        raise schemeExceptions.ArgumentTypeException('cdr expects cons as argument')
     return evaluatedArgs[0].cdr
 
 def builtin_print(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('print expects exactly 1 argument.')
+        raise schemeExceptions.ArgumentCountException('print expects exactly 1 argument.')
     print(str(evaluatedArgs[0]))                                                #TODO print in REPL
     return scheme.SchemeVoid()
 
@@ -92,14 +92,18 @@ def builtin_begin(unevaluatedArgs, env):
     pass
 
 def builtin_define(unevaluatedArgs, env):
-    pass
+    if len(unevaluatedArgs) != 2:
+        raise schemeExceptions.ArgumentCountException('define expects exactly 2 arguments.')
+    if unevaluatedArgs[0].type != 'schemeSymbol':
+        raise schemeExceptions.ArgumentTypeException('define expects schemeSymbol as first argument.')
+
 
 def builtin_lambda(unevaluatedArgs, env):
     pass
 
 def builtin_if(unevaluatedArgs, env):
-    if len(unevaluatedArgs) > 3:
-        raise schemeExceptions.InvalidInputException('if expects exactly 3 arguments.')
+    if len(unevaluatedArgs) != 3:
+        raise schemeExceptions.ArgumentCountException('if expects exactly 3 arguments.')
     condition = evaluate(unevaluatedArgs[0], env)
     if condition.isTrue():
         return evaluate(unevaluatedArgs[1], env)
@@ -111,6 +115,10 @@ def builtin_set(unevaluatedArgs, env):
 
 def builtin_let(unevaluatedArgs, env):
     pass
+
+
+
+
 
 def initializeBindings():
     # add builtins to environments
