@@ -83,10 +83,9 @@ def builtin_quote():
 
 # Syntax
 
-
-
 def evaluate(arg, env):
     return evaluator.SchemeEvaluator().evaluate(arg, env)           # SchemeEvaluator is singleton
+
 
 def builtin_begin(unevaluatedArgs, env):
     pass
@@ -112,7 +111,15 @@ def builtin_if(unevaluatedArgs, env):
 
 
 def builtin_set(unevaluatedArgs, env):
-    pass
+    if len(unevaluatedArgs) != 2:
+        raise schemeExceptions.ArgumentCountException('set! expects exactly 2 arguments.')
+    symbol = unevaluatedArgs[0]
+    if symbol.type != 'schemeSymbol':
+        raise schemeExceptions.ArgumentTypeException('set! expects schemeSymbol as first argument.')
+    success = env.setBinding(symbol, unevaluatedArgs[1])
+    if not success:
+        raise schemeExceptions.NoBindingException('No Binding found for symbol {0} in environment {1}'.format(symbol, env))
+    return scheme.SchemeVoid()
 
 def builtin_let(unevaluatedArgs, env):
     pass
@@ -127,7 +134,7 @@ def initializeBindings():
     syntaxEnv.addBinding(scheme.SchemeSymbol('if'), scheme.SchemeBuiltinSyntax('if', builtin_if))
     syntaxEnv.addBinding(scheme.SchemeSymbol('lambda'), scheme.SchemeBuiltinSyntax('lambda', builtin_lambda))
     syntaxEnv.addBinding(scheme.SchemeSymbol('define'), scheme.SchemeBuiltinSyntax('define', builtin_define))
-    syntaxEnv.addBinding(scheme.SchemeSymbol('set'), scheme.SchemeBuiltinSyntax('set', builtin_set))
+    syntaxEnv.addBinding(scheme.SchemeSymbol('set!'), scheme.SchemeBuiltinSyntax('set', builtin_set))
     syntaxEnv.addBinding(scheme.SchemeSymbol('let'), scheme.SchemeBuiltinSyntax('let', builtin_let))
 
     globalEnv = evaluator.SchemeEvaluator.globalEnv

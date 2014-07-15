@@ -240,7 +240,8 @@ class SchemeEnvironment(SchemeObject):
 
         if(symbol.value in self.bindings):
             self.bindings[symbol.value] = object
-        return None                                 # TODO: what should be returned in case, no binding is found at all? None? Error?
+            return True
+        return False
 
     def __str__(self):
         buffer = "<environment:\n"
