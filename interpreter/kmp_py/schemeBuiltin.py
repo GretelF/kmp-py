@@ -1,4 +1,4 @@
-from interpreter.kmp_py import scheme,schemeExceptions
+from interpreter.kmp_py import scheme,schemeExceptions,evaluator
 
 def builtin_add(evaluatedArgs):
     retVal = 0
@@ -52,21 +52,21 @@ def builtin_cons(evaluatedArgs):
 
 def builtin_car(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('car expects exactly 1 arguments.')
+        raise schemeExceptions.InvalidInputException('car expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.InvalidInputException('car expects cons as argument')
     return evaluatedArgs[0].car
 
 def builtin_cdr(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('cdr expects exactly 1 arguments.')
+        raise schemeExceptions.InvalidInputException('cdr expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.InvalidInputException('cdr expects cons as argument')
     return evaluatedArgs[0].cdr
 
 def builtin_print(evaluatedArgs):
     if(len(evaluatedArgs)>1):
-        raise schemeExceptions.InvalidInputException('print expects exactly 1 arguments.')
+        raise schemeExceptions.InvalidInputException('print expects exactly 1 argument.')
     print(str(evaluatedArgs[0]))                                                #TODO print in REPL
     return scheme.SchemeVoid()
 
@@ -83,20 +83,58 @@ def builtin_quote():
 
 # Syntax
 
-def builtin_begin():
+
+
+def evaluate(arg, env):
+    return evaluator.SchemeEvaluator().evaluate(arg, env)           # SchemeEvaluator is singleton
+
+def builtin_begin(unevaluatedArgs, env):
     pass
 
-def builtin_define():
+def builtin_define(unevaluatedArgs, env):
     pass
 
-def builtin_lambda():
+def builtin_lambda(unevaluatedArgs, env):
     pass
 
-def builtin_if():
+def builtin_if(unevaluatedArgs, env):
+    if len(unevaluatedArgs) > 3:
+        raise schemeExceptions.InvalidInputException('if expects exactly 3 arguments.')
+    condition = evaluate(unevaluatedArgs[0], env)
+    if condition.isTrue():
+        return evaluate(unevaluatedArgs[1], env)
+    return evaluate(unevaluatedArgs[2], env)
+
+
+def builtin_set(unevaluatedArgs, env):
     pass
 
-def builtin_set():
+def builtin_let(unevaluatedArgs, env):
     pass
 
-def builtin_let():
-    pass
+def initializeBindings():
+    # add builtins to environments
+    syntaxEnv = evaluator.SchemeEvaluator.syntaxEnv
+    syntaxEnv.addBinding(scheme.SchemeSymbol('if'), scheme.SchemeBuiltinSyntax('if', builtin_if))
+    syntaxEnv.addBinding(scheme.SchemeSymbol('lambda'), scheme.SchemeBuiltinSyntax('lambda', builtin_lambda))
+    syntaxEnv.addBinding(scheme.SchemeSymbol('define'), scheme.SchemeBuiltinSyntax('define', builtin_define))
+    syntaxEnv.addBinding(scheme.SchemeSymbol('set'), scheme.SchemeBuiltinSyntax('set', builtin_set))
+    syntaxEnv.addBinding(scheme.SchemeSymbol('let'), scheme.SchemeBuiltinSyntax('let', builtin_let))
+
+    globalEnv = evaluator.SchemeEvaluator.globalEnv
+    globalEnv.addBinding(scheme.SchemeSymbol('+'), scheme.SchemeBuiltinFunction('add', builtin_add))
+    globalEnv.addBinding(scheme.SchemeSymbol('-'), scheme.SchemeBuiltinFunction('sub', builtin_sub))
+    globalEnv.addBinding(scheme.SchemeSymbol('*'), scheme.SchemeBuiltinFunction('mul', builtin_mul))
+    globalEnv.addBinding(scheme.SchemeSymbol('/'), scheme.SchemeBuiltinFunction('div', builtin_div))
+    globalEnv.addBinding(scheme.SchemeSymbol('eq?'), scheme.SchemeBuiltinFunction('eq', builtin_eq))
+    globalEnv.addBinding(scheme.SchemeSymbol('='), scheme.SchemeBuiltinFunction('eq_arit', builtin_eq_arit))
+    globalEnv.addBinding(scheme.SchemeSymbol('print'), scheme.SchemeBuiltinFunction('print', builtin_print))
+    globalEnv.addBinding(scheme.SchemeSymbol('cons'), scheme.SchemeBuiltinFunction('cons', builtin_cons))
+    globalEnv.addBinding(scheme.SchemeSymbol('car'), scheme.SchemeBuiltinFunction('car', builtin_car))
+    globalEnv.addBinding(scheme.SchemeSymbol('cdr'), scheme.SchemeBuiltinFunction('cdr', builtin_cdr))
+
+    globalEnv.addBinding(scheme.SchemeSymbol('null'), scheme.SchemeNil())
+    globalEnv.addBinding(scheme.SchemeSymbol('nil'), scheme.SchemeNil())
+    globalEnv.addBinding(scheme.SchemeSymbol('empty'), scheme.SchemeNil())
+    globalEnv.addBinding(scheme.SchemeSymbol('#f'), scheme.SchemeFalse())
+    globalEnv.addBinding(scheme.SchemeSymbol('#t'), scheme.SchemeTrue())

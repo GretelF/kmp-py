@@ -1,5 +1,8 @@
-from interpreter.kmp_py import reader, evaluator,scheme,schemeExceptions
+from interpreter.kmp_py import reader, evaluator,scheme,schemeExceptions, initialize
 from unittest import TestCase
+
+# initialize global environments and adds initial bindings to globalEnv and syntaxEnv
+initialize.initialize()
 
 def eval_string(string, env = evaluator.SchemeEvaluator.globalEnv):
     r = reader.SchemeReader()
@@ -121,5 +124,3 @@ class SchemeEvaluator(TestCase):
     def test_eval_eq_arithmetic(self):
         obj = eval_string('(= 1 1)')
         self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
-
-

@@ -1,5 +1,8 @@
 from unittest import TestCase
-from interpreter.kmp_py import scheme
+from interpreter.kmp_py import scheme, initialize
+
+# initialize global environments and adds initial bindings to globalEnv and syntaxEnv
+initialize.initialize()
 
 
 
@@ -159,6 +162,29 @@ class SchemeCons(TestCase):
         outerCons = scheme.SchemeCons(innerCons, outerCdr)
 
         self.assertEqual(str(outerCons), '((1 . 3) . 5)', 'schemeCons function __str__ does not work for nested functions.')
+
+    def test_to_array_regular_list(self):
+        one = scheme.SchemeNumber(1)
+        two = scheme.SchemeNumber(2)
+        cons = scheme.SchemeCons(one, scheme.SchemeCons(two, scheme.SchemeNil()))
+        obj = cons.toArray()
+
+        self.assertEqual(type(obj), list, 'toArray should return a list for regular lists.' )
+        self.assertEqual(obj, [one, two], 'toArray should return a list, that represents the cons (1 2) as [1, 2].')
+
+    def test_to_array_irregular_list(self):
+        one = scheme.SchemeNumber(1)
+        three = scheme.SchemeNumber(3)
+        five = scheme.SchemeNumber(5)
+
+        innerCons = scheme.SchemeCons(one, three)
+        outerCons = scheme.SchemeCons(innerCons, five)
+
+        obj = outerCons.toArray()
+
+        self.assertEqual(type(obj), tuple, 'toArray should return a tuple for irregular lists.')
+        self.assertEqual(obj, (innerCons, five), 'toArray should return a tuple, that represents the cons ((1 . 3) . 5) as ((cons), 5)')
+
 
 
 class SchemeStringStream(TestCase):

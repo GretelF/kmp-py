@@ -11,6 +11,11 @@ class SchemeObject:
     def __repr__(self):
         return "<{type}: {value}>".format(type=self.type, value=self.value)
 
+    def isTrue(self):
+        return True
+
+    def isFalse(self):
+        return False
 
 class SchemeSingleton(SchemeObject):
     _instance = None
@@ -29,6 +34,12 @@ class SchemeFalse(SchemeSingleton):
 
     def __str__(self):
         return '#f'
+
+    def isTrue(self):
+        return False
+
+    def isFalse(self):
+        return True
 
 
 class SchemeTrue(SchemeSingleton):
@@ -86,6 +97,18 @@ class SchemeCons(SchemeObject):
             buffer = buffer + ' . ' + str(self.cdr)
         return buffer
 
+    def toArray(self):
+        array = []
+        car = self.car
+        array.append(car)
+        cdr = self.cdr
+        if cdr.type == 'schemeNil':
+            return array
+        if cdr.type != 'schemeCons':
+            array.append(cdr)
+            return tuple(array)
+        array.extend(cdr.toArray())
+        return array
 
 
 class SchemeNumber(SchemeObject):
