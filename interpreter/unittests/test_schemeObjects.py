@@ -99,8 +99,8 @@ class SchemeCons(TestCase):
         third = scheme.SchemeCons('hello', 'world')
 
         self.assertIsNot(first, second, 'schemeCons should not be singleton.')
-        self.assertNotEqual(first, second, 'schemeCons function "__eq__" does not work: not equal schemeCons are equal.')
-        self.assertEqual(first, third, 'schemeCons function "__eq__" does not work: equal schemeCons are not equal.')
+        self.assertNotEqual(first, second, 'schemeCons function "__eq__" does not work: schemeCons can only equal itself.')
+        self.assertNotEqual(first, third, 'schemeCons function "__eq__" does not work: schemeCons can only equal itself.')
 
     def test_car_cdr_nested(self):
         innerCar = scheme.SchemeString('Hello')

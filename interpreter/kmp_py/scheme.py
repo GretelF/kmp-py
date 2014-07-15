@@ -69,7 +69,7 @@ class SchemeCons(SchemeObject):
         self.type = 'schemeCons'
 
     def __eq__(self, other):
-        return self.type == other.type and self.car == other.car and self.cdr == other.cdr
+        return self is other
 
     def __str__(self):
         buffer = '('
