@@ -91,7 +91,11 @@ class SchemeReader(TestCase):
         string = '(1 2 3)))))))))'
         stream = SchemeStringStream(string)
         obj = r.read(stream)
-        self.assertRaises(schemeExceptions.InvalidInputException,r.read,stream)
+        self.assertRaises(schemeExceptions.InvalidInputException, r.read, stream)
+
+        string = '('
+        stream = SchemeStringStream(string)
+        self.assertRaises(schemeExceptions.EOFException, r.read, stream)
 
     def test_read_function(self):
         r = reader.SchemeReader()
@@ -104,3 +108,39 @@ class SchemeReader(TestCase):
         r = reader.SchemeReader()
         string = '(cons 1 "hello)'
         self.assertRaises(schemeExceptions.EOFException, r.read, SchemeStringStream(string))
+
+    def test_checkSyntax_whitespaces(self):
+        r = reader.SchemeReader()
+        string = '\n\t\t\t\t       \r\r\b\n\n'
+        stream = SchemeStringStream(string)
+        syntaxResult = r.checkSyntax(stream)
+        self.assertTrue(syntaxResult.isBalanced(), 'stream with whitespace only should be complete')
+        self.assertTrue(syntaxResult.isValid(), 'stream with whitespace only should be valid' )
+
+    def test_checkSyntax_openingParenthesisOnly(self):
+        r = reader.SchemeReader()
+        string = '('
+        stream = SchemeStringStream(string)
+        syntaxResult = r.checkSyntax(stream)
+        self.assertFalse(syntaxResult.isBalanced(), 'stream with one opening parenthesis should not be complete')
+        self.assertEqual(syntaxResult.balance, 1, 'stream with one opening parenthesis should have balance 1')
+        self.assertTrue(syntaxResult.isValid(), 'stream with one opening parenthesis should be valid')
+
+    def test_checkSyntax_closingParenthesisOnly(self):
+        r = reader.SchemeReader()
+        string = ')'
+        stream = SchemeStringStream(string)
+        syntaxResult = r.checkSyntax(stream)
+        self.assertFalse(syntaxResult.isBalanced(), 'stream with one closing parenthesis should not be complete')
+        self.assertEqual(syntaxResult.balance, -1, 'stream with one closing parenthesis should have balance -1')
+        self.assertFalse(syntaxResult.isValid(), 'stream with one closing parenthesis should not be valid')
+
+    def test_checkSyntax_complex(self):
+        r = reader.SchemeReader()
+        string = '(define x (cons 1 2)))'
+        stream = SchemeStringStream(string)
+        syntaxResult = r.checkSyntax(stream)
+        self.assertFalse(syntaxResult.isBalanced(), 'stream with one closing parenthesis should not be complete')
+        self.assertEqual(syntaxResult.balance, -1, 'stream with one closing parenthesis should have balance -1')
+        self.assertFalse(syntaxResult.isValid(), 'stream with one closing parenthesis should not be valid')
+
