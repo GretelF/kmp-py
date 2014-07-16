@@ -12,6 +12,19 @@ def eval_string(string, env = evaluator.SchemeEvaluator.globalEnv):
     return e.evaluate(obj, env)
 
 class SchemeEvaluator(TestCase):
+    def test_evaluate_noEnv(self):
+        initialize.initialize()
+        evaluator.SchemeEvaluator.globalEnv.addBinding(SchemeSymbol('a'), SchemeNumber(3))
+        obj = evaluator.SchemeEvaluator().evaluate(SchemeSymbol('a'))
+        self.assertEqual(obj.type, 'schemeNumber', 'evaluate should find a in the global environment. a should be bound to schemeNumber')
+        self.assertEqual(obj.value, 3, 'a should be bound to 3 in global Environment.')
+
+    def test_eval_noProcedureInList(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '("hello" 1 2)')
+
+    def test_eval_noBindingFound(self):
+        self.assertRaises(schemeExceptions.NoBindingException, eval_string, 'noBinding')
+
     def test_eval_number(self):
         obj = eval_string('1')
         self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
@@ -114,7 +127,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeTrue', 'A schemeTrue was expected. Got a {0} instead'.format(obj.type))
 
     def test_eval_no_builtinfunction(self):
-        self.assertRaises(schemeExceptions.NoBindingException, eval_string, '(% 2 3)')
+        self.assertRaises(schemeExceptions.NoBindingException, eval_string, '(NoBuiltinFunction 2 3)')
 
     def test_eval_cons(self):
         obj = eval_string('(cons 2 3)')

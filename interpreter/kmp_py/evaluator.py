@@ -24,12 +24,10 @@ class SchemeEvaluator(SchemeSingleton):
             if (retVal):
                 return retVal
             else:
-                if(env == self.globalEnv):
-                    raise schemeExceptions.NoBindingException("No binding found for symbol {0} in the global environment.")
-                raise schemeExceptions.NoBindingException("No binding found for symbol {0} in environment {1}".format(str(obj), str(env)))
+                raise schemeExceptions.NoBindingException("No binding found for symbol {0}".format(str(obj)))
         elif(obj.type == 'schemeCons'):
             if not obj.car.type == 'schemeSymbol':
-                raise schemeExceptions.InvalidInputException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
+                raise schemeExceptions.ArgumentTypeException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
 
             proc = self.evaluate(obj.car, env)
             retVal = SchemeVoid()
