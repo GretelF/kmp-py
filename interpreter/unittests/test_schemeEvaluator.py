@@ -161,6 +161,9 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
 
+    def test_eval_print_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(print 1 2 3 4)')
+
     def test_eval_eq_arithmetic(self):
         obj = eval_string('(= 1 1)')
         self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
