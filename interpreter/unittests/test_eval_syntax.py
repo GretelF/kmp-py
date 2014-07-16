@@ -16,8 +16,14 @@ class SchemeEvalSyntax(TestCase):
     def test_eval_if(self):
         obj = eval_string('(if #t 1 "hello")')
         self.assertIsNotNone(obj, 'syntax if should not return None')
-        self.assertEqual(obj.type, 'schemeNumber', 'the expression (if #t 1 "hello") should evaluate to schemeNumber 1')
+        self.assertEqual(obj.type, 'schemeNumber', 'the expression (if #t 1 "hello") should evaluate to type schemeNumber')
         self.assertEqual(obj.value, 1, 'the expression (if #t 1 "hello") should evaluate to schemeNumber 1')
+
+    def test_eval_if_evalElsePart(self):
+        obj = eval_string('(if #f 1 "hello")')
+        self.assertIsNotNone(obj, 'syntax if should not return None')
+        self.assertEqual(obj.type, 'schemeString', 'the expression (if #f 1 "hello") should evaluate to type schemeString')
+        self.assertEqual(obj.value, "hello", 'the expression (if #f 1 "hello") should evaluate to schemeString "hello"')
 
     def test_eval_if_elsePartIsNotEvaluated(self):
         obj = eval_string('(if #t 1 (aSymbolThatCannotPossiblyHaveABindingAndWillNeverBeEvaluated x y z))')

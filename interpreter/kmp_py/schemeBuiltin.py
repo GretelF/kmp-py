@@ -13,7 +13,7 @@ def builtin_sub(evaluatedArgs):
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure -'. format(str(operand)))
         retVal -= operand.value
     return SchemeNumber(retVal)
 
@@ -21,7 +21,7 @@ def builtin_mul(evaluatedArgs):
     retVal = 1
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure *'. format(str(operand)))
         retVal *= operand.value
     return SchemeNumber(retVal)
 
@@ -29,7 +29,7 @@ def builtin_div(evaluatedArgs):
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /'. format(str(operand)))
         retVal /= operand.value
     return SchemeNumber(retVal)
 
