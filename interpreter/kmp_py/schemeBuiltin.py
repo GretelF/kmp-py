@@ -112,7 +112,7 @@ def builtin_lambda(unevaluatedArgs, env):
     lambdaBody = unevaluatedArgs[1:]
     if lambdaArguments.type not in ('schemeCons', 'schemeNil'):                 # TODO: Maybe too strict. What about Symbols?
         raise schemeExceptions.ArgumentTypeException('lambda expects a list (cons) or nil as first argument.')
-    return SchemeUserDefinedFunction(lambdaArguments.toArray(),lambdaBody, env)
+    return SchemeUserDefinedFunction(lambdaArguments.toArray(),lambdaBody, SchemeEnvironment(env))
 
 def builtin_if(unevaluatedArgs, env):
     if len(unevaluatedArgs) != 3:

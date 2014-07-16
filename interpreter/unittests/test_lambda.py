@@ -28,7 +28,7 @@ class test_Lambdas(TestCase):
 
         obj2 = eval_string('(lambda (a b c) 1 2 3)')
         self.assertEqual(obj2.arglist, [SchemeSymbol('a'), SchemeSymbol('b'), SchemeSymbol('c')], 'lambda should have arglist [a,b,c]')
-        self.assertEqual(obj2.body,[SchemeNumber(1), SchemeNumber(2), SchemeNumber(3)], 'lambda should have body [1, 2, 3]' )
+        self.assertEqual(obj2.bodylist,[SchemeNumber(1), SchemeNumber(2), SchemeNumber(3)], 'lambda should have body [1, 2, 3]' )
 
     def test_lambda_tooFewArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(lambda x)')

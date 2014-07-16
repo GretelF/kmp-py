@@ -1,5 +1,6 @@
 from interpreter.kmp_py.schemeExceptions import *
 
+
 class SchemeObject:
     def __init__(self):
         self.type = 'schemeObject'
@@ -158,20 +159,31 @@ class SchemeSymbol(SchemeObject):
 
 
 class SchemeUserDefinedFunction(SchemeObject):
-    def __init__(self, arglist, body, env, name=None ):
+    def __init__(self, arglist, bodylist, env, name=None ):
         super().__init__()
         self.name = name
         self.arglist = arglist
-        self.body = body
+        self.bodylist = bodylist
         self.env = env
         self.type = 'schemeUserDefinedFunction'
 
+    def call(self, args):
+        from interpreter.kmp_py import evaluator     # resolves circular imports.
+        e = evaluator.SchemeEvaluator()
+
+        for sym,val in zip(self.arglist, args):
+            self.env.addBinding(sym,val)
+        retVal = SchemeVoid()
+        for bodyPart in self.bodylist:
+            retVal = e.evaluate(bodyPart, self.env)
+        return retVal
+
 
 class SchemeBuiltinFunction(SchemeObject):
-    def __init__(self, name, func):
+    def __init__(self, name, callback):
         super().__init__()
         self.name = name
-        self.func = func
+        self.call = callback
         self.type = 'schemeBuiltinFunction'
 
 

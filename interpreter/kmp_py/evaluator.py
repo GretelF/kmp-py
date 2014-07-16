@@ -1,5 +1,5 @@
 from interpreter.kmp_py import schemeExceptions
-from interpreter.kmp_py.scheme import *
+from interpreter.kmp_py.scheme import SchemeVoid, SchemeSingleton, SchemeEnvironment
 
 class SchemeEvaluator(SchemeSingleton):
 
@@ -28,7 +28,7 @@ class SchemeEvaluator(SchemeSingleton):
         elif(obj.type == 'schemeCons'):
             proc = self.evaluate(obj.car, env)
             retVal = SchemeVoid()
-            if proc.type == 'schemeBuiltinFunction':
+            if proc.type in ('schemeBuiltinFunction', 'schemeUserDefinedFunction'):
                 evaluatedArgsArray = []
                 unevaluatedArgs = obj.cdr
                 unevaluatedArgsArray = []
@@ -36,15 +36,13 @@ class SchemeEvaluator(SchemeSingleton):
                     unevaluatedArgsArray = unevaluatedArgs.toArray()
                 for arg in unevaluatedArgsArray:
                     evaluatedArgsArray.append(self.evaluate(arg, env))
-                retVal = proc.func(evaluatedArgsArray)
+                retVal = proc.call(evaluatedArgsArray)
             elif (proc.type == 'schemeBuiltinSyntax'):
                 unevaluatedArgs = obj.cdr
                 unevaluatedArgsArray = []
                 if unevaluatedArgs.type == 'schemeCons':
                     unevaluatedArgsArray = unevaluatedArgs.toArray()
                 retVal = proc.func(unevaluatedArgsArray, env)
-            elif proc.type == 'schemeUserDefinedFunction':
-                pass
             else:
                 raise schemeExceptions.ArgumentTypeException('First argument has to be syntax or procedure')
             return retVal
