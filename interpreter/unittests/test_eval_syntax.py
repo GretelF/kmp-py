@@ -53,6 +53,13 @@ class SchemeEvalSyntax(TestCase):
     def test_eval_define_noArgument(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(define)')
 
+    def test_eval_define_evaluateSecondArg(self):
+        initialize.initialize()
+        eval_string('(define a 1)')
+        eval_string('(define b a)')
+        obj = eval_string('b')
+        self.assertEqual(obj.type, 'schemeNumber', 'b should be bound to type schemeNumber')
+        self.assertEqual(obj.value, 1, 'b should be bound to schemeNumber 1')
 
     def test_eval_set(self):
         initialize.initialize()
