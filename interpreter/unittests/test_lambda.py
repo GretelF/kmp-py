@@ -51,11 +51,34 @@ class test_Lambdas(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'the lambda should return a type schemeNumber')
         self.assertEqual(obj.value, 1, 'the lambda should return schemeNumber 1')
 
-    def test_lambda_returnLambdaArgument(self):
+    def test_lambda_call_returnLambdaArgument(self):
         lambdaObject = eval_string('(lambda (n) n)')
         obj = call_lambda(lambdaObject, '10')                                           # call with argument 10
         self.assertEqual(obj.type, 'schemeNumber', 'the lambda should return the type of the object, that was passed as argument')
         self.assertEqual(obj.value, 10, '10 was passed as argument, so schemeNumber 10 should be returned.')
+
+    def test_lambda_call_tooManyArguments(self):
+        lambdaObject = eval_string('(lambda (n) n)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, call_lambda, lambdaObject, '10 20 30')
+
+    def test_lambda_call_tooFewArguments(self):
+        lambdaObject = eval_string('(lambda (n) n)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, call_lambda, lambdaObject)
+
+    def test_lambda_makeAdder(self):
+        initialize.initialize()
+        eval_string('(define make-adder (lambda(n) (lambda(x) (+ x n))))')
+        eval_string('(define add10 (make-adder 10))')
+        lambdaObject = eval_string('add10')
+        self.assertRaises(schemeExceptions.NoBindingException, eval_string, 'n')            # no global n
+        obj = call_lambda(lambdaObject, '5')
+        self.assertEqual(obj.type, 'schemeNumber', 'lambda should return type schemeNumber.')
+        self.assertEqual(obj.value, 15, 'lambda should return schemeNumber 15.')
+
+
+
+
+
 
 
 

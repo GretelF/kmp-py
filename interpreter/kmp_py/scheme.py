@@ -171,6 +171,8 @@ class SchemeUserDefinedFunction(SchemeObject):
         from interpreter.kmp_py import evaluator     # resolves circular imports.
         e = evaluator.SchemeEvaluator()
 
+        if len(args)!=len(self.arglist):
+            raise ArgumentCountException('function {0} expects {1} arguments, got {2}'.format(self.name, len(self.arglist), len(args)))
         for sym,val in zip(self.arglist, args):
             self.env.addBinding(sym,val)
         retVal = SchemeVoid()
