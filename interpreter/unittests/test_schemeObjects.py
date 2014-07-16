@@ -5,7 +5,18 @@ from interpreter.kmp_py.scheme import *
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
 initialize.initialize()
 
+class test_SchemeObject(TestCase):
+    def test_isTrue(self):
+        obj = SchemeObject()
+        self.assertTrue(obj.isTrue(), 'schemeObject should return true for isTrue()')
 
+    def test_isFalse(self):
+        obj = SchemeObject()
+        self.assertFalse(obj.isFalse(), 'schemeObject should return false for isFalse()')
+
+    def test_isNil(self):
+        obj = SchemeObject()
+        self.assertFalse(obj.isNil(), 'schemeObject should return false for isNil()')
 
 class test_SchemeFalse(TestCase):
 
@@ -18,6 +29,13 @@ class test_SchemeFalse(TestCase):
         false = SchemeFalse()
         self.assertEqual(str(false), '#f', 'schemeFalse function __str__ does not work.')
 
+    def test_isFalse(self):
+        false = SchemeFalse()
+        self.assertTrue(false.isFalse(), 'SchemeFalse should return true for isFalse')
+
+    def test_isTrue(self):
+        false = SchemeFalse()
+        self.assertFalse(false.isTrue(), 'SchemeFalse should return false for isTrue()')
 
 class test_SchemeTrue(TestCase):
     def test_singleton(self):
@@ -39,13 +57,25 @@ class test_SchemeNil(TestCase):
     def test_singleton(self):
         firstNil = SchemeNil()
         secondNil = SchemeNil()
-
         self.assertIs(firstNil, secondNil, 'schemeNil should be singleton.')
 
     def test_str(self):
         nil = SchemeNil()
-        self.assertEqual(str(nil), '()', 'schemeSymbol function __str__ does not work.')
+        self.assertEqual(str(nil), '()', 'schemeNil function __str__ does not work.')
 
+    def test_isNil(self):
+        nil = SchemeNil()
+        self.assertTrue(nil.isNil(), 'SchemeNil should return for isNil()')
+
+class test_SchemeVoid(TestCase):
+    def test_singleton(self):
+        firstVoid = SchemeVoid()
+        secondVoid = SchemeVoid()
+        self.assertIs(firstVoid, secondVoid, 'schemeVoid should be singleton.')
+
+    def test_str(self):
+        void = SchemeVoid()
+        self.assertEqual(str(void), '', 'schemeVoid function __str__ does not work.')
 
 class test_SchemeString(TestCase):
     def test_object(self):
@@ -303,6 +333,14 @@ class test_SchemeEnvironment(TestCase):
         obj4 = SchemeCons(SchemeSymbol('x'), SchemeSymbol('y'))
         env.addBinding(sym4,obj4)
         self.assertEqual(env.getBinding(sym4), obj4, 'schemeEnvironment does not work')
+
+    def test_set_noSymbol(self):
+        env = SchemeEnvironment()
+        self.assertRaises(schemeExceptions.ArgumentTypeException, env.setBinding, SchemeNumber(4), SchemeString("Hello"))
+
+    def test_add_noSymbol(self):
+        env = SchemeEnvironment()
+        self.assertRaises(schemeExceptions.ArgumentTypeException, env.addBinding, SchemeString("hello"), SchemeNumber(3))
 
     def test_parent(self):
         env1 = SchemeEnvironment()

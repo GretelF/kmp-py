@@ -17,6 +17,9 @@ class SchemeObject:
     def isFalse(self):
         return False
 
+    def isNil(self):
+        return False
+
 class SchemeSingleton(SchemeObject):
     _instance = None
 
@@ -60,6 +63,9 @@ class SchemeNil(SchemeSingleton):
 
     def __str__(self):
         return '()'
+
+    def isNil(self):
+        return True
 
 
 class SchemeVoid(SchemeSingleton):
@@ -236,7 +242,7 @@ class SchemeEnvironment(SchemeObject):
 
     def setBinding(self, symbol, object):           # used for LISP function set!
         if(symbol.type != 'schemeSymbol'):          # check if symbol is actually a schemeSymbol
-            raise ArgumentTypeException("function addBinding requests SchemeSymbol")
+            raise ArgumentTypeException("function setBinding requests SchemeSymbol")
 
         if(symbol.value in self.bindings):
             self.bindings[symbol.value] = object
