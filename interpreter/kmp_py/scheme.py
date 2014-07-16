@@ -67,6 +67,9 @@ class SchemeNil(SchemeSingleton):
     def isNil(self):
         return True
 
+    def toArray(self):
+        return []
+
 
 class SchemeVoid(SchemeSingleton):
     def __init__(self):

@@ -26,9 +26,6 @@ class SchemeEvaluator(SchemeSingleton):
             else:
                 raise schemeExceptions.NoBindingException("No binding found for symbol {0}".format(str(obj)))
         elif(obj.type == 'schemeCons'):
-            if not obj.car.type == 'schemeSymbol':
-                raise schemeExceptions.ArgumentTypeException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
-
             proc = self.evaluate(obj.car, env)
             retVal = SchemeVoid()
             if proc.type == 'schemeBuiltinFunction':
@@ -46,8 +43,10 @@ class SchemeEvaluator(SchemeSingleton):
                 if unevaluatedArgs.type == 'schemeCons':
                     unevaluatedArgsArray = unevaluatedArgs.toArray()
                 retVal = proc.func(unevaluatedArgsArray, env)
-            else:                                                                   # UserDefinedFunction
+            elif proc.type == 'schemeUserDefinedFunction':
                 pass
+            else:
+                raise schemeExceptions.ArgumentTypeException('First argument has to be syntax or procedure')
             return retVal
         else:                                                                       #schemeTrue, schemeFalse, schemeNil, schemeNumber, schemeString,
             return obj

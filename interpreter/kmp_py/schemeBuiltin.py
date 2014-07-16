@@ -91,10 +91,17 @@ def builtin_begin(unevaluatedArgs, env):
 def builtin_define(unevaluatedArgs, env):
     if len(unevaluatedArgs) != 2:
         raise schemeExceptions.ArgumentCountException('define expects exactly 2 arguments.')
+
     symbol = unevaluatedArgs[0]
-    evaluatedValue = evaluate(unevaluatedArgs[1], env)
+    unevaluatedValue = unevaluatedArgs[1]
+
     if symbol.type != 'schemeSymbol':
         raise schemeExceptions.ArgumentTypeException('define expects schemeSymbol as first argument.')
+
+    evaluatedValue = evaluate(unevaluatedValue, env)
+    if evaluatedValue.type == 'schemeUserDefinedFunction' and evaluatedValue.name is None:
+        evaluatedValue.name = symbol.value
+
     env.addBinding(symbol, evaluatedValue)
     return SchemeVoid()
 
@@ -105,7 +112,7 @@ def builtin_lambda(unevaluatedArgs, env):
     lambdaBody = unevaluatedArgs[1:]
     if lambdaArguments.type not in ('schemeCons', 'schemeNil'):                 # TODO: Maybe too strict. What about Symbols?
         raise schemeExceptions.ArgumentTypeException('lambda expects a list (cons) or nil as first argument.')
-    return SchemeUserDefinedFunction(lambdaArguments,lambdaBody, env)
+    return SchemeUserDefinedFunction(lambdaArguments.toArray(),lambdaBody, env)
 
 def builtin_if(unevaluatedArgs, env):
     if len(unevaluatedArgs) != 3:
