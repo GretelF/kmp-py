@@ -36,6 +36,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeFalse', '#f should evaluate to schemeFalse')
 
     def test_eval_symbol(self):
+        initialize.initialize()
         env = SchemeEnvironment()
         sym1 = SchemeSymbol('a')
         env.addBinding(sym1, SchemeNumber(10))
@@ -44,6 +45,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.value, 10, "The Binding of the symbol 'a' does not have the right value. Should be 10, is {0}".format(obj.value))
 
     def test_eval_symbol_no_binding(self):
+        initialize.initialize()
         env = SchemeEnvironment()
         sym1 = SchemeSymbol('a')
         env.addBinding(sym1, SchemeNumber(10))
@@ -70,6 +72,9 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Adding two numbers should result in another number.')
         self.assertEqual(obj.value, 2, '(+ -3 5) should result in 2')
 
+    def test_eval_plus_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(+ "hello" "world")')
+
     def test_eval_minus(self):
         obj = eval_string('(- 44 2)')
         self.assertEqual(obj.type, 'schemeNumber', 'Subtracting two numbers should result in another number.')
@@ -80,15 +85,24 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Subtracting two numbers should result in another number.')
         self. assertEqual(obj.value, -10, '(- 10 20) should result in -10')
 
+    def test_eval_minus_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(- "hello" "world")')
+
     def test_eval_mul(self):
         obj = eval_string('(* 10 20)')
         self.assertEqual(obj.type, 'schemeNumber', 'Multiplying two numbers should result in another number.')
         self.assertEqual(obj.value, 200, '(* 10 20) should result in 200')
 
+    def test_eval_mul_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(* "hello" "world")')
+
     def test_eval_div(self):
         obj = eval_string('(/ 20 10)')
         self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
         self.assertEqual(obj.value, 2, '(/ 20 10) should result in 2')
+
+    def test_eval_div_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(/ "hello" "world")')
 
     def test_eval_plus_mul(self):
         obj = eval_string('(+ (* 3 2) 2)')
@@ -118,20 +132,41 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(eq? (cons 1 2) (cons 1 2))')
         self.assertEqual(obj.type, 'schemeFalse', 'Two cons should not be same ')
 
+    def test_eval_cons_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(cons 1 2 3)')
+
     def test_eval_car(self):
         obj = eval_string('(car (cons 1 "hello"))')
         self.assertEqual(obj.type, 'schemeNumber', 'car of cons (1 "hello") should be of type schemeNumber.')
         self.assertEqual(obj.value, 1, 'car of cons (1 "hello") should be 1')
+
+    def test_eval_car_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(car (cons 1 2) (cons 2 3))')
+
+    def test_eval_car_noConsArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(car 1)')
 
     def test_eval_cdr(self):
         obj = eval_string('(cdr (cons "hello" 2))')
         self.assertEqual(obj.type, 'schemeNumber', 'cdr of cons ("hello" 2) should be of type schemeNumber.')
         self.assertEqual(obj.value, 2, 'car of cons ("hello" 2) should be 2')
 
-    def test_eval_print_string(self):
+    def test_eval_cdr_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(cdr (cons 1 2) (cons 1 2))')
+
+    def test_eval_cdr_noConsArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(cdr 1)')
+
+    def test_eval_print_string_retVal(self):
         obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
 
     def test_eval_eq_arithmetic(self):
         obj = eval_string('(= 1 1)')
         self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
+
+    def test_eval_eq_arithmetic_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(= 1 2 3)')
+
+    def test_eval_eq_arithmetic_noNumberArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(= "hello" "hello")')

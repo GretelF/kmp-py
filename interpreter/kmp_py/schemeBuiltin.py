@@ -55,7 +55,7 @@ def builtin_car(evaluatedArgs):
     if(len(evaluatedArgs)>1):
         raise schemeExceptions.ArgumentCountException('car expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
-        raise schemeExceptions.InvalidInputException('car expects cons as argument')
+        raise schemeExceptions.ArgumentTypeException('car expects cons as argument')
     return evaluatedArgs[0].car
 
 def builtin_cdr(evaluatedArgs):
