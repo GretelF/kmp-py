@@ -97,7 +97,13 @@ def builtin_define(unevaluatedArgs, env):
     return SchemeVoid()
 
 def builtin_lambda(unevaluatedArgs, env):
-    pass
+    if len(unevaluatedArgs) < 2:
+        raise schemeExceptions.ArgumentCountException('lambda expects at least 2 arguments.')
+    lambdaArguments = unevaluatedArgs[0]
+    lambdaBody = unevaluatedArgs[1:]
+    if lambdaArguments.type not in ('schemeCons', 'schemeNil'):                 # TODO: Maybe too strict. What about Symbols?
+        raise schemeExceptions.ArgumentTypeException('lambda expects a list (cons) or nil as first argument.')
+    return SchemeUserDefinedFunction(lambdaArguments,lambdaBody, env)
 
 def builtin_if(unevaluatedArgs, env):
     if len(unevaluatedArgs) != 3:

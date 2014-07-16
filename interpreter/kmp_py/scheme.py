@@ -155,7 +155,7 @@ class SchemeSymbol(SchemeObject):
 
 
 class SchemeUserDefinedFunction(SchemeObject):
-    def __init__(self, name, arglist, body, env):
+    def __init__(self, arglist, body, env, name=None ):
         super().__init__()
         self.name = name
         self.arglist = arglist
