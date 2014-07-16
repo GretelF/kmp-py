@@ -1,9 +1,9 @@
 
 class SchemeException(Exception):
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, msg):
+        self.msg = msg
     def __str__(self):
-        return repr(self.value)
+        return repr(self.msg)
 
 class EOFException(SchemeException):
     pass

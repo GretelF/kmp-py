@@ -1,5 +1,5 @@
 from unittest import TestCase
-from interpreter.kmp_py import initialize
+from interpreter.kmp_py import initialize, schemeExceptions
 from interpreter.kmp_py.scheme import *
 
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
@@ -340,6 +340,13 @@ class test_SchemeEnvironment(TestCase):
                                                 # even though it was bound to sym2
 
         self.assertEqual(envChild.getBinding(sym1), obj2, 'nested schemeEnvironments with identical symbols do not work')
+
+
+class test_SchemeException(TestCase):
+    def test_SchemeException(self):
+        obj = str(schemeExceptions.SchemeException('This is a SchemeException error message'))
+        self.assertEqual(obj, "'This is a SchemeException error message'")
+
 
 
 
