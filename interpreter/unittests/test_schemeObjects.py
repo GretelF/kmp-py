@@ -1,184 +1,185 @@
 from unittest import TestCase
-from interpreter.kmp_py import scheme, initialize
+from interpreter.kmp_py import initialize
+from interpreter.kmp_py.scheme import *
 
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
 initialize.initialize()
 
 
 
-class SchemeFalse(TestCase):
+class test_SchemeFalse(TestCase):
 
     def test_singleton(self):
-        first = scheme.SchemeFalse()
-        second = scheme.SchemeFalse()
+        first = SchemeFalse()
+        second = SchemeFalse()
         self.assertIs(first, second, 'schemeFalse is no singleton.')
 
     def test_str(self):
-        false = scheme.SchemeFalse()
+        false = SchemeFalse()
         self.assertEqual(str(false), '#f', 'schemeFalse function __str__ does not work.')
 
 
-class SchemeTrue(TestCase):
+class test_SchemeTrue(TestCase):
     def test_singleton(self):
-        first = scheme.SchemeTrue()
-        second = scheme.SchemeTrue()
+        first = SchemeTrue()
+        second = SchemeTrue()
         self.assertIs(first, second, 'schemeTrue is no singleton.')
 
     def test_isnotequal_schemeFalse(self):
-        f = scheme.SchemeFalse()
-        t = scheme.SchemeTrue()
+        f = SchemeFalse()
+        t = SchemeTrue()
         self.assertNotEqual(t, f, "schemeTrue and schemeFalse should not be equal!")
 
     def test_str(self):
-        true = scheme.SchemeTrue()
+        true = SchemeTrue()
         self.assertEqual(str(true), '#t', 'schemeTrue function __str__ does not work.')
 
 
-class SchemeNil(TestCase):
+class test_SchemeNil(TestCase):
     def test_singleton(self):
-        firstNil = scheme.SchemeNil()
-        secondNil = scheme.SchemeNil()
+        firstNil = SchemeNil()
+        secondNil = SchemeNil()
 
         self.assertIs(firstNil, secondNil, 'schemeNil should be singleton.')
 
     def test_str(self):
-        nil = scheme.SchemeNil()
+        nil = SchemeNil()
         self.assertEqual(str(nil), '()', 'schemeSymbol function __str__ does not work.')
 
 
-class SchemeString(TestCase):
+class test_SchemeString(TestCase):
     def test_object(self):
-        string = scheme.SchemeString('Hello')
+        string = SchemeString('Hello')
         self.assertEqual(string.value, 'Hello', 'schemeString does not work.')
 
     def test_str(self):
-        string = scheme.SchemeString('hello')
+        string = SchemeString('hello')
         self.assertEqual(str(string), '"hello"', 'schemeString function __str__ does not work.')
 
 
-class SchemeSymbol(TestCase):
+class test_SchemeSymbol(TestCase):
     def test_object(self):
-        firstSymbol = scheme.SchemeSymbol('x')
-        secondSymbol = scheme.SchemeSymbol('y')
+        firstSymbol = SchemeSymbol('x')
+        secondSymbol = SchemeSymbol('y')
         self.assertEqual(firstSymbol.value, 'x', 'schemeSymbol does not work.')
         self.assertIsNot(firstSymbol, secondSymbol, 'schemeSymbol with different values should not be same.')
 
     def test_sameInstance(self):
-        firstSymbol = scheme.SchemeSymbol('x')
-        secondSymbol = scheme.SchemeSymbol('x')
+        firstSymbol = SchemeSymbol('x')
+        secondSymbol = SchemeSymbol('x')
         self.assertIs(firstSymbol, secondSymbol, 'schemeSymbol with same value should be same.')
 
     def test_str(self):
-        symbol = scheme.SchemeSymbol('x')
+        symbol = SchemeSymbol('x')
         self.assertEqual(str(symbol), 'x', 'schemeSymbol function __str__ does not work.')
 
 
-class SchemeNumber(TestCase):
+class test_SchemeNumber(TestCase):
     def test_object(self):
-        x = scheme.SchemeNumber(3)
-        y = scheme.SchemeNumber(3)
+        x = SchemeNumber(3)
+        y = SchemeNumber(3)
 
         self.assertEqual(x.value, 3, 'schemeNumber does not work.')
         self.assertEqual(x, y, 'equal schemeNumbers are not equal.')
 
     def test_negative(self):
-        x = scheme.SchemeNumber(-1)
+        x = SchemeNumber(-1)
         self.assertEqual(x.value, -1, 'schemeNumber does not work for negative numbers')
 
     def test_sameInstance(self):                                            # TODO: do i really want this???
-        x = scheme.SchemeNumber(3)
-        y = scheme.SchemeNumber(3)
+        x = SchemeNumber(3)
+        y = SchemeNumber(3)
         self.assertIs(x, y, 'same schemeNumbers are not same.')
 
     def test_str(self):
-        x = scheme.SchemeNumber(3)
+        x = SchemeNumber(3)
         self.assertEqual(str(x), '3', 'schemeNumber function __str__ does not work.')
 
 
-class SchemeCons(TestCase):
+class test_SchemeCons(TestCase):
     def test_equal(self):
-        first = scheme.SchemeCons('hello', 'world')
-        second = scheme.SchemeCons('1', 2)
-        third = scheme.SchemeCons('hello', 'world')
+        first = SchemeCons('hello', 'world')
+        second = SchemeCons('1', 2)
+        third = SchemeCons('hello', 'world')
 
         self.assertIsNot(first, second, 'schemeCons should not be singleton.')
         self.assertNotEqual(first, second, 'schemeCons function "__eq__" does not work: schemeCons can only equal itself.')
         self.assertNotEqual(first, third, 'schemeCons function "__eq__" does not work: schemeCons can only equal itself.')
 
     def test_car_cdr_nested(self):
-        innerCar = scheme.SchemeString('Hello')
-        innerCdr = scheme.SchemeNumber(3)
-        outerCar = scheme.SchemeNumber(5)
+        innerCar = SchemeString('Hello')
+        innerCdr = SchemeNumber(3)
+        outerCar = SchemeNumber(5)
 
-        outerCdr = scheme.SchemeCons(innerCar, innerCdr)
-        outerCons = scheme.SchemeCons(outerCar, outerCdr)
+        outerCdr = SchemeCons(innerCar, innerCdr)
+        outerCons = SchemeCons(outerCar, outerCdr)
 
         self.assertEqual(outerCons.car.value, 5, 'schemeCons car does not work.')
         self.assertEqual(outerCons.cdr.car.value, 'Hello', 'nested schemeCons do not work.')
         self.assertEqual(outerCons.cdr.cdr.value, 3, 'nested schemeCons do not work.')
 
     def test_str(self):
-        car = scheme.SchemeString('hello')
-        cdr = scheme.SchemeNumber(3)
-        cons = scheme.SchemeCons(car, cdr)
+        car = SchemeString('hello')
+        cdr = SchemeNumber(3)
+        cons = SchemeCons(car, cdr)
         self.assertEqual(str(cons), '("hello" . 3)', 'schemeCons function __str__ does not work.')
 
     def test_str_nested(self):
-        innerCar = scheme.SchemeString('hello')
-        innerCdr = scheme.SchemeNumber(10)
-        outerCar = scheme.SchemeString('aaaaa')
+        innerCar = SchemeString('hello')
+        innerCdr = SchemeNumber(10)
+        outerCar = SchemeString('aaaaa')
 
-        innerCons = scheme.SchemeCons(innerCar, innerCdr)
-        outerCons = scheme.SchemeCons(outerCar, innerCons)
+        innerCons = SchemeCons(innerCar, innerCdr)
+        outerCons = SchemeCons(outerCar, innerCons)
 
         self.assertEqual(str(outerCons), '("aaaaa" "hello" . 10)', 'schemeCons function __str__ does not work for nested functions.')
 
     def test_str_nested_with_nil_as_last_cdr(self):
-        innerCar = scheme.SchemeNumber(3)
-        innerCdr = scheme.SchemeNil()
-        outerCar = scheme.SchemeNumber(5)
+        innerCar = SchemeNumber(3)
+        innerCdr = SchemeNil()
+        outerCar = SchemeNumber(5)
 
-        innerCons = scheme.SchemeCons(innerCar, innerCdr)
-        outerCons = scheme.SchemeCons(outerCar, innerCons)
+        innerCons = SchemeCons(innerCar, innerCdr)
+        outerCons = SchemeCons(outerCar, innerCons)
 
         self.assertEqual(str(outerCons), '(5 3)', 'schemeCons function __str__ does not work for nested functions.')
 
     def test_str_nested_with_nil_as_car(self):
-        innerCar = scheme.SchemeNil()
-        innerCdr = scheme.SchemeNumber(3)
-        outerCar = scheme.SchemeNumber(5)
+        innerCar = SchemeNil()
+        innerCdr = SchemeNumber(3)
+        outerCar = SchemeNumber(5)
 
-        innerCons = scheme.SchemeCons(innerCar, innerCdr)
-        outerCons = scheme.SchemeCons(outerCar, innerCons)
+        innerCons = SchemeCons(innerCar, innerCdr)
+        outerCons = SchemeCons(outerCar, innerCons)
 
         self.assertEqual(str(outerCons), '(5 () . 3)', 'schemeCons function __str__ does not work for nested functions.')
 
     def test_str_nested_with_cons_as_car(self):
-        innerCar = scheme.SchemeNumber(1)
-        innerCdr = scheme.SchemeNumber(3)
-        outerCdr = scheme.SchemeNumber(5)
+        innerCar = SchemeNumber(1)
+        innerCdr = SchemeNumber(3)
+        outerCdr = SchemeNumber(5)
 
-        innerCons = scheme.SchemeCons(innerCar, innerCdr)
-        outerCons = scheme.SchemeCons(innerCons, outerCdr)
+        innerCons = SchemeCons(innerCar, innerCdr)
+        outerCons = SchemeCons(innerCons, outerCdr)
 
         self.assertEqual(str(outerCons), '((1 . 3) . 5)', 'schemeCons function __str__ does not work for nested functions.')
 
     def test_to_array_regular_list(self):
-        one = scheme.SchemeNumber(1)
-        two = scheme.SchemeNumber(2)
-        cons = scheme.SchemeCons(one, scheme.SchemeCons(two, scheme.SchemeNil()))
+        one = SchemeNumber(1)
+        two = SchemeNumber(2)
+        cons = SchemeCons(one, SchemeCons(two, SchemeNil()))
         obj = cons.toArray()
 
         self.assertEqual(type(obj), list, 'toArray should return a list for regular lists.' )
         self.assertEqual(obj, [one, two], 'toArray should return a list, that represents the cons (1 2) as [1, 2].')
 
     def test_to_array_irregular_list(self):
-        one = scheme.SchemeNumber(1)
-        three = scheme.SchemeNumber(3)
-        five = scheme.SchemeNumber(5)
+        one = SchemeNumber(1)
+        three = SchemeNumber(3)
+        five = SchemeNumber(5)
 
-        innerCons = scheme.SchemeCons(one, three)
-        outerCons = scheme.SchemeCons(innerCons, five)
+        innerCons = SchemeCons(one, three)
+        outerCons = SchemeCons(innerCons, five)
 
         obj = outerCons.toArray()
 
@@ -187,15 +188,15 @@ class SchemeCons(TestCase):
 
 
 
-class SchemeStringStream(TestCase):
+class test_SchemeStringStream(TestCase):
     def test_peek(self):
         inString = ('abcde')
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         self.assertEqual(stream.peek(), 'a', 'schemeStringStream function peek does not work')
 
     def test_next(self):
         inString = 'ab'
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         stream.next()
         self.assertEqual(stream.peek(), 'b', 'schemeStringStream function next does not work')
         stream.next()
@@ -204,7 +205,7 @@ class SchemeStringStream(TestCase):
 
     def test_peek_at_end_of_stream(self):
         inString = 'a'
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         self.assertEqual(stream.peek(), 'a', 'schemeStringStream faild to peek character')
         stream.next()
         self.assertTrue(stream.isAtEndOfStream(), 'schemeStringStream should be at end of Stream')
@@ -215,25 +216,25 @@ class SchemeStringStream(TestCase):
         inString2 = '    hello'
         inString3 = '  \t\t\t  hello'
         inString4 = '\n\r\t    hello   world      '
-        stream = scheme.SchemeStringStream(inString1)
+        stream = SchemeStringStream(inString1)
         stream.skipSeparators()
         self.assertEqual(stream.peek(), 'h', 'schemeStringStream function skipSeparators does not work')
 
-        stream = scheme.SchemeStringStream(inString2)
+        stream = SchemeStringStream(inString2)
         stream.skipSeparators()
         self.assertEqual(stream.peek(), 'h', 'schemeStringStream function skipSeparators does not work')
 
-        stream = scheme.SchemeStringStream(inString3)
+        stream = SchemeStringStream(inString3)
         stream.skipSeparators()
         self.assertEqual(stream.peek(), 'h', 'schemeStringStream function skipSeparators does not work')
 
-        stream = scheme.SchemeStringStream(inString4)
+        stream = SchemeStringStream(inString4)
         stream.skipSeparators()
         self.assertEqual(stream.peek(), 'h', 'schemeStringStream function skipSeparators does not work')
 
     def test_isAtEndofStream(self):
         inString = '       \t    a'
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         stream.skipSeparators()
         stream.next()
         self.assertTrue(stream.isAtEndOfStream(), 'schemeStringStream function isAtEndOfStream does not work')
@@ -241,7 +242,7 @@ class SchemeStringStream(TestCase):
 
     def test_seek(self):
         inString = 'abc'
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         stream.seek(2)
         self.assertEqual(stream.peek(), 'c', 'schemeStringStream function seek does not work')
         stream.seek(-2)
@@ -261,7 +262,7 @@ class SchemeStringStream(TestCase):
 
     def test_whole(self):
         inString = '  \t hello     world \n\n xxx'
-        stream = scheme.SchemeStringStream(inString)
+        stream = SchemeStringStream(inString)
         self.assertEqual(stream.peek(), ' ', 'schemeStringStream function peek does not work')
         stream.next()
         self.assertEqual(stream.peek(), ' ', 'schemeStringStream function next does not work')
@@ -282,37 +283,37 @@ class SchemeStringStream(TestCase):
         self.assertEqual(stream.peek(), 'o', 'schemeStringStream function next does not work')
 
 
-class SchemeEnvironment(TestCase):
+class test_SchemeEnvironment(TestCase):
     def test(self):
-        env = scheme.SchemeEnvironment()
-        sym1 = scheme.SchemeSymbol('a')
-        sym2 = scheme.SchemeSymbol('b')
-        env.addBinding(sym1, scheme.SchemeNumber(10))
-        env.addBinding(sym2, scheme.SchemeNumber(20))
+        env = SchemeEnvironment()
+        sym1 = SchemeSymbol('a')
+        sym2 = SchemeSymbol('b')
+        env.addBinding(sym1, SchemeNumber(10))
+        env.addBinding(sym2, SchemeNumber(20))
 
         self.assertEqual(env.getBinding(sym1).value, 10, 'schemeEnvironment does not work')
         x = env.getBinding(sym1).value + env.getBinding(sym2).value
         self.assertEqual(x, 30, 'schemeEnvironment does not work')
 
-        sym3 = scheme.SchemeSymbol('c')
-        env.addBinding(sym3, scheme.SchemeString('hello'))
+        sym3 = SchemeSymbol('c')
+        env.addBinding(sym3, SchemeString('hello'))
         self.assertEqual(str(env.getBinding(sym3)), '"hello"', 'schemeEnvironment does not work')
 
-        sym4 = scheme.SchemeSymbol('d')
-        obj4 = scheme.SchemeCons(scheme.SchemeSymbol('x'), scheme.SchemeSymbol('y'))
+        sym4 = SchemeSymbol('d')
+        obj4 = SchemeCons(SchemeSymbol('x'), SchemeSymbol('y'))
         env.addBinding(sym4,obj4)
         self.assertEqual(env.getBinding(sym4), obj4, 'schemeEnvironment does not work')
 
     def test_parent(self):
-        env1 = scheme.SchemeEnvironment()
-        env2 = scheme.SchemeEnvironment(env1)
+        env1 = SchemeEnvironment()
+        env2 = SchemeEnvironment(env1)
 
-        sym1 = scheme.SchemeSymbol('a')
-        sym2 = scheme.SchemeSymbol('b')
+        sym1 = SchemeSymbol('a')
+        sym2 = SchemeSymbol('b')
 
-        obj1 = scheme.SchemeNumber(10)
-        obj2 = scheme.SchemeNumber(20)
-        obj3 = scheme.SchemeNumber(30)
+        obj1 = SchemeNumber(10)
+        obj2 = SchemeNumber(20)
+        obj3 = SchemeNumber(30)
 
         env1.addBinding(sym1, obj1)
         env1.addBinding(sym2, obj2)
@@ -323,16 +324,16 @@ class SchemeEnvironment(TestCase):
         self.assertEqual(env2.getBinding(sym2), obj3, 'nested schemeEnvironments do not work')
 
     def test_identical_symbol(self):
-        envParent = scheme.SchemeEnvironment()
-        envChild = scheme.SchemeEnvironment(envParent)
+        envParent = SchemeEnvironment()
+        envChild = SchemeEnvironment(envParent)
 
-        sym1 = scheme.SchemeSymbol('a')         # both should be same instance.
-        sym2 = scheme.SchemeSymbol('a')
+        sym1 = SchemeSymbol('a')         # both should be same instance.
+        sym2 = SchemeSymbol('a')
 
         self.assertIs(sym1, sym2, 'schemeSymbols should be identical, but are not.')
 
-        obj1 = scheme.SchemeNumber(10)
-        obj2 = scheme.SchemeNumber(20)
+        obj1 = SchemeNumber(10)
+        obj2 = SchemeNumber(20)
 
         envParent.addBinding(sym1, obj1)        # therefore those two Objects should be bind to the same symbol
         envChild.addBinding(sym2, obj2)         # and so envChild can only see obj2 if asked for the binding to sym1,

@@ -1,4 +1,5 @@
-from interpreter.kmp_py import reader, evaluator,scheme,schemeExceptions, initialize
+from interpreter.kmp_py import reader, evaluator,schemeExceptions, initialize
+from interpreter.kmp_py.scheme import *
 from unittest import TestCase
 
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
@@ -7,7 +8,7 @@ initialize.initialize()
 def eval_string(string, env = evaluator.SchemeEvaluator.globalEnv):
     r = reader.SchemeReader()
     e = evaluator.SchemeEvaluator()
-    obj = r.read(scheme.SchemeStringStream(string))
+    obj = r.read(SchemeStringStream(string))
     return e.evaluate(obj, env)
 
 class SchemeEvaluator(TestCase):
@@ -35,17 +36,17 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeFalse', '#f should evaluate to schemeFalse')
 
     def test_eval_symbol(self):
-        env = scheme.SchemeEnvironment()
-        sym1 = scheme.SchemeSymbol('a')
-        env.addBinding(sym1, scheme.SchemeNumber(10))
+        env = SchemeEnvironment()
+        sym1 = SchemeSymbol('a')
+        env.addBinding(sym1, SchemeNumber(10))
         obj = eval_string('a', env)
         self.assertEqual(obj.type, 'schemeNumber', 'A symbol should evaluate to its binding.')
         self.assertEqual(obj.value, 10, "The Binding of the symbol 'a' does not have the right value. Should be 10, is {0}".format(obj.value))
 
     def test_eval_symbol_no_binding(self):
-        env = scheme.SchemeEnvironment()
-        sym1 = scheme.SchemeSymbol('a')
-        env.addBinding(sym1, scheme.SchemeNumber(10))
+        env = SchemeEnvironment()
+        sym1 = SchemeSymbol('a')
+        env.addBinding(sym1, SchemeNumber(10))
         self.assertRaises(schemeExceptions.NoBindingException, eval_string, 'b', env)
 
     def test_eval_eq(self):

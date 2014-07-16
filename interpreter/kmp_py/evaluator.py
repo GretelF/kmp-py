@@ -1,12 +1,13 @@
-from interpreter.kmp_py import scheme, schemeExceptions
+from interpreter.kmp_py import schemeExceptions
+from interpreter.kmp_py.scheme import *
 
-class SchemeEvaluator(scheme.SchemeSingleton):
+class SchemeEvaluator(SchemeSingleton):
 
-    syntaxEnv = scheme.SchemeEnvironment()
+    syntaxEnv = SchemeEnvironment()
     #Bindings are added in schemeBuiltin.py
 
     # create global environment with builtin functions.
-    globalEnv = scheme.SchemeEnvironment()
+    globalEnv = SchemeEnvironment()
     globalEnv.parent = syntaxEnv
     #Bindings are added in schemeBuiltin.py
 
@@ -31,7 +32,7 @@ class SchemeEvaluator(scheme.SchemeSingleton):
                 raise schemeExceptions.InvalidInputException("First element of list has to be a procedure.")                #TODO: not symbol but procedure
 
             proc = self.evaluate(obj.car, env)
-            retVal = scheme.SchemeVoid()
+            retVal = SchemeVoid()
             if proc.type == 'schemeBuiltinFunction':
                 evaluatedArgsArray = []
                 unevaluatedArgs = obj.cdr

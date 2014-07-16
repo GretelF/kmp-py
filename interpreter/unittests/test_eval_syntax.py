@@ -1,4 +1,5 @@
-from interpreter.kmp_py import reader, evaluator,scheme,schemeExceptions, initialize
+from interpreter.kmp_py import reader, evaluator,schemeExceptions, initialize
+from interpreter.kmp_py.scheme import *
 from unittest import TestCase
 
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
@@ -7,7 +8,7 @@ initialize.initialize()
 def eval_string(string, env = evaluator.SchemeEvaluator.globalEnv):
     r = reader.SchemeReader()
     e = evaluator.SchemeEvaluator()
-    obj = r.read(scheme.SchemeStringStream(string))
+    obj = r.read(SchemeStringStream(string))
     return e.evaluate(obj, env)
 
 class SchemeEvalSyntax(TestCase):
@@ -35,7 +36,7 @@ class SchemeEvalSyntax(TestCase):
         obj = eval_string('(define b 3)')
         self.assertIsNotNone(obj, 'syntax define should not return None.')
         self.assertEqual(obj.type, 'schemeVoid','syntax define should return schemeVoid.')
-        self.assertEqual(eval_string('b'), scheme.SchemeNumber(3), 'syntax define does not work. b should be bound to 3 in the global env.')
+        self.assertEqual(eval_string('b'), SchemeNumber(3), 'syntax define does not work. b should be bound to 3 in the global env.')
 
     def test_eval_define_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(define 1 2 3 4)')
@@ -53,7 +54,7 @@ class SchemeEvalSyntax(TestCase):
         obj = eval_string('(set! x 42)')
         self.assertIsNotNone(obj, 'syntax set! should not return None.')
         self.assertEqual(obj.type, 'schemeVoid','syntax set! should return schemeVoid.')
-        self.assertEqual(eval_string('x'), scheme.SchemeNumber(42), 'syntax set! does not work. b should be bound to 42 in the global env.')
+        self.assertEqual(eval_string('x'), SchemeNumber(42), 'syntax set! does not work. b should be bound to 42 in the global env.')
 
     def test_eval_set_noBinding(self):
         initialize.initialize()

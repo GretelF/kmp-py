@@ -1,4 +1,5 @@
-from interpreter.kmp_py import scheme, schemeExceptions
+from interpreter.kmp_py import schemeExceptions
+from interpreter.kmp_py.scheme import *
 
 class SchemeReader():
     def __init__(self):
@@ -31,7 +32,7 @@ class SchemeReader():
             s += stream.peek()
             stream.next()
 
-        return scheme.SchemeString(s)
+        return SchemeString(s)
 
     def readAtom(self, stream):
         buffer = ''
@@ -41,9 +42,9 @@ class SchemeReader():
             stream.next()
             s = stream.peek()
         if(buffer.isdigit() or (buffer[0]=='-' and buffer[1:].isdigit())):              # reads positive or negative number
-            return scheme.SchemeNumber(int(buffer))
+            return SchemeNumber(int(buffer))
         else:
-            return scheme.SchemeSymbol(buffer)
+            return SchemeSymbol(buffer)
 
     def readList(self, stream):
 
@@ -52,10 +53,10 @@ class SchemeReader():
             s = stream.peek()
             if(s == ')'):
                 stream.next()
-                return scheme.SchemeNil()
+                return SchemeNil()
             car = self.read(stream)
             cdr = helper(stream)
-            return scheme.SchemeCons(car, cdr)
+            return SchemeCons(car, cdr)
 
 
 
