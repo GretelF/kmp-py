@@ -180,6 +180,9 @@ class SchemeUserDefinedFunction(SchemeObject):
             retVal = e.evaluate(bodyPart, self.env)
         return retVal
 
+    def __str__(self):
+        return '<UserDefinedFunction: {1}>'.format(self.type, self.name)
+
 
 class SchemeBuiltinFunction(SchemeObject):
     def __init__(self, name, callback):
@@ -188,6 +191,9 @@ class SchemeBuiltinFunction(SchemeObject):
         self.call = callback
         self.type = 'schemeBuiltinFunction'
 
+    def __str__(self):
+        return '<BuiltinFunction: {1}>'.format(self.type, self.name)
+
 
 class SchemeBuiltinSyntax(SchemeObject):
     def __init__(self, name, func):
@@ -195,6 +201,9 @@ class SchemeBuiltinSyntax(SchemeObject):
         self.name = name
         self.func = func
         self.type = 'schemeBuiltinSyntax'
+
+    def __str__(self):
+        return '<BuiltinSyntax: {1}>'.format(self.type, self.name)
 
 
 class SchemeStringStream(SchemeObject):
