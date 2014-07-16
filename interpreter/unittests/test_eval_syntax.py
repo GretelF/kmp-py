@@ -75,3 +75,14 @@ class SchemeEvalSyntax(TestCase):
 
     def test_eval_set_noArgument(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(set!)')
+
+    def test_eval_quote(self):
+        obj = eval_string('(quote 1)')
+        self.assertEqual(obj.type, 'schemeNumber', 'syntax quote should return the unevaluated Argument: schemeNumber 1')
+        self.assertEqual(obj.value, 1, 'syntax quote should return schemeNumber 1 for (quote 1)')
+        obj = eval_string('(quote a)')
+        self.assertEqual(obj.type, 'schemeSymbol', 'syntax quote should return the unevaluated Argument: schemeSymbol a')
+        self.assertEqual(obj.value, 'a', 'syntax quote should return schemeSymbol a for (quote a)')
+
+    def test_eval_quote_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(quote 1 2 3)')

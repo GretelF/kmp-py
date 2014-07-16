@@ -58,14 +58,7 @@ class SchemeReader():
             cdr = helper(stream)
             return SchemeCons(car, cdr)
 
-
-
         stream.skipSeparators()
-        s = stream.peek()
-
-        if(s != '('):
-            schemeExceptions.InvalidInputException('readList expects "(" as first character of stream')
-
         stream.next()
         buffer = helper(stream)
 

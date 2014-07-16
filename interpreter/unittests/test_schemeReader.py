@@ -100,3 +100,7 @@ class SchemeReader(TestCase):
         self.assertEqual(obj.type, 'schemeCons', 'schemeReader can not read functions. Expected schemeCons, but got '+ obj.type)
         self.assertEqual(str(obj),'(define x (cons 1 (cons 2 nil)))', 'schemeReader can not read functions.' )
 
+    def test_read_string_EOF(self):
+        r = reader.SchemeReader()
+        string = '(cons 1 "hello)'
+        self.assertRaises(schemeExceptions.EOFException, r.read, SchemeStringStream(string))

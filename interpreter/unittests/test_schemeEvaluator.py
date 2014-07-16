@@ -132,7 +132,7 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(eq? (cons 1 2) (cons 1 2))')
         self.assertEqual(obj.type, 'schemeFalse', 'Two cons should not be same ')
 
-    def test_eval_cons_toManyArguments(self):
+    def test_eval_cons_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(cons 1 2 3)')
 
     def test_eval_car(self):
@@ -140,7 +140,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'car of cons (1 "hello") should be of type schemeNumber.')
         self.assertEqual(obj.value, 1, 'car of cons (1 "hello") should be 1')
 
-    def test_eval_car_toManyArguments(self):
+    def test_eval_car_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(car (cons 1 2) (cons 2 3))')
 
     def test_eval_car_noConsArgument(self):
@@ -151,7 +151,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'cdr of cons ("hello" 2) should be of type schemeNumber.')
         self.assertEqual(obj.value, 2, 'car of cons ("hello" 2) should be 2')
 
-    def test_eval_cdr_toManyArguments(self):
+    def test_eval_cdr_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(cdr (cons 1 2) (cons 1 2))')
 
     def test_eval_cdr_noConsArgument(self):
@@ -161,7 +161,7 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
 
-    def test_eval_print_toManyArguments(self):
+    def test_eval_print_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(print 1 2 3 4)')
 
     def test_eval_eq_arithmetic(self):

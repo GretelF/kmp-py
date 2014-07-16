@@ -77,9 +77,6 @@ def builtin_write():
 def builtin_display():
     pass
 
-def builtin_quote():
-    pass
-
 
 
 # Syntax
@@ -125,6 +122,11 @@ def builtin_set(unevaluatedArgs, env):
 def builtin_let(unevaluatedArgs, env):
     pass
 
+def builtin_quote(unevaluatedArgs, env):
+    if len(unevaluatedArgs)>1:
+        raise schemeExceptions.ArgumentCountException('quote expects exactly 1 argument.')
+    return unevaluatedArgs[0]
+
 
 
 
@@ -137,6 +139,7 @@ def initializeBindings():
     syntaxEnv.addBinding(SchemeSymbol('define'), SchemeBuiltinSyntax('define', builtin_define))
     syntaxEnv.addBinding(SchemeSymbol('set!'), SchemeBuiltinSyntax('set', builtin_set))
     syntaxEnv.addBinding(SchemeSymbol('let'), SchemeBuiltinSyntax('let', builtin_let))
+    syntaxEnv.addBinding(SchemeSymbol('quote'), SchemeBuiltinSyntax('quote', builtin_quote))
 
     globalEnv = evaluator.SchemeEvaluator.globalEnv
     globalEnv.addBinding(SchemeSymbol('+'), SchemeBuiltinFunction('add', builtin_add))
