@@ -1,5 +1,13 @@
+import sys
 from interpreter.kmp_py import schemeExceptions,evaluator
 from interpreter.kmp_py.scheme import *
+
+def builtin_exit(evaluatedArgs):
+    exitcode = 0
+    if len(evaluatedArgs)>0 and evaluatedArgs[0].type == 'schemeNumber':
+        exitcode = int(evaluatedArgs[0].value)
+    sys.exit(exitcode)
+
 
 def builtin_add(evaluatedArgs):
     retVal = 0
@@ -149,6 +157,7 @@ def builtin_quote(unevaluatedArgs, env):
 def initializeBindings():
     # add builtins to environments
     syntaxEnv = evaluator.SchemeEvaluator.syntaxEnv
+    syntaxEnv.addBinding(SchemeSymbol('exit'), SchemeBuiltinFunction('exit', builtin_exit))
     syntaxEnv.addBinding(SchemeSymbol('if'), SchemeBuiltinSyntax('if', builtin_if))
     syntaxEnv.addBinding(SchemeSymbol('lambda'), SchemeBuiltinSyntax('lambda', builtin_lambda))
     syntaxEnv.addBinding(SchemeSymbol('define'), SchemeBuiltinSyntax('define', builtin_define))
