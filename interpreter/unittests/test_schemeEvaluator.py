@@ -35,6 +35,16 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
         self.assertEqual(obj.value, -3, 'Evaluated number does not have the right value.')
 
+    def test_eval_float(self):
+        obj = eval_string('3.14')
+        self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
+        self.assertEqual(obj.value, 3.14, 'Evaluated number does not have the right value.')
+
+    def test_eval_float_negative(self):
+        obj = eval_string('-3.14')
+        self.assertEqual(obj.type, 'schemeNumber', 'A number should evaluate to itself.')
+        self.assertEqual(obj.value, -3.14, 'Evaluated number does not have the right value.')
+
     def test_eval_string(self):
         obj = eval_string('"hello"')
         self.assertEqual(obj.type, 'schemeString', 'A string should evaluate to itself.')
@@ -87,6 +97,16 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_plus_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(+ "hello" "world")')
+
+    def teest_eval_plus_float(self):
+        obj = eval_string('(+ 3.4 3)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Adding two numbers should result in another number, even if one is float.')
+        self.assertEqual(obj.value, 6.4, '(+ 3.4 3) should result in 6.4')
+
+    def teest_eval_plus_two_float(self):
+        obj = eval_string('(+ 3.4 1.2)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Adding two floats should result in schemeNumber.')
+        self.assertEqual(obj.value, 4.6, '(+ 3.4 1.2) should result in 4.6')
 
     def test_eval_minus(self):
         obj = eval_string('(- 44 2)')

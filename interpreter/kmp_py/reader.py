@@ -64,10 +64,17 @@ class SchemeReader():
         return SchemeString(s)
 
     def readAtom(self, stream):
-        def isNumber(string):
+        def isInteger(string):
             if string.startswith('-'):
                 string = string[1:]
             return string.isdigit()
+
+        def isFloat(string):
+            try:
+                float(string)
+                return True
+            except ValueError:
+                return False
 
         buffer = ''
         s = stream.peek()
@@ -76,8 +83,10 @@ class SchemeReader():
             stream.next()
             s = stream.peek()
 
-        if isNumber(buffer):              # reads positive or negative number
+        if isInteger(buffer):              # reads positive or negative number
             return SchemeNumber(int(buffer))
+        if isFloat(buffer):
+            return SchemeNumber(float(buffer))
         else:
             return SchemeSymbol(buffer)
 

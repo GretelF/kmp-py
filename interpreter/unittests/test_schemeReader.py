@@ -33,6 +33,18 @@ class SchemeReader(TestCase):
         self.assertEqual(obj2.value, -1, 'schemeReader does not work')
         self.assertEqual(str(obj2), '-1', 'schemeReader does not work')
 
+        obj3 = r.read(SchemeStringStream('3.4'))
+        self.assertEqual(obj3.type, 'schemeNumber', 'schemeReader does not work for floats. Expected type schemeNumber, but got '+ obj.type)
+        self.assertEqual(obj3.value, 3.4, 'schemeReader does not work for floats')
+        self.assertEqual(str(obj3), '3.4', 'schemeReader does not work for floats')
+
+        obj3 = r.read(SchemeStringStream('-3E5'))
+        self.assertEqual(obj3.type, 'schemeNumber', 'schemeReader does not work for negative floats. Expected type schemeNumber, but got '+ obj.type)
+        self.assertEqual(obj3.value, -3E5, 'schemeReader does not work for floats')
+        self.assertEqual(str(obj3), '-300000.0', 'schemeReader does not work for floats')
+
+
+
     def test_symbol(self):
         r = reader.SchemeReader()
         obj = r.read(SchemeStringStream('abc'))

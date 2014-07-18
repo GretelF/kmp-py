@@ -125,6 +125,19 @@ class test_SchemeNumber(TestCase):
         x = SchemeNumber(3)
         self.assertEqual(str(x), '3', 'schemeNumber function __str__ does not work.')
 
+    def test_float(self):
+        x = SchemeNumber(2.4)
+        self.assertEqual(x.value, 2.4, 'schemeNumber does not work for floats.')
+
+    def test_float_negative(self):
+        x = SchemeNumber(-1.4)
+        self.assertEqual(x.value, -1.4, 'schemeNumber does not work for negative floats.')
+
+    def test_float_str(self):
+        x = SchemeNumber(2.3)
+        self.assertEqual(str(x), '2.3', 'schemeNumber function __str__ does not work for floats.')
+
+
 
 class test_SchemeCons(TestCase):
     def test_equal(self):
