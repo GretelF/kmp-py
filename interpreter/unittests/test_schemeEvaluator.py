@@ -137,6 +137,38 @@ class SchemeEvaluator(TestCase):
     def test_eval_div_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(/ "hello" "world")')
 
+    def test_eval_gt(self):
+        obj = eval_string('(> 20 10)')
+        self.assertEqual(obj.type, 'schemeTrue', '20 is greater than 10, so (> 20 10) should result in schemeTrue.')
+
+        obj = eval_string('(> 10 20)')
+        self.assertEqual(obj.type, 'schemeFalse', '10 is not greater than 20, so (> 10 20) should result in schemeFalse.')
+
+        obj = eval_string('(>= 20 10)')
+        self.assertEqual(obj.type, 'schemeTrue', '20 is greater than 10, so (>= 20 10) should result in schemeTrue.')
+
+        obj = eval_string('(>= 10 20)')
+        self.assertEqual(obj.type, 'schemeFalse', '10 is greater than 20, so (>= 10 20) should result in schemeFalse.')
+
+        obj = eval_string('(>= 20 20)')
+        self.assertEqual(obj.type, 'schemeTrue', '20 equal to 20, so (>= 20 20) should result in schemeTrue.')
+
+    def test_eval_lt(self):
+        obj = eval_string('(< 20 10)')
+        self.assertEqual(obj.type, 'schemeFalse', '20 is not greater than 10, so (< 20 10) should result in schemeFalse.')
+
+        obj = eval_string('(< 10 20)')
+        self.assertEqual(obj.type, 'schemeTrue', '10 is not greater than 20, so (< 10 20) should result in schemeTrue.')
+
+        obj = eval_string('(<= 20 10)')
+        self.assertEqual(obj.type, 'schemeFalse', '20 is greater than 10, so (<= 20 10) should result in schemeFalse.')
+
+        obj = eval_string('(<= 10 20)')
+        self.assertEqual(obj.type, 'schemeTrue', '10 is greater than 20, so (<= 10 20) should result in schemeTrue.')
+
+        obj = eval_string('(<= 20 20)')
+        self.assertEqual(obj.type, 'schemeTrue', '20 equal to 20, so (<= 20 20) should result in schemeTrue.')
+
     def test_eval_plus_mul(self):
         obj = eval_string('(+ (* 3 2) 2)')
         self.assertEqual(obj.type, 'schemeNumber', 'Adding and multiplying two numbers should result in another number.')

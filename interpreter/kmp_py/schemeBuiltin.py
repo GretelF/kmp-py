@@ -41,10 +41,30 @@ def builtin_div(evaluatedArgs):
         retVal /= operand.value
     return SchemeNumber(retVal)
 
+def builtin_gt(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.ArgumentCountException('> expects exactly 2 arguments.')
+    return SchemeTrue() if (evaluatedArgs[0].value > evaluatedArgs[1].value) else SchemeFalse()
+
+def builtin_geqt(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.ArgumentCountException('>= expects exactly 2 arguments.')
+    return SchemeTrue() if (evaluatedArgs[0].value >= evaluatedArgs[1].value) else SchemeFalse()
+
+def builtin_lt(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.ArgumentCountException('< expects exactly 2 arguments.')
+    return SchemeTrue() if (evaluatedArgs[0].value < evaluatedArgs[1].value) else SchemeFalse()
+
+def builtin_leqt(evaluatedArgs):
+    if(len(evaluatedArgs)>2):
+        raise schemeExceptions.ArgumentCountException('<= expects exactly 2 arguments.')
+    return SchemeTrue() if (evaluatedArgs[0].value <= evaluatedArgs[1].value) else SchemeFalse()
+
 def builtin_eq(evaluatedArgs):
     if(len(evaluatedArgs)>2):
         raise schemeExceptions.ArgumentCountException('eq? expects exactly 2 arguments.')
-    return SchemeTrue() if (evaluatedArgs[0]==evaluatedArgs[1]) else SchemeFalse()
+    return SchemeTrue() if (evaluatedArgs[0] == evaluatedArgs[1]) else SchemeFalse()
 
 def builtin_eq_arit(evaluatedArgs):
     if(len(evaluatedArgs)>2):
@@ -170,6 +190,10 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('-'), SchemeBuiltinFunction('sub', builtin_sub))
     globalEnv.addBinding(SchemeSymbol('*'), SchemeBuiltinFunction('mul', builtin_mul))
     globalEnv.addBinding(SchemeSymbol('/'), SchemeBuiltinFunction('div', builtin_div))
+    globalEnv.addBinding(SchemeSymbol('>'), SchemeBuiltinFunction('gt', builtin_gt))
+    globalEnv.addBinding(SchemeSymbol('>='), SchemeBuiltinFunction('geqt', builtin_geqt))
+    globalEnv.addBinding(SchemeSymbol('<'), SchemeBuiltinFunction('lt', builtin_lt))
+    globalEnv.addBinding(SchemeSymbol('<='), SchemeBuiltinFunction('leqt', builtin_leqt))
     globalEnv.addBinding(SchemeSymbol('eq?'), SchemeBuiltinFunction('eq', builtin_eq))
     globalEnv.addBinding(SchemeSymbol('='), SchemeBuiltinFunction('eq_arit', builtin_eq_arit))
     globalEnv.addBinding(SchemeSymbol('print'), SchemeBuiltinFunction('print', builtin_print))
