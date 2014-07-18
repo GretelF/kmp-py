@@ -1,4 +1,4 @@
-import sys
+import sys, time
 from interpreter.kmp_py import schemeExceptions,evaluator
 from interpreter.kmp_py.scheme import *
 
@@ -92,6 +92,39 @@ def builtin_cdr(evaluatedArgs):
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.ArgumentTypeException('cdr expects cons as argument')
     return evaluatedArgs[0].cdr
+
+def builtin_list(evaluatedArgs):
+    list = SchemeNil()
+    for arg in evaluatedArgs[-1::-1]:
+        list = SchemeCons(arg, list)
+    return list
+
+def builtin_time(evaluatedArgs):
+    if len(evaluatedArgs) < 1:
+        raise schemeExceptions.ArgumentCountException('time expects at least 1 argument.')
+    lambdaObject = evaluatedArgs[0]
+    if lambdaObject.type not in ('schemeUserDefinedFunction','schemeBuiltinFunction'):
+        raise schemeExceptions.ArgumentTypeException('first argument has to be callable.')
+    args = evaluatedArgs[1:]
+    toCall = lambdaObject.call
+    before = now()
+    toCall(args)
+    after = now()
+    elapsedTime = after - before
+    return SchemeNumber(elapsedTime)
+
+def now():
+    return time.clock()
+
+def builtin_recursionlimit(evaluatedArgs):
+    if len(evaluatedArgs) == 0:
+        return SchemeNumber(sys.getrecursionlimit())
+    if len(evaluatedArgs) > 1:
+        raise schemeExceptions.ArgumentCountException('recursion-limit expects at most 1 argument')
+    if evaluatedArgs[0].type != 'schemeNumber':
+        raise schemeExceptions.ArgumentTypeException('recursion-limit expects schemeNumber as argument')
+    sys.setrecursionlimit(evaluatedArgs[0].value)
+    return SchemeVoid()
 
 def builtin_print(evaluatedArgs):
     if(len(evaluatedArgs)>1):
@@ -200,6 +233,9 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('cons'), SchemeBuiltinFunction('cons', builtin_cons))
     globalEnv.addBinding(SchemeSymbol('car'), SchemeBuiltinFunction('car', builtin_car))
     globalEnv.addBinding(SchemeSymbol('cdr'), SchemeBuiltinFunction('cdr', builtin_cdr))
+    globalEnv.addBinding(SchemeSymbol('list'), SchemeBuiltinFunction('list', builtin_list))
+    globalEnv.addBinding(SchemeSymbol('time'), SchemeBuiltinFunction('time', builtin_time))
+    globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))
 
     globalEnv.addBinding(SchemeSymbol('null'), SchemeNil())
     globalEnv.addBinding(SchemeSymbol('nil'), SchemeNil())

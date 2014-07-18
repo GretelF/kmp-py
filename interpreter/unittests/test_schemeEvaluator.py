@@ -1,6 +1,7 @@
 from interpreter.kmp_py import reader, evaluator,schemeExceptions, initialize
 from interpreter.kmp_py.scheme import *
 from unittest import TestCase
+import sys
 
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
 initialize.initialize()
@@ -222,6 +223,15 @@ class SchemeEvaluator(TestCase):
     def test_eval_cdr_noConsArgument(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(cdr 1)')
 
+    def test_eval_list(self):
+        obj = eval_string("(list 1 2 3 4)")
+        self.assertEqual(obj.type, 'schemeCons', 'builtin function list should return a schemeCons type or SchemeNil')
+        self.assertEqual(str(obj), '(1 2 3 4)', 'builtin function list does not work correctly.')
+
+    def test_eval_list_empty(self):
+        obj = eval_string('(list)')
+        self.assertEqual(obj.type, 'schemeNil', 'builtin function list should return a schemeNil, if called without arguments.')
+
     def test_eval_print_string_retVal(self):
         obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
         self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
@@ -238,3 +248,20 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_eq_arithmetic_noNumberArgument(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(= "hello" "hello")')
+
+    def test_eval_recursion_limit_get(self):
+        obj = eval_string('(recursion-limit)')
+        self.assertEqual(obj.type, 'schemeNumber', 'recursion-limit without argument should return type schemeNumber')
+        self.assertEqual(obj.value, sys.getrecursionlimit(), 'recursion-limit does not return the systems recursion limit')
+
+    def test_eval_recursion_limit_set(self):
+        obj = eval_string('(recursion-limit 2000)')
+        self.assertEqual(obj.type, 'schemeVoid', 'recursion-limit with argument should return type schemeVoid')
+        self.assertEqual(sys.getrecursionlimit(), 2000, 'recursion-limit does not set systems recursion limit')
+
+    def test_eval_recursion_limit_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(recursion-limit 1000 2000 3000)')
+
+    def test_eval_recursion_limit_wrongArgumentType(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(recursion-limit "hello")')
+        
