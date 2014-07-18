@@ -232,10 +232,6 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(list)')
         self.assertEqual(obj.type, 'schemeNil', 'builtin function list should return a schemeNil, if called without arguments.')
 
-    def test_eval_print_string_retVal(self):
-        obj = eval_string('(print (cons 4 (cons 5 (cons 6 7))))')
-        self.assertEqual(obj.type, 'schemeVoid', 'Print procedure should return schemeVoid.')
-
     def test_eval_print_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(print 1 2 3 4)')
 
@@ -264,4 +260,3 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_recursion_limit_wrongArgumentType(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(recursion-limit "hello")')
-        
