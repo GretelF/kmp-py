@@ -5,7 +5,9 @@ from unittest import TestCase
 # initialize global environments and adds initial bindings to globalEnv and syntaxEnv
 initialize.initialize()
 
-def eval_string(string, env = evaluator.SchemeEvaluator.globalEnv):
+def eval_string(string, env = None):
+    if env is None:
+        env = evaluator.SchemeEvaluator.globalEnv
     r = reader.SchemeReader()
     e = evaluator.SchemeEvaluator()
     obj = r.read(SchemeStringStream(string))
@@ -39,6 +41,7 @@ class SchemeEvalSyntax(TestCase):
     def test_eval_define(self):
         initialize.initialize()
         self.assertRaises(schemeExceptions.NoBindingException, eval_string, 'b')    # with global env.
+
         obj = eval_string('(define b 3)')
         self.assertIsNotNone(obj, 'syntax define should not return None.')
         self.assertEqual(obj.type, 'schemeVoid','syntax define should return schemeVoid.')
@@ -93,3 +96,15 @@ class SchemeEvalSyntax(TestCase):
 
     def test_eval_quote_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(quote 1 2 3)')
+
+    def test_eval_begin(self):
+        initialize.initialize()
+        obj = eval_string('(begin (define a 1) (define b "hello") 3)')
+        self.assertEqual(obj.type, 'schemeNumber', 'syntax begin should evaluate all arguments and return the return value of last one.')
+        self.assertEqual(obj.value, 3, 'syntax begin should return the return value of the last evaluated arg')
+        obj = eval_string('a')
+        self.assertEqual(obj.type, 'schemeNumber', 'after the begin statement, a should be bound to schemeNumber 1')
+        self.assertEqual(obj.value, 1, 'after the begin statement, a should be bound to schemeNumber 1')
+        obj = eval_string('b')
+        self.assertEqual(obj.type, 'schemeString', 'after the begin statement, a should be bound to schemeString "hello"')
+        self.assertEqual(obj.value, 'hello', 'after the begin statement, a should be bound to schemeString "hello"')

@@ -147,7 +147,10 @@ def evaluate(arg, env):
 
 
 def builtin_begin(unevaluatedArgs, env):
-    pass
+    retVal = SchemeVoid()
+    for arg in unevaluatedArgs:
+        retVal = evaluate(arg, env)
+    return retVal
 
 def builtin_define(unevaluatedArgs, env):
     if len(unevaluatedArgs) != 2:
@@ -217,6 +220,7 @@ def initializeBindings():
     syntaxEnv.addBinding(SchemeSymbol('set!'), SchemeBuiltinSyntax('set', builtin_set))
     syntaxEnv.addBinding(SchemeSymbol('let'), SchemeBuiltinSyntax('let', builtin_let))
     syntaxEnv.addBinding(SchemeSymbol('quote'), SchemeBuiltinSyntax('quote', builtin_quote))
+    syntaxEnv.addBinding(SchemeSymbol('begin'), SchemeBuiltinSyntax('begin', builtin_begin))
 
     globalEnv = evaluator.SchemeEvaluator.globalEnv
     globalEnv.addBinding(SchemeSymbol('+'), SchemeBuiltinFunction('add', builtin_add))
