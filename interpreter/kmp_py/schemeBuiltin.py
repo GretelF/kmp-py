@@ -8,6 +8,7 @@ def builtin_exit(evaluatedArgs):
         exitcode = int(evaluatedArgs[0].value)
     sys.exit(exitcode)
 
+# arithmetic builtin functions:
 
 def builtin_add(evaluatedArgs):
     retVal = 0
@@ -83,11 +84,6 @@ def builtin_leqt(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('<= expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0].value <= evaluatedArgs[1].value) else SchemeFalse()
 
-def builtin_eq(evaluatedArgs):
-    if(len(evaluatedArgs)!=2):
-        raise schemeExceptions.ArgumentCountException('eq? expects exactly 2 arguments.')
-    return SchemeTrue() if (evaluatedArgs[0] == evaluatedArgs[1]) else SchemeFalse()
-
 def builtin_eq_arit(evaluatedArgs):
     if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('= expects exactly 2 arguments.')
@@ -105,6 +101,14 @@ def builtin_abs(evaluatedArgs):
     if(retVal < 0):
         return SchemeNumber(-retVal)
     return SchemeNumber(retVal)
+
+
+#builtin functions
+
+def builtin_eq(evaluatedArgs):
+    if(len(evaluatedArgs)!=2):
+        raise schemeExceptions.ArgumentCountException('eq? expects exactly 2 arguments.')
+    return SchemeTrue() if (evaluatedArgs[0] == evaluatedArgs[1]) else SchemeFalse()
 
 def builtin_cons(evaluatedArgs):
     if(len(evaluatedArgs)!=2):
@@ -180,8 +184,30 @@ def builtin_not(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('not expects exactly 1 argument.')
     return SchemeTrue() if evaluatedArgs[0].isFalse() else SchemeFalse()
 
-
-
+def builtin_map(evaluatedArgs):
+    if len(evaluatedArgs) < 2:
+        raise schemeExceptions.ArgumentCountException('map expects at least 2 arguments.')
+    function = evaluatedArgs[0]
+    lists = evaluatedArgs[1:]
+    listArray = []
+    if (function.type not in ('schemeUserDefinedFunction', 'schemeBuiltinFunction')):
+        raise schemeExceptions.ArgumentTypeException('map expects callable object as first argument')
+    for lst in lists:
+        if lst.type not in ('schemeCons', 'schemeNil'):
+            raise schemeExceptions.ArgumentTypeException('map expects schemeCons as second and further arguments.')
+        array = lst.toArray()
+        array.reverse()
+        listArray.append(array)
+    listLen = len(listArray[0])
+    for lst in listArray:
+        if len(lst) != listLen:
+            raise schemeExceptions.InvalidInputException('all lists must have same size.')
+    retVal = SchemeNil()
+    for index in range(listLen):
+        car = function.call(list(x[index] for x in listArray))
+        cdr = retVal
+        retVal = SchemeCons(car, cdr)
+    return retVal
 
 # Syntax
 
@@ -303,6 +329,8 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))
     globalEnv.addBinding(SchemeSymbol('type?'), SchemeBuiltinFunction('type?', builtin_type))
     globalEnv.addBinding(SchemeSymbol('not'), SchemeBuiltinFunction('not', builtin_not))
+    globalEnv.addBinding(SchemeSymbol('map'), SchemeBuiltinFunction('map', builtin_map))
+
 
 
     globalEnv.addBinding(SchemeSymbol('null'), SchemeNil())

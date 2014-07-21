@@ -121,16 +121,6 @@ class SchemeEvaluator(TestCase):
     def test_eval_print_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(print 1 2 3 4)')
 
-    def test_eval_eq_arithmetic(self):
-        obj = eval_string('(= 1 1)')
-        self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
-
-    def test_eval_eq_arithmetic_toManyArguments(self):
-        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(= 1 2 3)')
-
-    def test_eval_eq_arithmetic_noNumberArgument(self):
-        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(= "hello" "hello")')
-
     def test_eval_recursion_limit_get(self):
         obj = eval_string('(recursion-limit)')
         self.assertEqual(obj.type, 'schemeNumber', 'recursion-limit without argument should return type schemeNumber')
@@ -156,7 +146,6 @@ class SchemeEvaluator(TestCase):
     def test_eval_type_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(type? 1 2 3)')
 
-
     def test_eval_not(self):
         obj = eval_string('(not #t)')
         self.assertEqual(obj.type, 'schemeFalse', '(not #t) should return schemeFalse.')
@@ -169,4 +158,51 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_not_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(not #t #f)')
+
+    def test_eval_map(self):
+        initialize.initialize()
+        eval_string('(define plus1 (lambda (n) (+ n 1)))')
+        obj = eval_string('(map plus1 (list 1 2 3 4))')
+        self.assertEqual(obj.type, 'schemeCons', 'function map should return a list')
+        self.assertEqual(str(obj), '(2 3 4 5)', 'function map should apply plus1 to each given list element.')
+
+    def test_eval_map_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(map plus1)')
+
+    def test_eval_map_functionCall_tooFewArguments(self):
+        initialize.initialize()
+        eval_string('(define addElementWise (lambda (n m) (+ n m)))')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(map addElementWise (list 1 2 3))')
+
+    def test_eval_map_functionCall_tooManyArguments(self):
+        initialize.initialize()
+        eval_string('(define addElementWise (lambda (n m) (+ n m)))')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(map addElementWise (list 1 2 3) (list 2 3 4) (list 3 4 5))')
+
+    def test_eval_map_listsNotSameSize(self):
+        initialize.initialize()
+        eval_string('(define addElementWise (lambda (n m) (+ n m)))')
+        self.assertRaises(schemeExceptions.InvalidInputException, eval_string, '(map addElementWise (list 1 2 3 4) (list 2 3 4))')
+
+    def test_eval_map_notCallable(self):
+        initialize.initialize()
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(map 3 (list 2 3 4))')
+
+    def test_eval_map_noLists(self):
+        initialize.initialize()
+        eval_string('(define addElementWise (lambda (n m) (+ n m)))')
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(map addElementWise 3 4)')
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(map addElementWise (list 1 2) 4)')
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(map addElementWise 3 (list 1 2))')
+
+    def test_eval_map_nils(self):
+        initialize.initialize()
+        eval_string('(define addElementWise (lambda (n m) (+ n m)))')
+        obj = eval_string('(map addElementWise () ())')
+        self.assertEqual(obj.type, 'schemeNil', 'map should return schemeNil if applied to empty lists.')
+
+
+
+
+
 

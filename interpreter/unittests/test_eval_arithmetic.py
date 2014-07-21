@@ -212,3 +212,13 @@ class SchemeEvaluatorArithmetic(TestCase):
 
     def test_eval_abs_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(abs "hello")')
+
+    def test_eval_eq_arithmetic(self):
+        obj = eval_string('(= 1 1)')
+        self.assertEqual(obj.type, 'schemeTrue', '(= 1 1) should evaluate to schemeTrue')
+
+    def test_eval_eq_arithmetic_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string,'(= 1 2 3)')
+
+    def test_eval_eq_arithmetic_noNumberArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(= "hello" "hello")')
