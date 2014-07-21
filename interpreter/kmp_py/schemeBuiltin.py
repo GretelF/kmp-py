@@ -96,6 +96,16 @@ def builtin_eq_arit(evaluatedArgs):
     else:
         return SchemeTrue() if (evaluatedArgs[0].value == evaluatedArgs[1].value) else SchemeFalse()
 
+def builtin_abs(evaluatedArgs):
+    if(len(evaluatedArgs)!=1):
+        raise schemeExceptions.ArgumentCountException('abs expects exactly 1 arguments.')
+    if evaluatedArgs[0].type != 'schemeNumber':
+        raise schemeExceptions.ArgumentTypeException('{0} is no valid input for function abs. SchemeNumber expected.'.format(evaluatedArgs[0].type))
+    retVal = evaluatedArgs[0].value
+    if(retVal < 0):
+        return SchemeNumber(-retVal)
+    return SchemeNumber(retVal)
+
 def builtin_cons(evaluatedArgs):
     if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('cons expects exactly 2 arguments.')
@@ -283,6 +293,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('<='), SchemeBuiltinFunction('leqt', builtin_leqt))
     globalEnv.addBinding(SchemeSymbol('eq?'), SchemeBuiltinFunction('eq', builtin_eq))
     globalEnv.addBinding(SchemeSymbol('='), SchemeBuiltinFunction('eq_arit', builtin_eq_arit))
+    globalEnv.addBinding(SchemeSymbol('abs'), SchemeBuiltinFunction('abs', builtin_abs))
     globalEnv.addBinding(SchemeSymbol('print'), SchemeBuiltinFunction('print', builtin_print))
     globalEnv.addBinding(SchemeSymbol('cons'), SchemeBuiltinFunction('cons', builtin_cons))
     globalEnv.addBinding(SchemeSymbol('car'), SchemeBuiltinFunction('car', builtin_car))

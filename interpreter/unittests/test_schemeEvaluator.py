@@ -83,8 +83,33 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeFalse', '(eq? 1 2) should evaluate to schemeFalse, but does not.')
 
     def test_eval_eq_too_many_arguments(self):
-        e = evaluator.SchemeEvaluator()
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(eq? 1 2 3)')
+
+    def test_eval_abs(self):
+        obj = eval_string('(abs 5)')
+        self.assertEqual(obj.type, 'schemeNumber', '(abs 5) should evaluate to type schemeNumber.')
+        self.assertEqual(obj.value, 5, '(abs 5) should evaluate to schemeNumber 5.')
+        obj = eval_string('(abs -5)')
+        self.assertEqual(obj.type, 'schemeNumber', '(abs -5) should evaluate to type schemeNumber.')
+        self.assertEqual(obj.value, 5, '(abs 5) should evaluate to schemeNumber 5.')
+        obj = eval_string('(abs 0)')
+        self.assertEqual(obj.type, 'schemeNumber', '(abs 0) should evaluate to type schemeNumber.')
+        self.assertEqual(obj.value, 0, '(abs 0) should evaluate to schemeNumber 0.')
+
+    def test_eval_abs_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(abs 1 2 3)')
+
+    def test_eval_abs_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(abs)')
+
+    def test_eval_abs_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(abs "hello")')
+
+
+
+
+
+
 
     def test_eval_plus(self):
         obj = eval_string('(+ 1 2)')
