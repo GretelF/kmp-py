@@ -179,6 +179,20 @@ def evaluate(arg, env):
     return evaluator.SchemeEvaluator().evaluate(arg, env)           # SchemeEvaluator is singleton
 
 
+def builtin_and(unevaluatedArgs, env):
+    for arg in unevaluatedArgs:
+        condition = evaluate(arg, env)
+        if(condition.isFalse()):
+            return SchemeFalse()
+    return SchemeTrue()
+
+def builtin_or(unevaluatedArgs, env):
+    for arg in unevaluatedArgs:
+        condition = evaluate(arg, env)
+        if(condition.isTrue()):
+            return SchemeTrue()
+    return SchemeFalse()
+
 def builtin_begin(unevaluatedArgs, env):
     retVal = SchemeVoid()
     for arg in unevaluatedArgs:
@@ -254,6 +268,8 @@ def initializeBindings():
     syntaxEnv.addBinding(SchemeSymbol('let'), SchemeBuiltinSyntax('let', builtin_let))
     syntaxEnv.addBinding(SchemeSymbol('quote'), SchemeBuiltinSyntax('quote', builtin_quote))
     syntaxEnv.addBinding(SchemeSymbol('begin'), SchemeBuiltinSyntax('begin', builtin_begin))
+    syntaxEnv.addBinding(SchemeSymbol('and'), SchemeBuiltinSyntax('and', builtin_and))
+    syntaxEnv.addBinding(SchemeSymbol('or'), SchemeBuiltinSyntax('or', builtin_or))
 
     globalEnv = evaluator.SchemeEvaluator.globalEnv
     globalEnv.addBinding(SchemeSymbol('+'), SchemeBuiltinFunction('add', builtin_add))

@@ -108,3 +108,41 @@ class SchemeEvalSyntax(TestCase):
         obj = eval_string('b')
         self.assertEqual(obj.type, 'schemeString', 'after the begin statement, a should be bound to schemeString "hello"')
         self.assertEqual(obj.value, 'hello', 'after the begin statement, a should be bound to schemeString "hello"')
+
+    def test_eval_and(self):
+        initialize.initialize()
+        obj = eval_string('(and #t #f)')
+        self.assertEqual(obj.type, 'schemeFalse', '(and #t #f) should result in schemeFalse')
+        obj = eval_string('(and #t #t)')
+        self.assertEqual(obj.type, 'schemeTrue', '(and #t #t) should result in schemeTrue')
+        obj = eval_string('(and (= 3 3) (= 4 4))')
+        self.assertEqual(obj.type, 'schemeTrue', '(and (= 3 3) (= 4 4)) should result in schemeTrue')
+
+    def test_eval_and_secondArgumentNotEvaluated(self):
+        initialize.initialize()
+        obj = eval_string('(and #f (aSymbolThatCannotPossiblyHaveABindingAndWillNeverBeEvaluated x y z))')
+        self.assertEqual(obj.type, 'schemeFalse', 'If a argument is false the others should not be evaluated.')
+
+    def test_eval_and_noArguments(self):
+        obj = eval_string('(and)')
+        self.assertEqual(obj.type, 'schemeTrue', '(and) should evaluate to #t')
+
+    def test_eval_or(self):
+        initialize.initialize()
+        obj = eval_string('(or #t #f)')
+        self.assertEqual(obj.type, 'schemeTrue', '(or #t #f) should result in schemeTrue')
+        obj = eval_string('(or #f #f)')
+        self.assertEqual(obj.type, 'schemeFalse', '(or #f #f) should result in schemeFalse')
+        obj = eval_string('(or (= 3 3) (= 4 4))')
+        self.assertEqual(obj.type, 'schemeTrue', '(or (= 3 3) (= 4 4)) should result in schemeTrue')
+
+    def test_eval_or_secondArgumentNotEvaluated(self):
+        initialize.initialize()
+        obj = eval_string('(or #t (aSymbolThatCannotPossiblyHaveABindingAndWillNeverBeEvaluated x y z))')
+        self.assertEqual(obj.type, 'schemeTrue', 'If a argument is true the others should not be evaluated.')
+
+    def test_eval_or_noArguments(self):
+        obj = eval_string('(or)')
+        self.assertEqual(obj.type, 'schemeFalse', '(or) should evaluate to #f')
+
+
