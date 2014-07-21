@@ -119,8 +119,16 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Subtracting two numbers should result in another number.')
         self. assertEqual(obj.value, -10, '(- 10 20) should result in -10')
 
+    def test_eval_minus_oneArgument(self):
+        obj = eval_string('(- 3)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Subtracting should result in a number.')
+        self.assertEqual(obj.value, -3, '(- 3) should result in -3')
+
     def test_eval_minus_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(- "hello" "world")')
+
+    def test_eval_minus_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(-)')
 
     def test_eval_mul(self):
         obj = eval_string('(* 10 20)')
@@ -140,6 +148,17 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_div_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(/ "hello" 3)')
+
+    def test_eval_div_oneArgument(self):
+        obj = eval_string('(/ 4)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Division should result in a number.')
+        self.assertEqual(obj.value, 0.25, '(/ 4) should result in 1/4, i. e. in 0.25.')
+
+    def test_eval_div_oneArgument_Zero(self):
+        self.assertRaises(schemeExceptions.DivisionByZero, eval_string, '(/ 0)')
+
+    def test_eval_div_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(/)')
 
     def test_eval_modulo(self):
         obj = eval_string('(% 20 10)')
@@ -165,6 +184,9 @@ class SchemeEvaluator(TestCase):
     def test_eval_modulo_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(% 3 4 5)')
 
+    def test_eval_modulo_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(% 10)')
+
     def test_eval_gt(self):
         obj = eval_string('(> 20 10)')
         self.assertEqual(obj.type, 'schemeTrue', '20 is greater than 10, so (> 20 10) should result in schemeTrue.')
@@ -181,6 +203,14 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(>= 20 20)')
         self.assertEqual(obj.type, 'schemeTrue', '20 equal to 20, so (>= 20 20) should result in schemeTrue.')
 
+    def test_eval_gt_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(> 10 20 30)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(>= 10 20 30)')
+
+    def test_eval_gt_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(> 10)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(>= 10)')
+
     def test_eval_lt(self):
         obj = eval_string('(< 20 10)')
         self.assertEqual(obj.type, 'schemeFalse', '20 is not greater than 10, so (< 20 10) should result in schemeFalse.')
@@ -196,6 +226,15 @@ class SchemeEvaluator(TestCase):
 
         obj = eval_string('(<= 20 20)')
         self.assertEqual(obj.type, 'schemeTrue', '20 equal to 20, so (<= 20 20) should result in schemeTrue.')
+
+    def test_eval_lt_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(< 10 20 30)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(<= 10 20 30)')
+
+    def test_eval_lt_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(< 10)')
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(<= 10)')
+
 
     def test_eval_plus_mul(self):
         obj = eval_string('(+ (* 3 2) 2)')
@@ -307,3 +346,7 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeFalse', '(not 3) should return schemeFalse')
         obj = eval_string('(not #f)')
         self.assertEqual(obj.type, 'schemeTrue', '(not #f) should return schemeTrue')
+
+    def test_eval_not_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(not #t #f)')
+

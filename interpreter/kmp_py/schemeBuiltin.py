@@ -20,10 +20,13 @@ def builtin_add(evaluatedArgs):
 def builtin_sub(evaluatedArgs):
     if len(evaluatedArgs) < 1:
         raise schemeExceptions.ArgumentCountException('function - expects at least 1 argument.')
-    retVal = evaluatedArgs[0].value
-    for operand in evaluatedArgs[1:]:
+    for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
             raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for function -.'. format(str(operand)))
+    retVal = evaluatedArgs[0].value
+    if len(evaluatedArgs) == 1:
+        return SchemeNumber(-retVal)
+    for operand in evaluatedArgs[1:]:
         retVal -= operand.value
     return SchemeNumber(retVal)
 
@@ -41,10 +44,12 @@ def builtin_div(evaluatedArgs):
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
             raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /.'. format(str(operand)))
-    retVal = evaluatedArgs[0].value
-    for operand in evaluatedArgs[1:]:
         if(operand.value == 0):
             raise schemeExceptions.DivisionByZero('Invalid input! Cannot divide by zero.')
+    retVal = evaluatedArgs[0].value
+    if len(evaluatedArgs) == 1:
+        return SchemeNumber(1/retVal)
+    for operand in evaluatedArgs[1:]:
         retVal /= operand.value
     return SchemeNumber(retVal)
 
