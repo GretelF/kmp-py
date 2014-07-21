@@ -18,7 +18,10 @@ def repl():
             while not stream.isAtEndOfStream():
                 toEval = r.read(stream)
                 toPrint = e.evaluate(toEval)
-                if toPrint.type == 'schemeVoid':
+                if type(toPrint) is str:
+                    print(toPrint)
+                    continue
+                elif toPrint.type == 'schemeVoid':
                     continue
                 print(toPrint)
         except schemeExceptions.SchemeException as exception:

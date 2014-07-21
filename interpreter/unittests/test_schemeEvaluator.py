@@ -264,8 +264,19 @@ class SchemeEvaluator(TestCase):
     def test_eval_type(self):
         obj = eval_string('(type? 2)')
         self.assertEqual(obj, 'schemeNumber', 'The type of 2 should be schemeNumber.')
-        obj = eval_string('(type? (print 2))')
-        self.assertEqual(obj, 'schemeVoid', 'The return value of (print 2) should be schemeVoid.')
+        obj = eval_string('(type? (define x 2))')
+        self.assertEqual(obj, 'schemeVoid', 'The return value of (define x 2) should be schemeVoid.')
 
-    def test_eval_type(self):
+    def test_eval_type_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(type? 1 2 3)')
+
+
+    def test_eval_not(self):
+        obj = eval_string('(not #t)')
+        self.assertEqual(obj.type, 'schemeFalse', '(not #t) should return schemeFalse.')
+        obj = eval_string('(not (if (= (+ 1 2) (- 4 1)) #f #t))')
+        self.assertEqual(obj.type, 'schemeTrue', 'Expected schemeTrue, but got schemeFalse.')
+        obj = eval_string('(not 3)')
+        self.assertEqual(obj.type, 'schemeFalse', '(not 3) should return schemeFalse')
+        obj = eval_string('(not #f)')
+        self.assertEqual(obj.type, 'schemeTrue', '(not #f) should return schemeTrue')

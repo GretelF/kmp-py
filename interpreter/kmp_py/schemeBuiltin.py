@@ -143,6 +143,11 @@ def builtin_type(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('type? expects exactly 1 argument.')
     return evaluatedArgs[0].type
 
+def builtin_not(evaluatedArgs):
+    if (len(evaluatedArgs) != 1):
+        raise schemeExceptions.ArgumentCountException('not expects exactly 1 argument.')
+    return SchemeTrue() if evaluatedArgs[0].isFalse() else SchemeFalse()
+
 
 
 
@@ -247,6 +252,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('time'), SchemeBuiltinFunction('time', builtin_time))
     globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))
     globalEnv.addBinding(SchemeSymbol('type?'), SchemeBuiltinFunction('type?', builtin_type))
+    globalEnv.addBinding(SchemeSymbol('not'), SchemeBuiltinFunction('not', builtin_not))
 
 
     globalEnv.addBinding(SchemeSymbol('null'), SchemeNil())
