@@ -13,15 +13,17 @@ def builtin_add(evaluatedArgs):
     retVal = 0
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure +'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for function +.'. format(str(operand)))
         retVal += operand.value
     return SchemeNumber(retVal)
 
 def builtin_sub(evaluatedArgs):
+    if len(evaluatedArgs) < 1:
+        raise schemeExceptions.ArgumentCountException('function - expects at least 1 argument.')
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure -'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for function -.'. format(str(operand)))
         retVal -= operand.value
     return SchemeNumber(retVal)
 
@@ -29,17 +31,32 @@ def builtin_mul(evaluatedArgs):
     retVal = 1
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure *'. format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for function *.'. format(str(operand)))
         retVal *= operand.value
     return SchemeNumber(retVal)
 
 def builtin_div(evaluatedArgs):
+    if len(evaluatedArgs) < 1:
+        raise schemeExceptions.ArgumentCountException('function / expects at least 1 argument.')
+    for operand in evaluatedArgs:
+        if(operand.type != 'schemeNumber'):
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /.'. format(str(operand)))
     retVal = evaluatedArgs[0].value
     for operand in evaluatedArgs[1:]:
-        if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /'. format(str(operand)))
+        if(operand.value == 0):
+            raise schemeExceptions.DivisionByZero('Invalid input! Cannot divide by zero.')
         retVal /= operand.value
     return SchemeNumber(retVal)
+
+def builtin_modulo(evaluatedArgs):
+    if len(evaluatedArgs) != 2:
+        raise schemeExceptions.ArgumentCountException('function % expects exactly 2 arguments.')
+    for operand in evaluatedArgs:
+        if(operand.type != 'schemeNumber'):
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /.'. format(str(operand)))
+    if evaluatedArgs[1].value == 0:
+        raise schemeExceptions.DivisionByZero('Second argument should not be 0.')
+    return SchemeNumber(evaluatedArgs[0].value % evaluatedArgs[1].value)
 
 def builtin_gt(evaluatedArgs):
     if(len(evaluatedArgs)!=2):
@@ -120,9 +137,9 @@ def builtin_recursionlimit(evaluatedArgs):
     if len(evaluatedArgs) == 0:
         return SchemeNumber(sys.getrecursionlimit())
     if len(evaluatedArgs) > 1:
-        raise schemeExceptions.ArgumentCountException('recursion-limit expects at most 1 argument')
+        raise schemeExceptions.ArgumentCountException('recursion-limit expects at most 1 argument.')
     if evaluatedArgs[0].type != 'schemeNumber':
-        raise schemeExceptions.ArgumentTypeException('recursion-limit expects schemeNumber as argument')
+        raise schemeExceptions.ArgumentTypeException('recursion-limit expects schemeNumber as argument.')
     sys.setrecursionlimit(evaluatedArgs[0].value)
     return SchemeVoid()
 
@@ -206,7 +223,7 @@ def builtin_set(unevaluatedArgs, env):
         raise schemeExceptions.ArgumentTypeException('set! expects schemeSymbol as first argument.')
     success = env.setBinding(symbol, unevaluatedArgs[1])
     if not success:
-        raise schemeExceptions.NoBindingException('No Binding found for symbol {0} in environment {1}'.format(symbol, env))
+        raise schemeExceptions.NoBindingException('No Binding found for symbol {0} in environment {1}.'.format(symbol, env))
     return SchemeVoid()
 
 def builtin_let(unevaluatedArgs, env):
@@ -228,7 +245,7 @@ def initializeBindings():
     syntaxEnv.addBinding(SchemeSymbol('if'), SchemeBuiltinSyntax('if', builtin_if))
     syntaxEnv.addBinding(SchemeSymbol('lambda'), SchemeBuiltinSyntax('lambda', builtin_lambda))
     syntaxEnv.addBinding(SchemeSymbol('define'), SchemeBuiltinSyntax('define', builtin_define))
-    syntaxEnv.addBinding(SchemeSymbol('set!'), SchemeBuiltinSyntax('set', builtin_set))
+    syntaxEnv.addBinding(SchemeSymbol('set!'), SchemeBuiltinSyntax('set!', builtin_set))
     syntaxEnv.addBinding(SchemeSymbol('let'), SchemeBuiltinSyntax('let', builtin_let))
     syntaxEnv.addBinding(SchemeSymbol('quote'), SchemeBuiltinSyntax('quote', builtin_quote))
     syntaxEnv.addBinding(SchemeSymbol('begin'), SchemeBuiltinSyntax('begin', builtin_begin))
@@ -238,6 +255,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('-'), SchemeBuiltinFunction('sub', builtin_sub))
     globalEnv.addBinding(SchemeSymbol('*'), SchemeBuiltinFunction('mul', builtin_mul))
     globalEnv.addBinding(SchemeSymbol('/'), SchemeBuiltinFunction('div', builtin_div))
+    globalEnv.addBinding(SchemeSymbol('%'), SchemeBuiltinFunction('%', builtin_modulo))
     globalEnv.addBinding(SchemeSymbol('>'), SchemeBuiltinFunction('gt', builtin_gt))
     globalEnv.addBinding(SchemeSymbol('>='), SchemeBuiltinFunction('geqt', builtin_geqt))
     globalEnv.addBinding(SchemeSymbol('<'), SchemeBuiltinFunction('lt', builtin_lt))

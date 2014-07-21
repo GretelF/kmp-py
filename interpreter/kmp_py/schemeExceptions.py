@@ -14,9 +14,12 @@ class InvalidInputException(SchemeException):
 class NoBindingException(SchemeException):
     pass
 
-class ArgumentCountException(SchemeException):
+class ArgumentCountException(InvalidInputException):
     pass
 
-class ArgumentTypeException(SchemeException):
+class ArgumentTypeException(InvalidInputException):
+    pass
+
+class DivisionByZero(InvalidInputException):
     pass
 

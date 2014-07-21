@@ -135,8 +135,35 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
         self.assertEqual(obj.value, 2, '(/ 20 10) should result in 2')
 
+    def test_eval_div_divisionByZero(self):
+        self.assertRaises(schemeExceptions.DivisionByZero, eval_string, '(/ 3 0)')
+
     def test_eval_div_noNumber(self):
-        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(/ "hello" "world")')
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(/ "hello" 3)')
+
+    def test_eval_modulo(self):
+        obj = eval_string('(% 20 10)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
+        self.assertEqual(obj.value, 0, '(% 20 10) should result in 0')
+        obj = eval_string('(% 7 4)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
+        self.assertEqual(obj.value, 3, '(% 7 4) should result in 3')
+        obj = eval_string('(% 4 7)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
+        self.assertEqual(obj.value, 4, '(% 4 7) should result in 4')
+        obj = eval_string('(% 0 7)')
+        self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
+        self.assertEqual(obj.value, 0, '(% 0 7) should result in 0')
+
+    def test_eval_modulo_noNumber(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(% "hello" 3)')
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(% 3 "hello")')
+
+    def test_eval_modulo_ZeroArgument(self):
+        self.assertRaises(schemeExceptions.DivisionByZero, eval_string, '(% 2 0)')
+
+    def test_eval_modulo_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(% 3 4 5)')
 
     def test_eval_gt(self):
         obj = eval_string('(> 20 10)')

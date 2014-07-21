@@ -7,12 +7,11 @@ def repl():
 
     while True:
         try:
-            #print('> ', end='')
             toRead = input('> ')
             stream = scheme.SchemeStringStream(toRead)
             syntaxResult = r.checkSyntax(stream)
             while not syntaxResult.isBalanced() and syntaxResult.isValid():
-                toRead += input()
+                toRead += "\n" + input()
                 stream = scheme.SchemeStringStream(toRead)
                 syntaxResult = r.checkSyntax(stream)
             while not stream.isAtEndOfStream():
