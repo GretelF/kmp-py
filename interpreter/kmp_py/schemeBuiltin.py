@@ -42,32 +42,32 @@ def builtin_div(evaluatedArgs):
     return SchemeNumber(retVal)
 
 def builtin_gt(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('> expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0].value > evaluatedArgs[1].value) else SchemeFalse()
 
 def builtin_geqt(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('>= expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0].value >= evaluatedArgs[1].value) else SchemeFalse()
 
 def builtin_lt(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('< expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0].value < evaluatedArgs[1].value) else SchemeFalse()
 
 def builtin_leqt(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('<= expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0].value <= evaluatedArgs[1].value) else SchemeFalse()
 
 def builtin_eq(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('eq? expects exactly 2 arguments.')
     return SchemeTrue() if (evaluatedArgs[0] == evaluatedArgs[1]) else SchemeFalse()
 
 def builtin_eq_arit(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('= expects exactly 2 arguments.')
     if(evaluatedArgs[0].type != 'schemeNumber' or evaluatedArgs[1].type != 'schemeNumber'):
         raise schemeExceptions.ArgumentTypeException('= expects two numbers')
@@ -75,19 +75,19 @@ def builtin_eq_arit(evaluatedArgs):
         return SchemeTrue() if (evaluatedArgs[0].value == evaluatedArgs[1].value) else SchemeFalse()
 
 def builtin_cons(evaluatedArgs):
-    if(len(evaluatedArgs)>2):
+    if(len(evaluatedArgs)!=2):
         raise schemeExceptions.ArgumentCountException('cons expects exactly 2 arguments.')
     return SchemeCons(evaluatedArgs[0], evaluatedArgs[1])
 
 def builtin_car(evaluatedArgs):
-    if(len(evaluatedArgs)>1):
+    if(len(evaluatedArgs)!=1):
         raise schemeExceptions.ArgumentCountException('car expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.ArgumentTypeException('car expects cons as argument')
     return evaluatedArgs[0].car
 
 def builtin_cdr(evaluatedArgs):
-    if(len(evaluatedArgs)>1):
+    if(len(evaluatedArgs)!=1):
         raise schemeExceptions.ArgumentCountException('cdr expects exactly 1 argument.')
     if(evaluatedArgs[0].type != 'schemeCons'):
         raise schemeExceptions.ArgumentTypeException('cdr expects cons as argument')
@@ -127,9 +127,9 @@ def builtin_recursionlimit(evaluatedArgs):
     return SchemeVoid()
 
 def builtin_print(evaluatedArgs):
-    if(len(evaluatedArgs)>1):
+    if(len(evaluatedArgs)!=1):
         raise schemeExceptions.ArgumentCountException('print expects exactly 1 argument.')
-    print(str(evaluatedArgs[0]))                                                #TODO print in REPL
+    print(str(evaluatedArgs[0]))
     return SchemeVoid()
 
 def builtin_write():
@@ -137,6 +137,12 @@ def builtin_write():
 
 def builtin_display():
     pass
+
+def builtin_type(evaluatedArgs):
+    if (len(evaluatedArgs)!=1):
+        raise schemeExceptions.ArgumentCountException('type? expects exactly 1 argument.')
+    return evaluatedArgs[0].type
+
 
 
 
@@ -240,6 +246,8 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('list'), SchemeBuiltinFunction('list', builtin_list))
     globalEnv.addBinding(SchemeSymbol('time'), SchemeBuiltinFunction('time', builtin_time))
     globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))
+    globalEnv.addBinding(SchemeSymbol('type?'), SchemeBuiltinFunction('type?', builtin_type))
+
 
     globalEnv.addBinding(SchemeSymbol('null'), SchemeNil())
     globalEnv.addBinding(SchemeSymbol('nil'), SchemeNil())

@@ -260,3 +260,12 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_recursion_limit_wrongArgumentType(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(recursion-limit "hello")')
+
+    def test_eval_type(self):
+        obj = eval_string('(type? 2)')
+        self.assertEqual(obj, 'schemeNumber', 'The type of 2 should be schemeNumber.')
+        obj = eval_string('(type? (print 2))')
+        self.assertEqual(obj, 'schemeVoid', 'The return value of (print 2) should be schemeVoid.')
+
+    def test_eval_type(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(type? 1 2 3)')
