@@ -181,7 +181,7 @@ class SchemeUserDefinedFunction(SchemeObject):
         return retVal
 
     def __str__(self):
-        return '<UserDefinedFunction: {1}>'.format(self.type, self.name)
+        return '<UserDefinedFunction: {1}>'.format(self.type, self.name or "anonymous")
 
 
 class SchemeBuiltinFunction(SchemeObject):
