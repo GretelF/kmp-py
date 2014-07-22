@@ -201,7 +201,14 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(map addElementWise () ())')
         self.assertEqual(obj.type, 'schemeNil', 'map should return schemeNil if applied to empty lists.')
 
-
+    def test_eval_setBindingInOuterEnv(self):
+        initialize.initialize()
+        eval_string('(define x 1)')
+        eval_string('(define f (lambda (z) (set! x z)))')
+        eval_string('(f 3)')
+        obj = eval_string('x')
+        self.assertEqual(obj.type, 'schemeNumber', 'x should be bound to a schemeNumber type.')
+        self.assertEqual(obj.value, 3, 'after f is called, x should be bound to 3.')
 
 
 

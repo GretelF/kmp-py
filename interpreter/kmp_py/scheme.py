@@ -262,7 +262,7 @@ class SchemeEnvironment(SchemeObject):
 
         if(symbol.value in self.bindings):
             return self.bindings[symbol.value]
-        if(self.parent != None):
+        if(self.parent is not None):
             return self.parent.getBinding(symbol)
         return None                                 # TODO: what should be returned in case, no binding is found at all? None? Error?
 
@@ -273,6 +273,8 @@ class SchemeEnvironment(SchemeObject):
         if(symbol.value in self.bindings):
             self.bindings[symbol.value] = object
             return True
+        if self.parent is not None:
+            return self.parent.setBinding(symbol, object)
         return False
 
     def __str__(self):

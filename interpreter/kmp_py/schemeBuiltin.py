@@ -276,9 +276,9 @@ def builtin_set(unevaluatedArgs, env):
     symbol = unevaluatedArgs[0]
     if symbol.type != 'schemeSymbol':
         raise schemeExceptions.ArgumentTypeException('set! expects schemeSymbol as first argument.')
-    success = env.setBinding(symbol, unevaluatedArgs[1])
+    success = env.setBinding(symbol, evaluate(unevaluatedArgs[1], env))
     if not success:
-        raise schemeExceptions.NoBindingException('No Binding found for symbol {0} in environment {1}.'.format(symbol, env))
+        raise schemeExceptions.NoBindingException('No Binding found for symbol {0}.'.format(symbol))
     return SchemeVoid()
 
 def builtin_let(unevaluatedArgs, env):
