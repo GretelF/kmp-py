@@ -135,6 +135,20 @@ def builtin_list(evaluatedArgs):
         list = SchemeCons(arg, list)
     return list
 
+def builtin_first(evaluatedArgs):
+    if len(evaluatedArgs) != 1:
+        raise schemeExceptions.ArgumentCountException('first expects exactly 1 argument')
+    if evaluatedArgs[0].type != 'schemeCons':
+        raise schemeExceptions.ArgumentTypeException('first expects a not empty list as argument.')
+    return evaluatedArgs[0].car
+
+def builtin_rest(evaluatedArgs):
+    if len(evaluatedArgs) != 1:
+        raise schemeExceptions.ArgumentCountException('rest expects exactly 1 argument')
+    if evaluatedArgs[0].type != 'schemeCons':
+        raise schemeExceptions.ArgumentTypeException('rest expects a not empty list as argument.')
+    return evaluatedArgs[0].cdr
+
 def builtin_time(evaluatedArgs):
     if len(evaluatedArgs) < 1:
         raise schemeExceptions.ArgumentCountException('time expects at least 1 argument.')
@@ -324,6 +338,8 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('cons'), SchemeBuiltinFunction('cons', builtin_cons))
     globalEnv.addBinding(SchemeSymbol('car'), SchemeBuiltinFunction('car', builtin_car))
     globalEnv.addBinding(SchemeSymbol('cdr'), SchemeBuiltinFunction('cdr', builtin_cdr))
+    globalEnv.addBinding(SchemeSymbol('first'), SchemeBuiltinFunction('first', builtin_first))
+    globalEnv.addBinding(SchemeSymbol('rest'), SchemeBuiltinFunction('rest', builtin_rest))
     globalEnv.addBinding(SchemeSymbol('list'), SchemeBuiltinFunction('list', builtin_list))
     globalEnv.addBinding(SchemeSymbol('time'), SchemeBuiltinFunction('time', builtin_time))
     globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))

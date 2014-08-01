@@ -210,6 +210,51 @@ class SchemeEvaluator(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'x should be bound to a schemeNumber type.')
         self.assertEqual(obj.value, 3, 'after f is called, x should be bound to 3.')
 
+    def test_eval_first(self):
+        obj = eval_string('(first (list 1 2 3))')
+        self.assertIsNotNone(obj, 'first should not return None.')
+        self.assertEqual(obj.type, 'schemeNumber', 'first should return the first element of the list, which is in this case a number.')
+        self.assertEqual(obj.value, 1, 'the number first should return should be 1')
+
+    def test_eval_first_tooManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(first (list 1 2 3) (list 2 3 4))')
+
+    def test_eval_first_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(first)')
+
+    def test_eval_first_noListArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(first 1)')
+
+    def test_eval_first_emptyListArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(first (list))')
+
+    def test_eval_rest(self):
+        obj = eval_string('(rest (list 1 2 3))')
+        self.assertIsNotNone(obj, 'rest should not return None.')
+        self.assertEqual(obj.type, 'schemeCons', 'rest should return the rest of the list, i.e. a cons type.')
+        self.assertEqual(str(obj), '(2 3)', 'the rest of (1 2 3) should be (2 3)')
+
+    def test_eval_rest_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(rest (list 1 2 3) (list 2 3 4))')
+
+    def test_eval_rest_tooFewArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(rest)')
+
+    def test_eval_rest_noListArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(rest 1)')
+
+    def test_eval_rest_emptyListArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(rest (list))')
+
+    def test_eval_rest_listWithOneElement(self):
+        obj = eval_string('(rest (list 1))')
+        self.assertEqual(obj.type, 'schemeNil', 'rest should return the rest of the list (1), i.e. schemeNil.')
+        self.assertEqual(str(obj), '()', 'the rest of (1) should be ()')
+
+
+
+
+
 
 
 
