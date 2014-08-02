@@ -145,4 +145,40 @@ class SchemeEvalSyntax(TestCase):
         obj = eval_string('(or)')
         self.assertEqual(obj.type, 'schemeFalse', '(or) should evaluate to #f')
 
+    def test_eval_lambda(self):
+        initialize.initialize()
+        eval_string('(define add1 (lambda (n) (+ n 1)))')
+        obj = eval_string('add1')
+        self.assertEqual(obj.type, 'schemeUserDefinedFunction', 'the lambda shorthand syntax should create a user defined function')
+        obj2 = eval_string('(add1 3)')
+        self.assertEqual(obj2.type, 'schemeNumber', 'add1 should return a number type')
+        self.assertEqual(obj2.value, 4, 'add1 should return 4 if given 3.')
+
+    def test_eval_lambda_moreThanOneBodyElement(self):
+        initialize.initialize()
+        eval_string('(define f (lambda (n) (define x 1) (+ n x)))')
+        obj = eval_string('f')
+        self.assertEqual(obj.type, 'schemeUserDefinedFunction', 'the lambda shorthand syntax should create a user defined function')
+        obj2 = eval_string('(f 3)')
+        self.assertEqual(obj2.type, 'schemeNumber', 'f should return a number type')
+        self.assertEqual(obj2.value, 4, 'f should return 4 if given 3.')
+
+    def test_eval_shortHandLambda(self):
+        initialize.initialize()
+        eval_string('(define (add1 n) (+ n 1))')
+        obj = eval_string('add1')
+        self.assertEqual(obj.type, 'schemeUserDefinedFunction', 'the lambda shorthand syntax should create a user defined function')
+        obj2 = eval_string('(add1 3)')
+        self.assertEqual(obj2.type, 'schemeNumber', 'add1 should return a number type')
+        self.assertEqual(obj2.value, 4, 'add1 should return 4 if given 3.')
+
+    def test_eval_shortHandLambda_MoreThanOneBodyElement(self):
+        initialize.initialize()
+        eval_string('(define (f n) (define x 1) (+ n x))')
+        obj = eval_string('f')
+        self.assertEqual(obj.type, 'schemeUserDefinedFunction', 'the lambda shorthand syntax should create a user defined function')
+        obj2 = eval_string('(f 3)')
+        self.assertEqual(obj2.type, 'schemeNumber', 'f should return a number type')
+        self.assertEqual(obj2.value, 4, 'f should return 4 if given 3.')
+
 

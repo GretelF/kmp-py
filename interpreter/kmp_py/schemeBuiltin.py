@@ -250,16 +250,27 @@ def builtin_begin(unevaluatedArgs, env):
     return retVal
 
 def builtin_define(unevaluatedArgs, env):
-    if len(unevaluatedArgs) != 2:
-        raise schemeExceptions.ArgumentCountException('define expects exactly 2 arguments.')
+    if len(unevaluatedArgs) < 2:
+        raise schemeExceptions.ArgumentCountException('define expects at least 2 arguments.')
 
-    symbol = unevaluatedArgs[0]
-    unevaluatedValue = unevaluatedArgs[1]
+    if unevaluatedArgs[0].type == 'schemeCons':
+        symbol = unevaluatedArgs[0].car
+        lambdaArgs = unevaluatedArgs[0].cdr
+        lambdaBody = unevaluatedArgs[1:]
+        args = []
+        args.append(lambdaArgs)
+        args.extend(lambdaBody)
+        evaluatedValue = builtin_lambda(args, env)
+    else:
+        if len(unevaluatedArgs) != 2:
+            raise schemeExceptions.ArgumentCountException('define expects at exactly 2 arguments if no lambda short hand syntax is used.')
+        symbol = unevaluatedArgs[0]
+        unevaluatedValue = unevaluatedArgs[1]
+        evaluatedValue = evaluate(unevaluatedValue, env)
 
     if symbol.type != 'schemeSymbol':
         raise schemeExceptions.ArgumentTypeException('define expects schemeSymbol as first argument.')
 
-    evaluatedValue = evaluate(unevaluatedValue, env)
     if evaluatedValue.type == 'schemeUserDefinedFunction' and evaluatedValue.name is None:
         evaluatedValue.name = symbol.value
 
@@ -354,3 +365,5 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('empty'), SchemeNil())
     globalEnv.addBinding(SchemeSymbol('#f'), SchemeFalse())
     globalEnv.addBinding(SchemeSymbol('#t'), SchemeTrue())
+    globalEnv.addBinding(SchemeSymbol('false'), SchemeFalse())
+    globalEnv.addBinding(SchemeSymbol('true'), SchemeTrue())
