@@ -185,8 +185,11 @@ def builtin_print(evaluatedArgs):
 def builtin_write():
     pass
 
-def builtin_display():
-    pass
+def builtin_display(evaluatedArgs):
+    if(len(evaluatedArgs)!=1):
+        raise schemeExceptions.ArgumentCountException('display expects exactly 1 argument.')
+    print(evaluatedArgs[0].value)
+    return SchemeVoid()
 
 def builtin_type(evaluatedArgs):
     if (len(evaluatedArgs)!=1):
@@ -346,6 +349,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('='), SchemeBuiltinFunction('eq_arit', builtin_eq_arit))
     globalEnv.addBinding(SchemeSymbol('abs'), SchemeBuiltinFunction('abs', builtin_abs))
     globalEnv.addBinding(SchemeSymbol('print'), SchemeBuiltinFunction('print', builtin_print))
+    globalEnv.addBinding(SchemeSymbol('display'), SchemeBuiltinFunction('display', builtin_display))
     globalEnv.addBinding(SchemeSymbol('cons'), SchemeBuiltinFunction('cons', builtin_cons))
     globalEnv.addBinding(SchemeSymbol('car'), SchemeBuiltinFunction('car', builtin_car))
     globalEnv.addBinding(SchemeSymbol('cdr'), SchemeBuiltinFunction('cdr', builtin_cdr))
