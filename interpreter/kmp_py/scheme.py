@@ -159,12 +159,12 @@ class SchemeSymbol(SchemeObject):
 
 
 class SchemeUserDefinedFunction(SchemeObject):
-    def __init__(self, arglist, bodylist, env, name=None ):
+    def __init__(self, arglist, bodylist, parentenv, name=None ):
         super().__init__()
         self.name = name
         self.arglist = arglist
         self.bodylist = bodylist
-        self.env = env
+        self.parentenv = parentenv
         self.type = 'schemeUserDefinedFunction'
 
     def call(self, args):
@@ -173,11 +173,12 @@ class SchemeUserDefinedFunction(SchemeObject):
 
         if len(args)!=len(self.arglist):
             raise ArgumentCountException('function {0} expects {1} argument(s), got {2}'.format(self.name, len(self.arglist), len(args)))
+        env = SchemeEnvironment(self.parentenv)
         for sym,val in zip(self.arglist, args):
-            self.env.addBinding(sym,val)
+            env.addBinding(sym,val)
         retVal = SchemeVoid()
         for bodyPart in self.bodylist:
-            retVal = e.evaluate(bodyPart, self.env)
+            retVal = e.evaluate(bodyPart, env)
         return retVal
 
     def __str__(self):

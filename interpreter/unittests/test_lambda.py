@@ -75,6 +75,24 @@ class test_Lambdas(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'lambda should return type schemeNumber.')
         self.assertEqual(obj.value, 15, 'lambda should return schemeNumber 15.')
 
+    def test_lambda_tak(self):
+        initialize.initialize()
+        eval_string('(define counter 0)')
+        eval_string(''' (define (tak x y z)
+                            (set! counter (+ counter 1))
+                            (if (< y x)
+                                (tak (tak (- x 1)  y z) (tak (- y 1) z x) (tak (- z 1) x y))
+                                z
+                            )
+                        )'''
+        )
+        obj = eval_string('(tak 4 0 1)')
+        self.assertEqual(obj.type, 'schemeNumber', 'tak should return a schemeNumber')
+        self.assertEqual(obj.value, 0, 'tak should return schemeNumber 1 for arguments 4 0 1')
+        c = eval_string('counter')
+        self.assertEqual(c.type, 'schemeNumber', 'counter should be a number.')
+        self.assertEqual(c.value, 17, 'the counter should be 17 for tak arguments 4 0 1')
+
 
 
 
