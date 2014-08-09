@@ -226,6 +226,26 @@ def builtin_map(evaluatedArgs):
         retVal = SchemeCons(car, cdr)
     return retVal
 
+def builtin_getfunctioninfo(evaluatedArgs):
+    if len(evaluatedArgs) != 1:
+        raise schemeExceptions.ArgumentCountException('getfunctionbody expects exactly one argument')
+    lambdaObject = evaluatedArgs[0]
+    if lambdaObject.type != 'schemeUserDefinedFunction':
+        raise schemeExceptions.ArgumentTypeException('getfunctionbody expects user defined function as argument.')
+    arglist = lambdaObject.arglist
+    bodylist = lambdaObject.bodylist
+    if lambdaObject.name:
+        builtin_display([SchemeString("name: {0}".format(lambdaObject.name))])
+    builtin_display([SchemeString("arglist:")])
+    for arg in arglist:
+        builtin_display([SchemeString("    {0}".format(str(arg)))])
+    builtin_display([SchemeString("bodylist:")])
+    for part in bodylist:
+        builtin_display([SchemeString("    {0}".format(str(part)))])
+    return SchemeVoid()
+
+
+
 # Syntax
 
 def evaluate(arg, env):
@@ -361,6 +381,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('type?'), SchemeBuiltinFunction('type?', builtin_type))
     globalEnv.addBinding(SchemeSymbol('not'), SchemeBuiltinFunction('not', builtin_not))
     globalEnv.addBinding(SchemeSymbol('map'), SchemeBuiltinFunction('map', builtin_map))
+    globalEnv.addBinding(SchemeSymbol('get-function-info'), SchemeBuiltinFunction('getfunctioninfo', builtin_getfunctioninfo))
 
 
 
