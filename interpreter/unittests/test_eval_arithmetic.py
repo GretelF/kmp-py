@@ -122,6 +122,9 @@ class SchemeEvaluatorArithmetic(TestCase):
         self.assertEqual(obj.type, 'schemeNumber', 'Dividing a number by another should result in another number.')
         self.assertEqual(obj.value, 0, '(% 0 7) should result in 0')
 
+    def test_eval_modulo_noInt(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(% 3.2 5.3)')
+
     def test_eval_modulo_noNumber(self):
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(% "hello" 3)')
         self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(% 3 "hello")')
