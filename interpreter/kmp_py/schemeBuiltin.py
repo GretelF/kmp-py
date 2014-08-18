@@ -197,7 +197,7 @@ def builtin_display(evaluatedArgs):
 def builtin_type(evaluatedArgs):
     if (len(evaluatedArgs)!=1):
         raise schemeExceptions.ArgumentCountException('type? expects exactly 1 argument.')
-    return evaluatedArgs[0].type
+    return SchemeString(evaluatedArgs[0].type)
 
 def builtin_not(evaluatedArgs):
     if (len(evaluatedArgs) != 1):
