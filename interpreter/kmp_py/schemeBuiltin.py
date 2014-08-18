@@ -59,10 +59,10 @@ def builtin_modulo(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('function % expects exactly 2 arguments.')
     for operand in evaluatedArgs:
         if(operand.type != 'schemeNumber'):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /. Expects SchemeNumber.'.format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure %. Expects SchemeNumber.'.format(str(operand)))
     for operand in evaluatedArgs:
         if (not isinstance(operand.value, int)):
-            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure /. Expects integer.'.format(str(operand)))
+            raise schemeExceptions.ArgumentTypeException('{0} is no valid operand for procedure %. Expects integer.'.format(str(operand)))
     if evaluatedArgs[1].value == 0:
         raise schemeExceptions.DivisionByZero('Second argument should not be 0.')
     return SchemeNumber(evaluatedArgs[0].value % evaluatedArgs[1].value)
