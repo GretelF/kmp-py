@@ -1,0 +1,170 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{caption}
+\usepackage{wrapfig}
+\usepackage{eurosym}
+\usepackage{biblatex}
+\usepackage{url}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage[table]{xcolor}
+\linespread{1.4}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mylightgray}{rgb}{0.7,0.7,0.7}
+\definecolor{mylightergray}{rgb}{0.9,0.9,0.9}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\let\origitemize\itemize
+\def\itemize{\origitemize\itemsep0pt}
+
+\lstset{ 
+  backgroundcolor=\color{white},   
+  basicstyle=\ttfamily\footnotesize,          
+  breakatwhitespace=false,         
+  breaklines=true,  
+  commentstyle=\color{mygreen}, 
+  escapeinside={\%*}{*)}, 
+  extendedchars=true,             
+  keepspaces=true,                 
+  keywordstyle=\color{blue},
+  language=Octave,
+  numbers=left,                   
+  numbersep=15pt,                  
+  numberstyle=\tiny\color{mygray}, 
+  showspaces=false,                
+  showstringspaces=false,          
+  showtabs=false,                  
+  stringstyle=\color{mymauve},
+  tabsize=2,
+  title=\lstname,
+  captionpos=b
+}
+
+\renewcommand*\lstlistingname{Codebeispiel}    %Rename Listings
+
+\renewcommand*\thesection{\arabic{section}}
+
+\makeatletter
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+    {3.25ex \@plus1ex \@minus .2ex}%
+    {0.75ex plus 0.1ex}% space after heading
+    {\normalfont\normalsize\bfseries}}
+\makeatother
+
+\begin{document}
+\title{Lisp Interpreter in Python 3.4}
+\subtitle{Concepts of Modern Programming Languages}
+\author{Maria Florus\ss}
+\maketitle
+\newpage
+
+\section*{Overall Structure}
+
+\subsection*{Lisp Objects}
+\subsection*{TODO}
+
+\section*{Functionality}
+
+\section*{Builtin Syntax}
+\subsubsection*{define}
+\subsubsection*{lambda}
+\subsubsection*{if}
+\subsubsection*{set!}
+\subsubsection*{let}
+\subsubsection*{begin}
+\subsubsection*{quote}
+\subsubsection*{and}
+\subsubsection*{or}
+\section*{Builtin Functions}
+
+\subsection*{Arithmetic}
+
+\subsubsection*{add}
+\begin{tabular}{l  p{13cm}}
+Description: & Adds an arbitrary amount of numbers and returns the accumulated value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is returned as \lstinline{SchemeNumber}. If no argument is given the return value is 0.\\
+Symbol: & \lstinline{+}\\
+Arguments: & 0+ \lstinline{SchemeNumber}s\\
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (+ 1 2)
+3
+> (+ 2 3 4)
+9
+> (+)
+0
+> (+ 42)
+42
+\end{lstlisting}
+
+\subsubsection*{subtract}
+\begin{tabular}{l  p{13cm}}
+Description: & Subtracts an arbitrary amount of numbers from the first number and returns the accumulated value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is negated and returned as \lstinline{SchemeNumber}. If no argument is given an ArgumentCountException is risen.\\
+Symbol: & \lstinline{-}\\
+Arguments: & 1+ \lstinline{SchemeNumber}s\\
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (- 0.5 2)
+-1.5
+> (- 10 3 4)
+3
+> (-)
+ArgumentCountException: 'function - expects at least 1 argument.'                                                        
+> (- 42)
+-42
+\end{lstlisting}
+
+\subsubsection*{multiply}
+\begin{tabular}{l  p{13cm}}
+Description: & Multiplies an arbitrary amount of numbers and returns the resulting value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is returned as \lstinline{SchemeNumber}. If no argument is given the return value is 1.\\
+Symbol: & \lstinline{*}\\
+Arguments: & 0+ \lstinline{SchemeNumber}s\\
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (* 3.5 4)
+14.0
+> (* 2 3 4)
+24
+>(*)
+1
+> (* 42)
+42
+\end{lstlisting}
+
+\subsubsection*{divide}
+\begin{tabular}{l  p{13cm}}
+Description: & Divides the first argument by the second, the result by the third and so on. If only one argument is given, the result is 1 devided by the argument. If no argument is given an ArgumentCountException is risen.\\
+Symbol: & \lstinline{/}\\
+Arguments: & 1+ \lstinline{SchemeNumber}s\\
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (- 0.5 2)
+-1.5
+> (/ 12 3 2)
+2.0
+> (/)
+ArgumentCountException: 'function - expects at least 1 argument.'                                                        
+> (/ 3)
+0.3333333333333333
+\end{lstlisting}
+\subsubsection*{arithmetic equals}
+\subsubsection*{modulo}
+
+\end{document}
