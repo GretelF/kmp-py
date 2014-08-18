@@ -184,6 +184,9 @@ class SchemeUserDefinedFunction(SchemeObject):
     def __str__(self):
         return '<UserDefinedFunction: {1}>'.format(self.type, self.name or "anonymous")
 
+    def __eq__(self, other):
+        return self is other
+
 
 class SchemeBuiltinFunction(SchemeObject):
     def __init__(self, name, callback):

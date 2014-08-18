@@ -93,6 +93,13 @@ class test_Lambdas(TestCase):
         self.assertEqual(c.type, 'schemeNumber', 'counter should be a number.')
         self.assertEqual(c.value, 17, 'the counter should be 17 for tak arguments 4 0 1')
 
+    def test_lambda_equal(self):
+        initialize.initialize()
+        eval_string('(define (f) 1)')
+        eval_string('(define (g) 1)')
+        obj = eval_string('(eq? g f)')
+        self.assertEqual(obj.type, 'schemeFalse', 'g und f should not be equal.')
+
 
 
 
