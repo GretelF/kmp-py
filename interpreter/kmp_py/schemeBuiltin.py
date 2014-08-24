@@ -329,14 +329,14 @@ def builtin_set(unevaluatedArgs, env):
         raise schemeExceptions.ArgumentTypeException('set! expects schemeSymbol as first argument.')
     success = env.setBinding(symbol, evaluate(unevaluatedArgs[1], env))
     if not success:
-        raise schemeExceptions.NoBindingException('No Binding found for symbol {0}.'.format(symbol))
+        raise schemeExceptions.NoBindingException('No binding found for symbol {0}.'.format(symbol))
     return SchemeVoid()
 
 def builtin_let(unevaluatedArgs, env):
     pass
 
 def builtin_quote(unevaluatedArgs, env):
-    if len(unevaluatedArgs)>1:
+    if len(unevaluatedArgs) != 1:
         raise schemeExceptions.ArgumentCountException('quote expects exactly 1 argument.')
     return unevaluatedArgs[0]
 
