@@ -476,6 +476,25 @@ ArgumentTypeException: '3.4 is no valid operand for procedure %. Expects integer
 \end{lstlisting}
 
 \subsection*{Other}
+
+\subsubsection*{exit}
+\begin{tabular}{l  p{13cm}}
+Description: & Closes the interpreter. Any number of arguments can be given. If the first argument is a SchemeNumber the interpreter will close with the according exit code.\\
+Symbol: & \lstinline{cons}\\
+Arguments: & exactly two \lstinline{SchemeObject}s\\
+Return Value: & \lstinline{SchemeCons}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (exit)
+user@computer:~/Studies        
+
+> (exit 12)
+user@computer:~/Studies ?12        
+\end{lstlisting}
+
 \subsubsection*{print}
 \subsubsection*{display}
 
@@ -662,6 +681,31 @@ Example of usage:
 \end{lstlisting}
 
 \subsubsection*{not}
+\begin{tabular}{l  p{13cm}}
+Description: & Returns \lstinline{SchemeTrue} for \lstinline{SchemeFalse}, \lstinline{SchemeFalse} for everything else.\\
+Symbol: & \lstinline{not}\\
+Arguments: & \lstinline{SchemeObject}\\
+Return Value: & \lstinline{SchemeTrue} or \lstinline{SchemeFalse}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (not #t)
+#f
+> (not #f)
+#t
+> (not 1)
+#f
+> (not (list 1 2 3))
+#f
+> (not true)
+#f
+> (not false)
+#t
+\end{lstlisting}
+
+
 \subsubsection*{map}
 \subsubsection*{get-function-info}
 
