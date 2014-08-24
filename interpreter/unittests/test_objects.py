@@ -229,6 +229,16 @@ class test_SchemeCons(TestCase):
         self.assertEqual(type(obj), tuple, 'toArray should return a tuple for irregular lists.')
         self.assertEqual(obj, (innerCons, five), 'toArray should return a tuple, that represents the cons ((1 . 3) . 5) as ((cons), 5)')
 
+    def test_is_regular(self):
+        one = SchemeNumber(1)
+        two = SchemeNumber(2)
+        three = SchemeNumber(3)
+
+        cons = SchemeCons(one, SchemeCons(two, three))
+        self.assertFalse(cons.isRegular(), '(1 2 . 3) should not be a regular list.')
+
+        cons2 = SchemeCons(one, SchemeCons(two, SchemeNil()))
+        self.assertTrue(cons2.isRegular(), '(1 2) should be a regular list.')
 
 
 class test_SchemeStringStream(TestCase):

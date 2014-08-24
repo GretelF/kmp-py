@@ -141,15 +141,17 @@ def builtin_list(evaluatedArgs):
 def builtin_first(evaluatedArgs):
     if len(evaluatedArgs) != 1:
         raise schemeExceptions.ArgumentCountException('first expects exactly 1 argument')
-    if evaluatedArgs[0].type != 'schemeCons':
-        raise schemeExceptions.ArgumentTypeException('first expects a not empty list as argument.')
+    arg = evaluatedArgs[0]
+    if arg.type != 'schemeCons' or not arg.isRegular:
+        raise schemeExceptions.ArgumentTypeException('first expects a not empty regular list as argument.')
     return evaluatedArgs[0].car
 
 def builtin_rest(evaluatedArgs):
     if len(evaluatedArgs) != 1:
         raise schemeExceptions.ArgumentCountException('rest expects exactly 1 argument')
-    if evaluatedArgs[0].type != 'schemeCons':
-        raise schemeExceptions.ArgumentTypeException('rest expects a not empty list as argument.')
+    arg = evaluatedArgs[0]
+    if arg.type != 'schemeCons' or not arg.isRegular:
+        raise schemeExceptions.ArgumentTypeException('rest expects a not empty regular list as argument.')
     return evaluatedArgs[0].cdr
 
 def builtin_time(evaluatedArgs):

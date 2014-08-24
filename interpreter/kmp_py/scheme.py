@@ -120,6 +120,14 @@ class SchemeCons(SchemeObject):
         array.extend(cdr.toArray())
         return array
 
+    def isRegular(self):
+        cdr = self.cdr
+        if cdr.type == 'schemeNil':
+            return True
+        elif cdr.type == 'schemeCons':
+            return cdr.isRegular()
+        return False
+
 
 class SchemeNumber(SchemeObject):
     def __init__(self, value):

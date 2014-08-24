@@ -139,9 +139,9 @@ class SchemeEvaluator(TestCase):
 
     def test_eval_type(self):
         obj = eval_string('(type? 2)')
-        self.assertEqual(obj, 'schemeNumber', 'The type of 2 should be schemeNumber.')
+        self.assertEqual(obj.value, 'schemeNumber', 'The type of 2 should be schemeNumber.')
         obj = eval_string('(type? (define x 2))')
-        self.assertEqual(obj, 'schemeVoid', 'The return value of (define x 2) should be schemeVoid.')
+        self.assertEqual(obj.value, 'schemeVoid', 'The return value of (define x 2) should be schemeVoid.')
 
     def test_eval_type_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(type? 1 2 3)')
