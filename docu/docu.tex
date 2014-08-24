@@ -478,10 +478,65 @@ ArgumentTypeException: '3.4 is no valid operand for procedure %. Expects integer
 \subsection*{Other}
 \subsubsection*{print}
 \subsubsection*{display}
+
 \subsubsection*{cons}
+\begin{tabular}{l  p{13cm}}
+Description: & Creates a \lstinline{SchemeCons} with the first argument as car and the second argument as cdr.\\
+Symbol: & \lstinline{cons}\\
+Arguments: & exactly two \lstinline{SchemeObject}s\\
+Return Value: & \lstinline{SchemeCons}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (cons 1 2)
+(1 . 2)
+> (cons 1 2 3)
+ArgumentCountException: 'cons expects exactly 2 arguments.'  
+> (cons (1 (cons 2 3)))
+(1 2 . 3)
+> (cons 1 (cons 2 nil))
+(1 2)
+\end{lstlisting}
 
 \subsubsection*{car}
+\begin{tabular}{l  p{13cm}}
+Description: & Returns the car of the given \lstinline{SchemeCons}.\\
+Symbol: & \lstinline{car}\\
+Arguments: & \lstinline{SchemeCons}\\
+Return Value: & \lstinline{SchemeObject}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (car (cons 1 2))
+1
+> (car (list "hello" 2 3))
+"hello"
+> (car 1)
+ArgumentTypeException: 'car expects cons as argument'   
+\end{lstlisting}
+
 \subsubsection*{cdr}
+\begin{tabular}{l  p{13cm}}
+Description: & Returns the cdr of the given \lstinline{SchemeCons}.\\
+Symbol: & \lstinline{cdr}\\
+Arguments: & \lstinline{SchemeCons}\\
+Return Value: & \lstinline{SchemeObject}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (cdr (cons 1 2))
+2
+> (car (list "hello" 2 3))
+(2 3)
+> (cdr 1)
+ArgumentTypeException: 'cdr expects cons as argument'   
+\end{lstlisting}
 
 
 \subsubsection*{list}
@@ -501,6 +556,28 @@ Example of usage:
 (1)
 > (list)
 ()
+\end{lstlisting}
+
+
+\subsubsection*{list?}
+\begin{tabular}{l  p{13cm}}
+Description: & Returns \lstinline{SchemeTrue} if the argument is a regular list, else \lstinline{SchemeFalse}.\\
+Symbol: & \lstinline{list?}\\
+Arguments: & \lstinline{SchemeObject}\\
+Return Value: & \lstinline{SchemeTrue} or \lstinline{SchemeFalse}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (list? (list 1 2 3))
+#t
+> (list? (cons 1 2))
+#f
+> (list? 1)
+#f
+> (list? nil)
+#t
 \end{lstlisting}
 
 

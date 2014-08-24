@@ -156,7 +156,8 @@ class SchemeEvaluator(TestCase):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(list? 1 2 3)')
 
     def test_eval_isList_noConsArgument(self):
-        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(list? 1)')
+        obj = eval_string('(list? 1)')
+        self.assertEqual(obj.type, 'schemeFalse', 'list? should return SchemeFalse for 1.')
 
     def test_eval_isList_SchemeNil(self):
         obj = eval_string('(list? nil)')

@@ -206,7 +206,7 @@ def builtin_isList(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('list? expects exactly 1 argument.')
     arg = evaluatedArgs[0]
     if arg.type not in ('schemeCons', 'schemeNil'):
-        raise schemeExceptions.ArgumentTypeException('list? expects SchemeCons or SchemeNil as argument. Got {0}'.format(arg.type))
+        return SchemeFalse()
     if arg.type == 'schemeNil' or arg.isRegular():
         return SchemeTrue()
     return SchemeFalse()
