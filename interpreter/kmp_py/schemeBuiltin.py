@@ -201,6 +201,16 @@ def builtin_type(evaluatedArgs):
         raise schemeExceptions.ArgumentCountException('type? expects exactly 1 argument.')
     return SchemeString(evaluatedArgs[0].type)
 
+def builtin_isList(evaluatedArgs):
+    if (len(evaluatedArgs)!=1):
+        raise schemeExceptions.ArgumentCountException('list? expects exactly 1 argument.')
+    arg = evaluatedArgs[0]
+    if arg.type not in ('schemeCons', 'schemeNil'):
+        raise schemeExceptions.ArgumentTypeException('list? expects SchemeCons or SchemeNil as argument. Got {0}'.format(arg.type))
+    if arg.type == 'schemeNil' or arg.isRegular():
+        return SchemeTrue()
+    return SchemeFalse()
+
 def builtin_not(evaluatedArgs):
     if (len(evaluatedArgs) != 1):
         raise schemeExceptions.ArgumentCountException('not expects exactly 1 argument.')
@@ -384,6 +394,7 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('time'), SchemeBuiltinFunction('time', builtin_time))
     globalEnv.addBinding(SchemeSymbol('recursion-limit'), SchemeBuiltinFunction('recursion-limit', builtin_recursionlimit))
     globalEnv.addBinding(SchemeSymbol('type?'), SchemeBuiltinFunction('type?', builtin_type))
+    globalEnv.addBinding(SchemeSymbol('list?'), SchemeBuiltinFunction('list?', builtin_isList))
     globalEnv.addBinding(SchemeSymbol('not'), SchemeBuiltinFunction('not', builtin_not))
     globalEnv.addBinding(SchemeSymbol('map'), SchemeBuiltinFunction('map', builtin_map))
     globalEnv.addBinding(SchemeSymbol('get-function-info'), SchemeBuiltinFunction('getfunctioninfo', builtin_getfunctioninfo))

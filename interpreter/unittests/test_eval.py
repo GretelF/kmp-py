@@ -146,6 +146,24 @@ class SchemeEvaluator(TestCase):
     def test_eval_type_tooManyArguments(self):
         self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(type? 1 2 3)')
 
+    def test_eval_isList(self):
+        obj = eval_string('(list? (list 1 2))')
+        self.assertEqual(obj.type, 'schemeTrue', 'list? should return SchemeTrue for (1 2)')
+        obj2 = eval_string('(list? (cons 1 2))')
+        self.assertEqual(obj2.type, 'schemeFalse', 'list? should return SchemeFalse for (1 . 2)')
+
+    def test_eval_isList_toManyArguments(self):
+        self.assertRaises(schemeExceptions.ArgumentCountException, eval_string, '(list? 1 2 3)')
+
+    def test_eval_isList_noConsArgument(self):
+        self.assertRaises(schemeExceptions.ArgumentTypeException, eval_string, '(list? 1)')
+
+    def test_eval_isList_SchemeNil(self):
+        obj = eval_string('(list? nil)')
+        self.assertEqual(obj.type, 'schemeTrue', 'list? should return SchemeTrue for SchemeNil.')
+
+
+
     def test_eval_not(self):
         obj = eval_string('(not #t)')
         self.assertEqual(obj.type, 'schemeFalse', '(not #t) should return schemeFalse.')

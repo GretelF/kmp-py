@@ -483,11 +483,32 @@ ArgumentTypeException: '3.4 is no valid operand for procedure %. Expects integer
 \subsubsection*{car}
 \subsubsection*{cdr}
 
+
+\subsubsection*{list}
+\begin{tabular}{l  p{13cm}}
+Description: & Creates a regular list out of all arguments.\\
+Symbol: & \lstinline{list}\\
+Arguments: & 0+ \lstinline{SchemeObject}s\\
+Return Value: & \lstinline{SchemeCons} or \lstinline{SchemeNil}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (list 1 2 3)
+(1 2 3)
+> (list 1)
+(1)
+> (list)
+()
+\end{lstlisting}
+
+
 \subsubsection*{first}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the first element of the given list. A regular list is expected.\\
 Symbol: & \lstinline{first}\\
-Arguments: & \lstinline{SchemeCons} -> has to be a regular list.\\
+Arguments: & \lstinline{SchemeCons} - has to be a regular list.\\
 Return Value: & \lstinline{SchemeObject}
 \end{tabular}
 \\
@@ -507,7 +528,7 @@ ArgumentTypeException: 'rest expects a not empty list as argument.'
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the rest list after the first argument of the given list. A regular list is expected.\\
 Symbol: & \lstinline{rest}\\
-Arguments: & \lstinline{SchemeCons} -> has to be a regular list.\\
+Arguments: & \lstinline{SchemeCons} - has to be a regular list.\\
 Return Value: & \lstinline{SchemeObject}
 \end{tabular}
 \\
@@ -519,10 +540,11 @@ Example of usage:
 > (rest (cons 1 2))
 ArgumentTypeException: 'rest expects a not empty list as argument.'  
 > (rest (list "hello" "world"))
-"world"
+("world")
 \end{lstlisting}
 
-\subsubsection*{list}
+
+
 \subsubsection*{time}
 
 \subsubsection*{recursion-limit}
