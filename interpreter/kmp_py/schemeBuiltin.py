@@ -187,9 +187,6 @@ def builtin_print(evaluatedArgs):
     print(str(evaluatedArgs[0]))
     return SchemeVoid()
 
-def builtin_write():
-    pass
-
 def builtin_display(evaluatedArgs):
     if(len(evaluatedArgs)!=1):
         raise schemeExceptions.ArgumentCountException('display expects exactly 1 argument.')

@@ -66,10 +66,29 @@
 
 \section*{Overall Structure}
 
-\subsection*{Lisp Objects}
-\subsection*{TODO}
+\subsection*{Structure}
+REPL and so on.
 
 \section*{Functionality}
+
+TODO more
+
+It is possible to structure your input in multiple lines. The REPL will count the opening and closing parethesis and will only redirect to the reader if each opening parathesis has a closing counter part. This leads to multiline input.
+
+TODO more
+
+\subsection*{Lisp Objects}
+All object types, that were needed during the implementation, were implemented as \lstinline{SchemeObject}s. The base class \lstinline{SchemeObject} contains all necessary functions, such as \lstinline{isTrue()} which returns \lstinline{SchemeTrue} or a basic compare and \lstinline{toString} function. I decided to use this structure to have a possibility to use all \lstinline{SchemeObject}s in my interpreter, not just the obvious ones like \lstinline{SchemeString} and \lstinline{SchemeCons}, but also for example \lstinline{SchemeEnvironment} and \lstinline{SchemeStringStream}. 
+
+All implemented objects extend the base class and override some or all default functionalities. \lstinline{SchemeFalse} for example overrides \lstinline{isTrue()} and returns \lstinline{SchemeFalse} instead.
+
+I wanted some objects to implement the singleton pattern. I achieved this by creating a special object \lstinline{SchemeSingleton}, which serves as base class for the objects \lstinline{SchemeTrue}, \lstinline{SchemeFalse}, \lstinline{SchemeNil} and \lstinline{SchemeVoid}. When a new \lstinline{SchemeSingleton} is created the class will look up, if an instance already exists and will rather return this one instead of creating a new one. 
+
+In the interpreter there are no separate objects for integer and floats. Since python is able to use arithmetic operations for both types mixed up, I implemented a \lstinline{SchemeNumber} object, which can contain both, an integer or a float. The only time where I had to diverentiate between both was the builtin function \lstinline{modulo()}, which should only work for integers. But since python provides functions like \lstinline{isinstance()}, where you can check, if an object is an instance of a certain class, this was no problem at all.
+
+The \lstinline{SchemeEnvironment} is implemented by using pythons dictionaries. For each binding a new entry is added to the dictionary which binds a \lstinline{SchemeSymbol} to a \lstinline{SchemeObject}. Each environment can also have a parent. There are two \lstinline{SchemeEnvironment}s created when the program is started: the syntax environment and the global environment where all builtinfunctions are bound. The syntax environment serves as parent for the global environment. If the system asks an environment for a special binding, it searches its own dictionary and if it can not find anything it will forward the request to it's parent environment. This way, if the evaluator asks for a binding for a syntax symbol it will first go through the global environment and if there is nothing to be found to the syntax environment. This technically allows the user to override syntax if he wants to. However to date no possibility to implement user defined syntax is given. 
+
+
 
 \section*{Builtin Syntax}
 
@@ -496,7 +515,46 @@ user@computer:~/Studies ?12
 \end{lstlisting}
 
 \subsubsection*{print}
+\begin{tabular}{l  p{13cm}}
+Description: & Prints a representation of the given object to the console.\\
+Symbol: & \lstinline{print}\\
+Arguments: & \lstinline{SchemeObject}\\
+Return Value: & \lstinline{SchemeVoid}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (print "hello")
+"hello"
+> (print (cons 1 2))
+(1 . 2)
+> (print (list 4 2 5 6 (+ 1 2)))
+(4 2 5 6 3)
+> (print nil)
+()
+\end{lstlisting}
+
 \subsubsection*{display}
+\begin{tabular}{l  p{13cm}}
+Description: & Nearly similar to print, but prints strings without quotation mark.\\
+Symbol: & \lstinline{display}\\
+Arguments: & \lstinline{SchemeObject}\\
+Return Value: & \lstinline{SchemeVoid}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (display "hello")
+hello
+> (display (cons 1 2))
+(1 . 2)
+> (display (list 4 2 5 6 (+ 1 2)))
+(4 2 5 6 3)
+> (display nil)
+()
+\end{lstlisting}
 
 \subsubsection*{cons}
 \begin{tabular}{l  p{13cm}}
@@ -707,8 +765,44 @@ Example of usage:
 
 
 \subsubsection*{map}
-\subsubsection*{get-function-info}
+\begin{tabular}{l  p{13cm}}
+Description: & Executes the given function (first argument) for every element of the given list (second argument) and returns a list out of all results.\\
+Symbol: & \lstinline{map}\\
+Arguments: & \lstinline{SchemeUserDefinedFunction} or \lstinline{SchemeBuiltinFunction} and \lstinline{SchemeCons} (has to be a list)\\
+Return Value: & \lstinline{SchemeCons}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (define (add1 n) (+ n 1))
+> (define l (list 1 2 3 4))
+> (map add1 l)
+(2 3 4 5)
+\end{lstlisting}
 
+\subsubsection*{get-function-info}
+\begin{tabular}{l  p{13cm}}
+Description: & Prints a representation of the given user defined function to the console. It includes the name, the parameters and the function body.\\
+Symbol: & \lstinline{get-function-info}\\
+Arguments: & \lstinline{SchemeUserDefinedFunction}\\
+Return Value: & \lstinline{SchemeVoid}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (define (f n m) (+ n 1) (- n m) (+ n m))
+> (get-function-info f)
+name: f
+arglist:
+	n
+	m
+bodylist:
+	(+ n 1)
+	(- n m)
+	(+ n m)
+\end{lstlisting}
 
 
 
