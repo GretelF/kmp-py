@@ -1,5 +1,5 @@
-import sys, time
-from interpreter.kmp_py import schemeExceptions,evaluator
+import sys, time, os
+from interpreter.kmp_py import schemeExceptions,evaluator, reader
 from interpreter.kmp_py.scheme import *
 
 def builtin_exit(evaluatedArgs):
@@ -240,10 +240,10 @@ def builtin_map(evaluatedArgs):
 
 def builtin_getfunctioninfo(evaluatedArgs):
     if len(evaluatedArgs) != 1:
-        raise schemeExceptions.ArgumentCountException('getfunctionbody expects exactly one argument')
+        raise schemeExceptions.ArgumentCountException('get-function-body expects exactly one argument')
     lambdaObject = evaluatedArgs[0]
     if lambdaObject.type != 'schemeUserDefinedFunction':
-        raise schemeExceptions.ArgumentTypeException('getfunctionbody expects user defined function as argument.')
+        raise schemeExceptions.ArgumentTypeException('get-function-body expects user defined function as argument.')
     arglist = lambdaObject.arglist
     bodylist = lambdaObject.bodylist
     if lambdaObject.name:
@@ -256,6 +256,28 @@ def builtin_getfunctioninfo(evaluatedArgs):
         builtin_display([SchemeString("    {0}".format(str(part)))])
     return SchemeVoid()
 
+def builtin_evalfile(evaluatedArgs):
+    if len(evaluatedArgs) != 1:
+        raise schemeExceptions.ArgumentCountException('eval-file expects exactly one argument')
+    filepath = evaluatedArgs[0]
+    if filepath.type != 'schemeString':
+        raise schemeExceptions.ArgumentTypeException('eval-file expects SchemeString as argument')
+    code = ''
+    try:
+        with open(filepath.value, 'r') as inputFile:
+            code = inputFile.read()
+    except Exception as e:
+        raise schemeExceptions.SchemeException(e)
+    code = "(begin {0} )".format(code)
+    stream = SchemeStringStream(code)
+    result = reader.SchemeReader().read(stream)
+    result = evaluator.SchemeEvaluator().evaluate(result)
+    return result
+
+def builtin_printcwd(evaluatedArgs):
+    if len(evaluatedArgs) != 0:
+        raise schemeExceptions.ArgumentCountException('print-cwd expects no argument.')
+    return SchemeString(os.getcwd())
 
 
 # Syntax
@@ -394,7 +416,9 @@ def initializeBindings():
     globalEnv.addBinding(SchemeSymbol('list?'), SchemeBuiltinFunction('list?', builtin_isList))
     globalEnv.addBinding(SchemeSymbol('not'), SchemeBuiltinFunction('not', builtin_not))
     globalEnv.addBinding(SchemeSymbol('map'), SchemeBuiltinFunction('map', builtin_map))
-    globalEnv.addBinding(SchemeSymbol('get-function-info'), SchemeBuiltinFunction('getfunctioninfo', builtin_getfunctioninfo))
+    globalEnv.addBinding(SchemeSymbol('get-function-info'), SchemeBuiltinFunction('get-function-info', builtin_getfunctioninfo))
+    globalEnv.addBinding(SchemeSymbol('eval-file'), SchemeBuiltinFunction('eval-file', builtin_evalfile))
+    globalEnv.addBinding(SchemeSymbol('print-cwd'), SchemeBuiltinFunction('print-cwd', builtin_printcwd))
 
 
 
