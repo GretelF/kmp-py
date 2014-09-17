@@ -116,11 +116,6 @@ class test_SchemeNumber(TestCase):
         x = SchemeNumber(-1)
         self.assertEqual(x.value, -1, 'schemeNumber does not work for negative numbers')
 
-    def test_sameInstance(self):                                            # TODO: do i really want this???
-        x = SchemeNumber(3)
-        y = SchemeNumber(3)
-        self.assertIs(x, y, 'same schemeNumbers are not same.')
-
     def test_str(self):
         x = SchemeNumber(3)
         self.assertEqual(str(x), '3', 'schemeNumber function __str__ does not work.')
