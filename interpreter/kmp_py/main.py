@@ -5,6 +5,16 @@ def repl():
     e = evaluator.SchemeEvaluator()
     r = reader.SchemeReader()
 
+    initCode = ''
+    with open('init.lisp', 'r') as initfile:
+        initCode = initfile.read()
+    initCode = "(begin {0} )".format(initCode)
+    stream = scheme.SchemeStringStream(initCode)
+    initEval = r.read(stream)
+    initPrint = e.evaluate(initEval)
+    if initPrint.type != 'schemeVoid':
+        print(initPrint)
+
     while True:
         try:
             toRead = input('> ')
@@ -17,12 +27,8 @@ def repl():
             while not stream.isAtEndOfStream():
                 toEval = r.read(stream)
                 toPrint = e.evaluate(toEval)
-                if type(toPrint) is str:
+                if toPrint.type != 'schemeVoid':
                     print(toPrint)
-                    continue
-                elif toPrint.type == 'schemeVoid':
-                    continue
-                print(toPrint)
         except schemeExceptions.SchemeException as exception:
             print('{0}: {1}'.format(type(exception).__name__, exception))
         except Exception as exception:

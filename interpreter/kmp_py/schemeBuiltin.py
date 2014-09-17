@@ -398,10 +398,6 @@ def initializeBindings():
 
 
 
-    globalEnv.addBinding(SchemeSymbol('null'), SchemeNil())
     globalEnv.addBinding(SchemeSymbol('nil'), SchemeNil())
-    globalEnv.addBinding(SchemeSymbol('empty'), SchemeNil())
     globalEnv.addBinding(SchemeSymbol('#f'), SchemeFalse())
     globalEnv.addBinding(SchemeSymbol('#t'), SchemeTrue())
-    globalEnv.addBinding(SchemeSymbol('false'), SchemeFalse())
-    globalEnv.addBinding(SchemeSymbol('true'), SchemeTrue())
