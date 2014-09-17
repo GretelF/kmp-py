@@ -77,7 +77,7 @@ class SchemeEvaluator(TestCase):
         obj = eval_string('(cons 3 (cons 4 5))')
         self.assertEqual(str(obj), '(3 4 . 5)', 'expected (3 4 . 5), got {0}'.format(str(obj)))
 
-        obj = eval_string('(cons 4 (cons 2 null))')
+        obj = eval_string('(cons 4 (cons 2 nil))')
         self.assertEqual(str(obj), '(4 2)', 'expected (4 2), got {0}'.format(str(obj)))
 
     def test_eval_cons_eq(self):

@@ -82,6 +82,10 @@ It is possible to structure your input in multiple lines. The REPL will count th
 
 In the beginning, before the REPL starts, a lisp file is evaluated containing all functions and definitions that should be available from the start. Also it is possible to evaluate files while the REPL is running using the builtin function \lstinline{eval-file}. Of course this is also possible in the init file itself. Everything defined within the files will be evaluated in the global environment.
 
+There are over 200 unittests implemented for this interpreter. Therefore it should be very stable and reliable. 
+
+Decisions about implementation details are based on the behaviour observed in DrRacket 6.0 (language: scheme).
+
 \subsection{Lisp Objects}
 All object types, that were needed during the implementation, were implemented as \lstinline{SchemeObject}s. The base class \lstinline{SchemeObject} contains all necessary functions, such as \lstinline{isTrue()} which returns \lstinline{SchemeTrue} or a basic compare and \lstinline{toString} function. I decided to use this structure to have a possibility to use all \lstinline{SchemeObject}s in my interpreter, not just the obvious ones like \lstinline{SchemeString} and \lstinline{SchemeCons}, but also for example \lstinline{SchemeEnvironment} and \lstinline{SchemeStringStream}. 
 
@@ -866,7 +870,7 @@ Return Value: & \lstinline{SchemeString}
 \\
 Example of usage:
 \begin{lstlisting}
-> (print-pwd)
+> (print-cwd)
 "C:\Users\user\lisp\interpreter"
 \end{lstlisting}
 
