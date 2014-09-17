@@ -68,8 +68,6 @@
 \maketitle
 \newpage
 
-\tableofcontents
-
 \section{General Structure}
 \begin{itemize}
 \item This interpreter is recursive and does not implement continuations. 
@@ -113,9 +111,6 @@ Example of usage:
 > (define a 1)
 > a
 1
-> (define b "hello")
-> b
-"hello"
 \end{lstlisting}
 
 Lambda short hand syntax:\\
@@ -195,8 +190,6 @@ NoBindingException: 'No binding found for symbol a.'
 2
 \end{lstlisting}
 
-\subsubsection{let}
-
 \subsubsection*{begin}
 \begin{tabular}{l  p{13cm}}
 Description: & Evaluates one argument after another and returns the return value of the last argument. If no argument is given begin returns \lstinline{SchemeVoid}.\\
@@ -271,7 +264,6 @@ Example of usage:
 #t
 
 \end{lstlisting}
-
 
 \section{Builtin Functions}
 
