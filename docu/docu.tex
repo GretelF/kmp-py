@@ -1,5 +1,6 @@
 
 \documentclass[12pt,a4paper]{scrartcl}
+\setcounter{secnumdepth}{0}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{url}
@@ -67,23 +68,23 @@
 \maketitle
 \newpage
 
-\section*{General Structure}
+\tableofcontents
+
+\section{General Structure}
 \begin{itemize}
 \item This interpreter is recursive and does not implement continuations. 
 \item No self-written garbadge collector is implemented. The python GC is currently cleaning.
 \item All needed objects where implemented as lisp objects (see below for more information).
 \end{itemize}
 
-\todo{more}
-
-\section*{Functionality}
+\section{Functionality}
 A Read-Eval-Print-Loop (REPL) allows the user to continue interacting, even if an error occurred. An error message is shown in this case.
 
 It is possible to structure your input in multiple lines. The REPL will count the opening and closing parethesis and will only redirect to the reader if each opening parathesis has a closing counter part. This leads to multiline input.
 
-\todo{more}
+In the beginning, before the REPL starts, a lisp file is evaluated containing all functions and definitions that should be available from the start. Also it is possible to evaluate files while the REPL is running using the builtin function \lstinline{eval-file}. Of course this is also possible in the init file itself. Everything defined within the files will be evaluated in the global environment.
 
-\subsection*{Lisp Objects}
+\subsection{Lisp Objects}
 All object types, that were needed during the implementation, were implemented as \lstinline{SchemeObject}s. The base class \lstinline{SchemeObject} contains all necessary functions, such as \lstinline{isTrue()} which returns \lstinline{SchemeTrue} or a basic compare and \lstinline{toString} function. I decided to use this structure to have a possibility to use all \lstinline{SchemeObject}s in my interpreter, not just the obvious ones like \lstinline{SchemeString} and \lstinline{SchemeCons}, but also for example \lstinline{SchemeEnvironment} and \lstinline{SchemeStringStream}. 
 
 All implemented objects extend the base class and override some or all default functionalities. \lstinline{SchemeFalse} for example overrides \lstinline{isTrue()} and returns \lstinline{SchemeFalse} instead.
@@ -95,10 +96,10 @@ In the interpreter there are no separate objects for integer and floats. Since p
 The \lstinline{SchemeEnvironment} is implemented by using pythons dictionaries. For each binding a new entry is added to the dictionary which binds a \lstinline{SchemeSymbol} to a \lstinline{SchemeObject}. Each environment can have a parent. There are two \lstinline{SchemeEnvironment}s created when the program is started: the syntax environment and the global environment where all builtinfunctions are bound. The syntax environment serves as parent for the global environment. If the system asks an environment for a special binding, it searches its own dictionary and if it can not find anything it will forward the request to it's parent environment. This way, if the evaluator asks for a binding for a syntax symbol it will first go through the global environment and if there is nothing to be found, to the syntax environment. This technically allows the user to override syntax if he wants to. However to date no possibility to implement user defined syntax is given. 
 
 
+\newpage
+\section{Builtin Syntax}
 
-\section*{Builtin Syntax}
-
-\subsubsection*{define}
+\subsubsection{define}
 \begin{tabular}{l  p{13cm}}
 Description: & Adds a binding from the first argument to the second to the current environment.\\
 Symbol: & \lstinline{define}\\
@@ -136,7 +137,7 @@ Example of usage:
 3
 \end{lstlisting}
 
-\subsubsection*{lambda}
+\subsubsection{lambda}
 \begin{tabular}{l  p{13cm}}
 Description: & Creates a user defined function. The first argument is a regular list of arguments, the second is a \lstinline{SchemeCons} defining the body of the function.\\
 Symbol: & \lstinline{lambda}\\
@@ -155,7 +156,7 @@ Example of usage:
 \end{lstlisting}
 
 
-\subsubsection*{if}
+\subsubsection{if}
 \begin{tabular}{l  p{13cm}}
 Description: & Checks if the condition in the first argument is true. If it is true, the second argument is evaluated, otherwise the third one is evaluated. \\
 Symbol: & \lstinline{if}\\
@@ -172,7 +173,7 @@ Example of usage:
 3
 \end{lstlisting}
 
-\subsubsection*{set!}
+\subsubsection{set!}
 \begin{tabular}{l  p{13cm}}
 Description: & Checks if a binding is found for the first argument, which has to be a symbol. If the binding does not exist a exeption is risen. Else the symbol is bound to the new value. \\
 Symbol: & \lstinline{set!}\\
@@ -194,7 +195,7 @@ NoBindingException: 'No binding found for symbol a.'
 2
 \end{lstlisting}
 
-\subsubsection*{let}
+\subsubsection{let}
 
 \subsubsection*{begin}
 \begin{tabular}{l  p{13cm}}
@@ -207,14 +208,13 @@ Return Value: & \lstinline{SchemeObject} \\
 \\
 Example of usage:
 \begin{lstlisting}
-> (begin (print 3) (+ 1 2) (print 4) (+ 2 3))
+> (begin (print 3) (+ 1 2) (+ 2 3))
 3
-4
 5
 \end{lstlisting}
 
 
-\subsubsection*{quote}
+\subsubsection{quote}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the unevaluated argument.\\
 Symbol: & \lstinline{and}\\
@@ -233,7 +233,7 @@ Example of usage:
 ArgumentCountException: 'quote expects exactly 1 argument.' 
 \end{lstlisting}
 
-\subsubsection*{and}
+\subsubsection{and}
 \begin{tabular}{l  p{13cm}}
 Description: & Performs a conjunction on all given arguments. Returns \lstinline{SchemeTrue} if no arguments are given. If one arg)ument is false, all following arguments are not evaluated. \\
 Symbol: & \lstinline{and}\\
@@ -252,7 +252,7 @@ Example of usage:
 #t
 \end{lstlisting}
 
-\subsubsection*{or}
+\subsubsection{or}
 \begin{tabular}{l  p{13cm}}
 Description: & Performs a disjunction on all given arguments. Returns \lstinline{SchemeFalse} if no arguments are given. If one argument is true, all following arguments are not evaluated. \\
 Symbol: & \lstinline{or}\\
@@ -273,11 +273,11 @@ Example of usage:
 \end{lstlisting}
 
 
-\section*{Builtin Functions}
+\section{Builtin Functions}
 
-\subsection*{Arithmetic}
+\subsection{Arithmetic}
 
-\subsubsection*{add}
+\subsubsection{add}
 \begin{tabular}{l  p{13cm}}
 Description: & Adds an arbitrary amount of numbers and returns the accumulated value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is returned as \lstinline{SchemeNumber}. If no argument is given the return value is 0.\\
 Symbol: & \lstinline{+}\\
@@ -298,7 +298,7 @@ Example of usage:
 42
 \end{lstlisting}
 
-\subsubsection*{subtract}
+\subsubsection{subtract}
 \begin{tabular}{l  p{13cm}}
 Description: & Subtracts an arbitrary amount of numbers from the first number and returns the accumulated value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is negated and returned as \lstinline{SchemeNumber}. If no argument is given an ArgumentCountException is risen.\\
 Symbol: & \lstinline{-}\\
@@ -319,7 +319,7 @@ ArgumentCountException: 'function - expects at least 1 argument.'
 -42
 \end{lstlisting}
 
-\subsubsection*{multiply}
+\subsubsection{multiply}
 \begin{tabular}{l  p{13cm}}
 Description: & Multiplies an arbitrary amount of numbers and returns the resulting value as \lstinline{SchemeNumber}. If only one argument is given, the arguments value is returned as \lstinline{SchemeNumber}. If no argument is given the return value is 1.\\
 Symbol: & \lstinline{*}\\
@@ -330,17 +330,15 @@ Return Value: & \lstinline{SchemeNumber}
 \\
 Example of usage:
 \begin{lstlisting}
-> (* 3.5 4)
-14.0
-> (* 2 3 4)
-24
+> (* 3.5 4 2)
+28.0
 >(*)
 1
 > (* 42)
 42
 \end{lstlisting}
 
-\subsubsection*{divide}
+\subsubsection{divide}
 \begin{tabular}{l  p{13cm}}
 Description: & Divides the first argument by the second, the result by the third and so on. If only one argument is given, the result is 1 devided by the argument. If no argument is given an ArgumentCountException is risen.\\
 Symbol: & \lstinline{/}\\
@@ -351,8 +349,6 @@ Return Value: & \lstinline{SchemeNumber}
 \\
 Example of usage:
 \begin{lstlisting}
-> (- 0.5 2)
--1.5
 > (/ 12 3 2)
 2.0
 > (/)
@@ -361,7 +357,7 @@ ArgumentCountException: 'function / expects at least 1 argument.'
 0.3333333333333333
 \end{lstlisting}
 
-\subsubsection*{arithmetic equals}
+\subsubsection{arithmetic equals}
 \begin{tabular}{l  p{13cm}}
 Description: & Checks the two arguments for equal value. Returns \lstinline{SchemeTrue} if they are equal, otherwise \lstinline{SchemeFalse}. \\
 Symbol: & \lstinline{=}\\
@@ -381,7 +377,7 @@ ArgumentCountException: 'function = expects exactly 2 arguments.'
 \end{lstlisting}
 
 
-\subsubsection*{greater than}
+\subsubsection{greater than}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} if the first argument is greater than the second one, otherwise \lstinline{SchemeFalse}. \\
 Symbol: & \lstinline{>}\\
@@ -401,7 +397,7 @@ ArgumentCountException: 'function > expects exactly 2 arguments.'
 \end{lstlisting}
 
 
-\subsubsection*{less than}
+\subsubsection{less than}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} if the first argument is less than the second one, otherwise \lstinline{SchemeFalse}. \\
 Symbol: & \lstinline{<}\\
@@ -420,7 +416,7 @@ Example of usage:
 ArgumentCountException: 'function < expects exactly 2 arguments.'
 \end{lstlisting}
 
-\subsubsection*{greater or equal}
+\subsubsection{greater or equal}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} if the first argument is greater than or equals the second one, otherwise \lstinline{SchemeFalse}. \\
 Symbol: & \lstinline{>=}\\
@@ -441,7 +437,7 @@ Example of usage:
 ArgumentCountException: 'function >= expects exactly 2 arguments.'
 \end{lstlisting}
 
-\subsubsection*{less or equal}
+\subsubsection{less or equal}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} if the first argument is less than or equals the second one, otherwise \lstinline{SchemeFalse}. \\
 Symbol: & \lstinline{<=}\\
@@ -462,7 +458,7 @@ Example of usage:
 ArgumentCountException: 'function <= expects exactly 2 arguments.'
 \end{lstlisting}
 
-\subsubsection*{absolute value}
+\subsubsection{absolute value}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the absolute value of the given argument.\\
 Symbol: & \lstinline{abs}\\
@@ -481,7 +477,7 @@ Example of usage:
 ArgumentCountException: 'function abs expects exactly 1 argument.'
 \end{lstlisting}
 
-\subsubsection*{modulo}
+\subsubsection{modulo}
 \begin{tabular}{l  p{13cm}}
 Description: & Does the modulo operation for the two given arguments, i.e. finds the remainder of division of the first argument by the second.\\
 Symbol: & \%\\
@@ -500,9 +496,9 @@ ArgumentCountException: 'function % expects exactly 2 arguments.'
 ArgumentTypeException: '3.4 is no valid operand for procedure %. Expects integer.' 
 \end{lstlisting}
 
-\subsection*{Other}
+\subsection{Other}
 
-\subsubsection*{exit}
+\subsubsection{exit}
 \begin{tabular}{l  p{13cm}}
 Description: & Closes the interpreter. Any number of arguments can be given. If the first argument is a SchemeNumber the interpreter will close with the according exit code.\\
 Symbol: & \lstinline{cons}\\
@@ -520,7 +516,7 @@ user@computer:~/Studies
 user@computer:~/Studies ?12        
 \end{lstlisting}
 
-\subsubsection*{print}
+\subsubsection{print}
 \begin{tabular}{l  p{13cm}}
 Description: & Prints a representation of the given object to the console.\\
 Symbol: & \lstinline{print}\\
@@ -541,7 +537,7 @@ Example of usage:
 ()
 \end{lstlisting}
 
-\subsubsection*{display}
+\subsubsection{display}
 \begin{tabular}{l  p{13cm}}
 Description: & Nearly similar to print, but prints strings without quotation mark.\\
 Symbol: & \lstinline{display}\\
@@ -562,7 +558,26 @@ hello
 ()
 \end{lstlisting}
 
-\subsubsection*{cons}
+\subsubsection{equals}
+\begin{tabular}{l  p{13cm}}
+Description: & Checks, if the two arguments are equal. This is determined by their implementation of pythons eq operator. Returns \lstinline{SchemeTrue} if they are equal, otherwise \lstinline{SchemeFalse}. \\
+Symbol: & \lstinline{eq?}\\
+Arguments: & exactly 2 \lstinline{SchemeObject}s\\
+Return Value: & \lstinline{SchemeTrue} or \lstinline{SchemeFalse}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (eq? 1 2)
+#f
+> (eq? "hello" "hello")
+#t
+> (eq? (cons 1 2) (cons 1 2)
+#f
+\end{lstlisting}
+
+\subsubsection{cons}
 \begin{tabular}{l  p{13cm}}
 Description: & Creates a \lstinline{SchemeCons} with the first argument as car and the second argument as cdr.\\
 Symbol: & \lstinline{cons}\\
@@ -583,7 +598,7 @@ ArgumentCountException: 'cons expects exactly 2 arguments.'
 (1 2)
 \end{lstlisting}
 
-\subsubsection*{car}
+\subsubsection{car}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the car of the given \lstinline{SchemeCons}.\\
 Symbol: & \lstinline{car}\\
@@ -602,7 +617,7 @@ Example of usage:
 ArgumentTypeException: 'car expects cons as argument'   
 \end{lstlisting}
 
-\subsubsection*{cdr}
+\subsubsection{cdr}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the cdr of the given \lstinline{SchemeCons}.\\
 Symbol: & \lstinline{cdr}\\
@@ -622,7 +637,7 @@ ArgumentTypeException: 'cdr expects cons as argument'
 \end{lstlisting}
 
 
-\subsubsection*{list}
+\subsubsection{list}
 \begin{tabular}{l  p{13cm}}
 Description: & Creates a regular list out of all arguments.\\
 Symbol: & \lstinline{list}\\
@@ -642,7 +657,7 @@ Example of usage:
 \end{lstlisting}
 
 
-\subsubsection*{list?}
+\subsubsection{list?}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} if the argument is a regular list, else \lstinline{SchemeFalse}.\\
 Symbol: & \lstinline{list?}\\
@@ -664,7 +679,7 @@ Example of usage:
 \end{lstlisting}
 
 
-\subsubsection*{first}
+\subsubsection{first}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the first element of the given list. A regular list is expected.\\
 Symbol: & \lstinline{first}\\
@@ -683,8 +698,7 @@ Example of usage:
 ArgumentTypeException: 'rest expects a not empty list as argument.' 
 \end{lstlisting}
 
-\subsubsection*{rest}
-
+\subsubsection{rest}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns the rest list after the first argument of the given list. A regular list is expected.\\
 Symbol: & \lstinline{rest}\\
@@ -705,9 +719,24 @@ ArgumentTypeException: 'rest expects a not empty list as argument.'
 
 
 
-\subsubsection*{time}
+\subsubsection{time}
+\begin{tabular}{l  p{13cm}}
+Description: & Executes the given function with the given arguments and returns the time the computation needed in seconds.\\
+Symbol: & \lstinline{time}\\
+Arguments: & \lstinline{SchemeUserDefinedFunction} or \lstinline{SchemeBuiltinFunction} and 0+ \lstinline{SchemeObject}s as argument for the function.\\
+Return Value: & \lstinline{SchemeNumber}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (time + 1 2)
+6.964633257666719e-06
+> (time 1)
+ArgumentTypeException: 'first argument has to be callable.'
+\end{lstlisting}
 
-\subsubsection*{recursion-limit}
+\subsubsection{recursion-limit}
 \begin{tabular}{l  p{13cm}}
 Description: & If no argument is given the current recursion limit is returned. Per default this is 1000. If a \lstinline{SchemeNumber} is given, the recursion limit is set to this number.\\
 Symbol: & \lstinline{recursion-limit}\\
@@ -725,7 +754,7 @@ Example of usage:
 2000
 \end{lstlisting}
 
-\subsubsection*{type?}
+\subsubsection{type?}
 \begin{tabular}{l  p{13cm}}
 Description: & Evaluates the given \lstinline{SchemeObject} and returns the type of the return value as \lstinline{SchemeString}.\\
 Symbol: & \lstinline{type?}\\
@@ -744,7 +773,7 @@ Example of usage:
 "schemeCons"
 \end{lstlisting}
 
-\subsubsection*{not}
+\subsubsection{not}
 \begin{tabular}{l  p{13cm}}
 Description: & Returns \lstinline{SchemeTrue} for \lstinline{SchemeFalse}, \lstinline{SchemeFalse} for everything else.\\
 Symbol: & \lstinline{not}\\
@@ -763,14 +792,12 @@ Example of usage:
 #f
 > (not (list 1 2 3))
 #f
-> (not true)
-#f
 > (not false)
 #t
 \end{lstlisting}
 
 
-\subsubsection*{map}
+\subsubsection{map}
 \begin{tabular}{l  p{13cm}}
 Description: & Executes the given function (first argument) for every element of the given list (second argument) and returns a list out of all results.\\
 Symbol: & \lstinline{map}\\
@@ -787,7 +814,7 @@ Example of usage:
 (2 3 4 5)
 \end{lstlisting}
 
-\subsubsection*{get-function-info}
+\subsubsection{get-function-info}
 \begin{tabular}{l p{13cm}}
 Description: & Prints a representation of the given user defined function to the console. It includes the name, the parameters and the function body.\\
 Symbol: & \lstinline{get-function-info}\\
@@ -810,7 +837,46 @@ bodylist:
 	(+ n m)
 \end{lstlisting}
 
+\subsubsection{eval-file}
+\begin{tabular}{l p{13cm}}
+Description: & Evaluates the file at the given path. Returns the result of the last statement in the file.\\
+Symbol: & \lstinline{eval-file}\\
+Arguments: & \lstinline{SchemeString}\\
+Return Value: & \lstinline{SchemeObject}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+File test.lisp:
+(define x 42)
+(define y 1337)
+(+ x y)
 
+REPL:
+> (define x 1)
+> (eval-file "test.lisp")
+1379
+> x
+42
+> y
+1337
+\end{lstlisting}
+
+\subsubsection{print-cwd}
+\begin{tabular}{l p{13cm}}
+Description: & Prints the path to the working directory of the interpreter. This is where files have to be in order to be evaluated from the REPL. \\
+Symbol: & \lstinline{print-cwd}\\
+Arguments: & nothing\\
+Return Value: & \lstinline{SchemeString}
+\end{tabular}
+\\
+\\
+Example of usage:
+\begin{lstlisting}
+> (print-pwd)
+"C:\Users\user\lisp\interpreter"
+\end{lstlisting}
 
 
 

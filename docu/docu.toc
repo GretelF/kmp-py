@@ -1,0 +1,93 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\select@language {english}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline General Structure}{3}{section*.2}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Functionality}{3}{section*.3}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\nonumberline Lisp Objects}{4}{section*.4}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Builtin Syntax}{6}{section*.5}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline define}{6}{section*.6}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline lambda}{7}{section*.7}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline if}{7}{section*.8}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline set!}{8}{section*.9}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline let}{8}{section*.10}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline quote}{9}{section*.12}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline and}{9}{section*.13}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline or}{10}{section*.14}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\nonumberline Builtin Functions}{10}{section*.15}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\nonumberline Arithmetic}{10}{section*.16}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline add}{10}{section*.17}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline subtract}{11}{section*.18}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline multiply}{12}{section*.19}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline divide}{12}{section*.20}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline arithmetic equals}{13}{section*.21}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline greater than}{13}{section*.22}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline less than}{14}{section*.23}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline greater or equal}{14}{section*.24}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline less or equal}{15}{section*.25}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline absolute value}{15}{section*.26}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline modulo}{16}{section*.27}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\nonumberline Other}{16}{section*.28}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline exit}{16}{section*.29}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline print}{17}{section*.30}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline display}{17}{section*.31}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline equals}{18}{section*.32}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline cons}{18}{section*.33}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline car}{19}{section*.34}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline cdr}{19}{section*.35}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline list}{20}{section*.36}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline list?}{20}{section*.37}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline first}{21}{section*.38}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline rest}{21}{section*.39}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline time}{22}{section*.40}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline recursion-limit}{22}{section*.41}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline type?}{23}{section*.42}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline not}{23}{section*.43}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline map}{24}{section*.44}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline get-function-info}{24}{section*.45}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline eval-file}{25}{section*.46}
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\nonumberline print-cwd}{25}{section*.47}
